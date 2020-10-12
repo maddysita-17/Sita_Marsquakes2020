@@ -124,16 +124,17 @@ def getfault(st, dp, rk):
     df = pd.DataFrame(data, columns = ['Exit Angle', 'Plunge', 'Azimuth','Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH'])
     return df, exit_ang
 
-strike173a = [110]
-strike235b = [112]
-strike325a = [50]
+strike173a = [150]
+strike235b = [130]
+strike325a = [45]
 
-
-dip173a = [20]
+#original 173a 110,20,0
+#new 173a 110,45,90
+dip173a = [60]
 dip235b = [90]
 dip325a = [90]
 rake = [-90]
-rake173a = [0]
+rake173a = [80]
 
 Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
 Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
@@ -185,7 +186,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, ex_ang = getfault(strike173a, dip173a, rake173a)
-            data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('try5_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -208,7 +209,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, ex_ang = getfault(strike235b, dip235b, rake)
-            data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('try_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -227,7 +228,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, ex_ang = getfault(strike325a, dip325a, rake)
-            data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('try2_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)

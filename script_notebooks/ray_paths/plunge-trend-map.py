@@ -41,14 +41,14 @@ def ratiosum(df, obs_SHSV, obs_PSV, obs_PSH):
     return df
 
 
-df173a = pd.read_csv('173a-35.csv')
-df235b = pd.read_csv('235b-35.csv')
-df325a = pd.read_csv('325a-35.csv')
+df173a = pd.read_csv('try5_173a-35.csv')
+df235b = pd.read_csv('try_235b-35.csv')
+df325a = pd.read_csv('try2_325a-35.csv')
 
 #gudkova model observed amplitude ratios from seismograms
 df173a = ratiosum(df173a, -0.626168224, -0.831775701, 1.328358209)
-df173a.to_csv('173a-sum.csv', index = False)
-print(df173a)
+#df173a.to_csv('new_173a-sum.csv', index = False)
+#print(df173a)
 df235b = ratiosum(df235b, 1.035519126, 0.43715847, 0.422163588)
 df325a = ratiosum(df325a, -0.4, 0.584615385, -1.461538462)
 
@@ -65,16 +65,20 @@ df325a = ratiosum(df325a, -0.4, 0.584615385, -1.461538462)
 # plt.show()
 
 
-def contour_plot(df):
+def contour_plot(df, az, plP, plS):
     Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Sum').T.values
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
     X, Y = np.meshgrid(X_unique, Y_unique)
-    levels = np.arange(0,10,1)
-    cp = plt.contourf(X, Y, Z, levels=levels)
+    levels = np.arange(0,8,0.25)
+    cp = plt.contourf(X, Y, Z, levels=levels, cmap='nipy_spectral')
     plt.colorbar(cp)
+    plt.plot(az, plP, 'bo', label='P')
+    plt.annotate('P', (az, plP+1))
+    plt.plot(az, plS, 'ro', label='S')
+    plt.annotate('S', (az, plS+1))
     plt.show()
 
-contour_plot(df173a)
-contour_plot(df235b)
-contour_plot(df325a)
+#contour_plot(df173a, 258, 28, 27)
+contour_plot(df235b, 274, 27, 26)
+#contour_plot(df325a, 300, 33, 31)

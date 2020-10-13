@@ -80,11 +80,16 @@ d173, az173, baz173 = deltaz(lat173, long173)
 print(d173, az173, baz173)
 #code prints lat=3.45, long=164.7
 
-lat325, long325 = azdelt(38.5, 123)
-print(lat325, long325)
-d325, az325, baz325 = deltaz(lat325, long325)
-print(d325, az325, baz325)
+lat325aa, long325aa = azdelt(38.5, 123)
+print(lat325aa, long325aa)
+d325aa, az325aa, baz325aa = deltaz(lat325aa, long325aa)
+print(d325aa, az325aa, baz325aa)
 #lat = -16.055244971011064, long = 168.53025369688243
+
+lat325ab, long325ab = azdelt(33.6, 110)
+print(lat325ab, long325ab)
+d325ab, az325ab, baz325ab = deltaz(lat325ab, long325ab)
+print(d325ab, az325ab, baz325ab)
 
 # lat, long
 # dist, baz (matches baz_calc.ipynb), az (input for fault-guess.py)
@@ -95,3 +100,5 @@ print(d325, az325, baz325)
 #28.999999999999996 91.0 -86.94055840955087
 #-16.055244971011064 168.53025369688243
 #38.50000000000002 122.99999999999999 -60.46062315696157
+# -7.082705874675253 167.22546622753717
+# 33.599999999999994 110.0 -70.73387883605102

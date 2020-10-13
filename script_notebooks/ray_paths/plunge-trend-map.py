@@ -44,6 +44,7 @@ def ratiosum(df, obs_SHSV, obs_PSV, obs_PSH):
 df173a = pd.read_csv('try5_173a-35.csv')
 df235b = pd.read_csv('try_235b-35.csv')
 df325a = pd.read_csv('try2_325a-35.csv')
+df325ab = pd.read_csv('325ab-35.csv')
 
 #gudkova model observed amplitude ratios from seismograms
 df173a = ratiosum(df173a, -0.626168224, -0.831775701, 1.328358209)
@@ -51,6 +52,7 @@ df173a = ratiosum(df173a, -0.626168224, -0.831775701, 1.328358209)
 #print(df173a)
 df235b = ratiosum(df235b, 1.035519126, 0.43715847, 0.422163588)
 df325a = ratiosum(df325a, -0.4, 0.584615385, -1.461538462)
+df325ab = ratiosum(df325ab, -1.005586592, 0.656424581, -0.652777778)
 
 
 # Z = df173a.pivot_table(index='Azimuth', columns='Plunge', values='Sum').T.values
@@ -80,5 +82,6 @@ def contour_plot(df, az, plP, plS):
     plt.show()
 
 #contour_plot(df173a, 258, 28, 27)
-contour_plot(df235b, 274, 27, 26)
+#ontour_plot(df235b, 274, 27, 26)
 #contour_plot(df325a, 300, 33, 31)
+contour_plot(df325ab, 290, 30, 28)

@@ -67,7 +67,6 @@ def Rpattern(fault,azimuth,incidence_angles):
 
 
 model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-#incid_angles = pd.DataFrame(columns = ['Model', 'Depth', '173a Pa', '173a Sa', '235b Pa', '235b Sa', '325a Pa', '325a Sa'])
 
 #---get fault function--
 def getfault(az, st, dp, rk):
@@ -114,6 +113,7 @@ def getfault(az, st, dp, rk):
 strike173a = [110,111,112,113,114,115]
 strike235b = [110,111,112,113,114,115]
 strike325a = [0,1,2,3,50,90,140,150,160]
+strike325ab = [0,1,2,3,50,90,140,150,160]
 
 
 dip = [0, 20, 45, 60, 70, 80, 90]
@@ -122,6 +122,7 @@ rake = [-90, 0, 90]
 Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
 Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
 Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
 
 # Mars:
 radius = 3389.5
@@ -137,6 +138,7 @@ for mod in model_ls:
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         for depth in DWAK_depth:
             if depth <= 66 and depth > 10:
                 Pvelz = 5.90405; Svelz = 3.30798
@@ -208,6 +210,25 @@ for mod in model_ls:
             Pe325a.append(Pe)
             Se325a.append(Se)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(Pe)
+            Se325ab.append(Se)
+
 
         incid = {'Model': 'DWAK',
                 'Depth': DWAK_depth,
@@ -216,7 +237,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'DWAK',
                 'Depth': DWAK_depth,
@@ -225,16 +248,20 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         aDWAK = pd.DataFrame.from_dict(incid)
         eDWAK = pd.DataFrame.from_dict(exit)
+
 
     elif mod=='EH45Tcold':
         EH45_depth = [45, 35, 25, 15, 10, 5]
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         for depth in EH45_depth:
             Pvelz = 6.78574; Svelz = 3.91775
 
@@ -299,6 +326,25 @@ for mod in model_ls:
             Pe325a.append(Pe)
             Se325a.append(Se)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(Pe)
+            Se325ab.append(Se)
+
 
         incid = {'Model': 'EH45Tcold',
                 'Depth': EH45_depth,
@@ -307,7 +353,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'EH45Tcold',
                 'Depth': EH45_depth,
@@ -316,7 +364,9 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         aEH45 = pd.DataFrame.from_dict(incid)
         eEH45 = pd.DataFrame.from_dict(exit)
@@ -325,6 +375,7 @@ for mod in model_ls:
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         coldCrust_depth = [85, 75, 65, 55, 45, 35, 25, 15, 10, 5]
         for depth in coldCrust_depth:
             if depth <= 85 and depth > 80:
@@ -425,6 +476,25 @@ for mod in model_ls:
             Pe325a.append(Pe)
             Se325a.append(Se)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(Pe)
+            Se325ab.append(Se)
+
 
         incid = {'Model': 'EH45TcoldCrust1b',
                 'Depth': coldCrust_depth,
@@ -433,7 +503,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'EH45TcoldCrust1b',
                 'Depth': coldCrust_depth,
@@ -442,7 +514,9 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         acoldCrust = pd.DataFrame.from_dict(incid)
         ecoldCrust = pd.DataFrame.from_dict(exit)
@@ -451,6 +525,7 @@ for mod in model_ls:
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         Gudkova_depth = [45, 35, 25, 15, 10, 5]
         for depth in Gudkova_depth:
             if depth <= 50 and depth > 42:
@@ -534,6 +609,25 @@ for mod in model_ls:
             Pe325a.append(Pe)
             Se325a.append(Se)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(Pe)
+            Se325ab.append(Se)
+
 
         incid = {'Model': 'Gudkova',
                 'Depth': Gudkova_depth,
@@ -542,7 +636,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'Gudkova',
                 'Depth': Gudkova_depth,
@@ -551,7 +647,9 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         aGudkova = pd.DataFrame.from_dict(incid)
         eGudkova = pd.DataFrame.from_dict(exit)
@@ -560,6 +658,7 @@ for mod in model_ls:
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         LFAK_depth = [55, 45, 35, 25, 15, 10, 5] #issue at depth = 25 for 235b
         for depth in LFAK_depth:
             if depth <= 56 and depth > 10:
@@ -630,6 +729,25 @@ for mod in model_ls:
             Pe325a.append(Pe)
             Se325a.append(Se)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(Pe)
+            Se325ab.append(Se)
+
 
         incid = {'Model': 'LFAK',
                 'Depth': LFAK_depth,
@@ -638,7 +756,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'LFAK',
                 'Depth': LFAK_depth,
@@ -647,7 +767,9 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         aLFAK = pd.DataFrame.from_dict(incid)
         eLFAK = pd.DataFrame.from_dict(exit)
@@ -656,6 +778,7 @@ for mod in model_ls:
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         MAAK_depth = [65, 55, 45, 35, 25, 15, 10, 5]
         for depth in MAAK_depth:
             if depth <= 68 and depth > 10:
@@ -726,6 +849,25 @@ for mod in model_ls:
             Pe325a.append(Pe)
             Se325a.append(Se)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(Pe)
+            Se325ab.append(Se)
+
 
         incid = {'Model': 'MAAK',
                 'Depth': MAAK_depth,
@@ -734,7 +876,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'MAAK',
                 'Depth': MAAK_depth,
@@ -743,7 +887,9 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         aMAAK = pd.DataFrame.from_dict(incid)
         eMAAK = pd.DataFrame.from_dict(exit)
@@ -752,6 +898,7 @@ for mod in model_ls:
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         TAYAK_depth = [75, 65, 55, 45, 35, 25, 15, 10, 5]
         for depth in TAYAK_depth:
             if depth <= 77 and depth > 10:
@@ -822,6 +969,25 @@ for mod in model_ls:
             Pe325a.append(Pe)
             Se325a.append(Se)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(Pe)
+            Se325ab.append(Se)
+
 
         incid = {'Model': 'TAYAK',
                 'Depth': TAYAK_depth,
@@ -830,7 +996,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'TAYAK',
                 'Depth': TAYAK_depth,
@@ -839,7 +1007,9 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         aTAYAK = pd.DataFrame.from_dict(incid)
         eTAYAK = pd.DataFrame.from_dict(exit)
@@ -912,9 +1082,9 @@ for mod in model_ls:
     #
     #         incid_angles = incid_angles.append(incid, ignore_index=True)
 
-# dfs = [aDWAK, aEH45, acoldCrust, aGudkova, aLFAK, aMAAK, aTAYAK]
-# incid_angles = pd.concat(dfs, ignore_index=True)
-# incid_angles.to_csv('incident_angles.csv', index=False)
+dfs = [aDWAK, aEH45, acoldCrust, aGudkova, aLFAK, aMAAK, aTAYAK]
+incid_angles = pd.concat(dfs, ignore_index=True)
+incid_angles.to_csv('incident_angles.csv', index=False)
 
 edfs = [eDWAK, eEH45, ecoldCrust, eGudkova, eLFAK, eMAAK, eTAYAK]
 exit_angles = pd.concat(edfs, ignore_index=True)

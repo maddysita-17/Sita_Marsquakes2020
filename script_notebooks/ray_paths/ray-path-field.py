@@ -127,18 +127,23 @@ def getfault(st, dp, rk):
 strike173a = [150]
 strike235b = [130]
 strike325a = [45]
+strike325ab = [90]
 
 #original 173a 110,20,0
 #new 173a 110,45,90
 dip173a = [60]
 dip235b = [90]
 dip325a = [90]
+dip325ab = [80]
+
 rake = [-90]
 rake173a = [80]
+rake325ab = [90]
 
 Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
 Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
 Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
 
 # Mars:
 radius = 3389.5
@@ -152,6 +157,7 @@ for mod in model_ls:
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
+        Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         Gudkova_depth = [35]
         for depth in Gudkova_depth:
             if depth <= 50 and depth > 42:
@@ -235,6 +241,25 @@ for mod in model_ls:
             Pe325a.append(ex_ang)
             Se325a.append(ex_ang)
 
+            #---S0325ab---
+            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=33.6, phase_list=["P", "S"])
+
+            #incident angle at the station
+            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
+            Pvel = radius*np.sin(np.radians(Pa))/Pp
+            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
+            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
+            Svel = radius*np.sin(np.radians(Sa))/Sp
+            print('Check: S surface velocity = ',Svel,' ?')
+
+            data325ab, exit_ang = getfault(strike325ab, dip325ab, rake325ab)
+            data325ab.to_csv('325ab-' + str(depth) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(exit_ang)
+            Se325ab.append(exit_ang)
+
 
         incid = {'Model': 'Gudkova',
                 'Depth': Gudkova_depth,
@@ -243,7 +268,9 @@ for mod in model_ls:
                 '235b Pa': Pia235b,
                 '235b Sa': Sia235b,
                 '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
+                '325a Sa': Sia325a,
+                '325ab Pa': Pia325ab,
+                '325ab Sa': Sia325ab}
 
         exit = {'Model': 'Gudkova',
                 'Depth': Gudkova_depth,
@@ -252,7 +279,9 @@ for mod in model_ls:
                 '235b Pe': Pe235b,
                 '235b Se': Se235b,
                 '325a Pe': Pe325a,
-                '325a Se': Se325a}
+                '325a Se': Se325a,
+                '325ab Pe': Pe325ab,
+                '325ab Se': Se325ab}
 
         aGudkova = pd.DataFrame.from_dict(incid)
         eGudkova = pd.DataFrame.from_dict(exit)

@@ -97,7 +97,9 @@ def getfault(az, st, dp, rk):
                 SV,SH = SV*scalefactor, SH*scalefactor
                 P_ls.append(P); SH_ls.append(SH); SV_ls.append(SV)
 
-    ratio = [i / j for i, j in zip(SH_ls, SV_ls)]
+    ratio1 = [i / j for i, j in zip(SH_ls, SV_ls)]
+    ratio2 = [i / j for i, j in zip(P_ls, SV_ls)]
+    ratio3 = [i / j for i, j in zip(P_ls, SH_ls)]
 
     data = {'Strike': strike_ls,
             'Dip': dip_ls,
@@ -105,19 +107,21 @@ def getfault(az, st, dp, rk):
             'P': P_ls,
             'SH': SH_ls,
             'SV': SV_ls,
-            'SH/SV': ratio}
+            'SH/SV': ratio1,
+            'P/SV': ratio2,
+            'P/SH': ratio3}
 
-    df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV'])
+    df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH'])
     return df, iP, jS
 
-strike173a = [110,111,112,113,114,115]
-strike235b = [110,111,112,113,114,115]
-strike325a = [0,1,2,3,50,90,140,150,160]
-strike325ab = [0,1,2,3,50,90,140,150,160]
+strike173a = [40,45,50,110,112,115,125,130,140,150,155,160]
+strike235b = [90,110,112,113,115,125,150,175]
+strike325a = [0,1,2,3,40,45,50,90,140,150,160]
+strike325ab = [0,1,2,3,40,45,50,85,90,100,140,150,160]
 
 
 dip = [0, 20, 45, 60, 70, 80, 90]
-rake = [-90, 0, 90]
+rake = [-100, -90, 45, 0, 45, 90, 100]
 
 Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
 Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
@@ -161,7 +165,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
-            #data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('D_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -184,7 +188,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('D_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -203,7 +207,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('D_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -221,8 +225,8 @@ for mod in model_ls:
             Svel = radius*np.sin(np.radians(Sa))/Sp
             print('Check: S surface velocity = ',Svel,' ?')
 
-            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
-            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab.to_csv('D_325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -277,7 +281,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
-            #data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('EH_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -300,7 +304,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('EH_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -319,7 +323,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('EH_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -337,8 +341,8 @@ for mod in model_ls:
             Svel = radius*np.sin(np.radians(Sa))/Sp
             print('Check: S surface velocity = ',Svel,' ?')
 
-            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
-            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab.to_csv('EH_325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -427,7 +431,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
-            #data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('cC_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -450,7 +454,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('cC_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -469,7 +473,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('cC_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -487,8 +491,8 @@ for mod in model_ls:
             Svel = radius*np.sin(np.radians(Sa))/Sp
             print('Check: S surface velocity = ',Svel,' ?')
 
-            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
-            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab.to_csv('cC_325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -560,7 +564,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
-            #data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('G_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -583,7 +587,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('G_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -602,7 +606,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('G_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -620,8 +624,8 @@ for mod in model_ls:
             Svel = radius*np.sin(np.radians(Sa))/Sp
             print('Check: S surface velocity = ',Svel,' ?')
 
-            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
-            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab.to_csv('G_325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -680,7 +684,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
-            #data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('L_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -703,7 +707,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('L_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -722,7 +726,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('L_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -740,8 +744,8 @@ for mod in model_ls:
             Svel = radius*np.sin(np.radians(Sa))/Sp
             print('Check: S surface velocity = ',Svel,' ?')
 
-            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
-            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab.to_csv('L_325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -800,7 +804,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
-            #data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('M_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -823,7 +827,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('M_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -842,7 +846,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('M_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -860,8 +864,8 @@ for mod in model_ls:
             Svel = radius*np.sin(np.radians(Sa))/Sp
             print('Check: S surface velocity = ',Svel,' ?')
 
-            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
-            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab.to_csv('M_325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -920,7 +924,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
-            #data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('T_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -943,7 +947,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('T_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -962,7 +966,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            data325a.to_csv('T_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -980,8 +984,8 @@ for mod in model_ls:
             Svel = radius*np.sin(np.radians(Sa))/Sp
             print('Check: S surface velocity = ',Svel,' ?')
 
-            data325a, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
-            #data325a.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab.to_csv('T_325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)

@@ -57,15 +57,21 @@ def wfplot(event,st,axs,iax,scale=1,sh=0,Ptime=0):
     shift = sh
     for trace in sENZ:
         axs[iax].plot(time_axis[:n], a*trace.data[:n] + shift, label = event + ": " + trace.stats.channel)
-        axs[iax].annotate(trace.stats.channel, xy=(-25,shift+0.5), size='xx-small', color='w')
+        axs[iax].annotate(trace.stats.channel, xy=(-25,shift+0.5), size='xx-small', color='#654E78')
         shift += dsh
     axs[iax].set_ylim(ylim)
     #axs[iax].legend(loc='lower right', fontsize='x-small')
 
-params = {"ytick.color" : "w",
-          "xtick.color" : "w",
-          "axes.labelcolor" : "w",
-          "axes.edgecolor" : "w"}
+# params = {"ytick.color" : "w",
+#           "xtick.color" : "w",
+#           "axes.labelcolor" : "w",
+#           "axes.edgecolor" : "w"}
+# plt.rcParams.update(params)
+
+params = {"ytick.color" : "k",
+          "xtick.color" : "k",
+          "axes.labelcolor" : "k",
+          "axes.edgecolor" : "k"}
 plt.rcParams.update(params)
 
 
@@ -93,7 +99,8 @@ stmp = s0235b.copy()
 stmp.taper(0.01,max_length=1)
 stmp.filter('bandpass',freqmin=0.125, freqmax=1.0,corners=4, zerophase=True)
 stm = stmp.slice(starttime=start235b,endtime=end235b)
-axs[iax].set_prop_cycle(color=['#3BA7BF', '#6297A3', '#898686'])
+#axs[iax].set_prop_cycle(color=['#3BA7BF', '#6297A3', '#898686'])
+axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
 wfplot(e,stm,axs,iax,scale,shift,P235b)
 #axs[iax].axis('off')
 
@@ -114,7 +121,8 @@ stmp = s0173a.copy()
 stmp.taper(0.01,max_length=1)
 stmp.filter('bandpass',freqmin=0.125, freqmax=1.0,corners=4, zerophase=True)
 stm = stmp.slice(starttime=start173a,endtime=end173a)
-axs[iax].set_prop_cycle(color=['#3BA7BF', '#6297A3', '#898686'])
+#axs[iax].set_prop_cycle(color=['#3BA7BF', '#6297A3', '#898686'])
+axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
 wfplot(e,stm,axs,iax,scale,shift,P173a)
 #axs[iax].axis('off')
 iax += 1
@@ -134,7 +142,8 @@ stmp = s0325a.copy()
 stmp.taper(0.01,max_length=1)
 stmp.filter('bandpass',freqmin=0.125, freqmax=1.0,corners=4, zerophase=True)
 stm = stmp.slice(starttime=start325a,endtime=end325a)
-axs[iax].set_prop_cycle(color=['#BF533B', '#D8802A', '#F0AC19'])
+#axs[iax].set_prop_cycle(color=['#BF533B', '#D8802A', '#F0AC19'])
+axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
 wfplot(e,stm,axs,iax,scale,shift,P325a)
 #axs[iax].yaxis.set_visible(False)
 iax += 1

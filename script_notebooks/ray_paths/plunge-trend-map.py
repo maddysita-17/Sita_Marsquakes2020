@@ -41,8 +41,8 @@ def ratiosum(df, obs_SHSV, obs_PSV, obs_PSH):
     return df
 
 
-df173a = pd.read_csv('try5_173a-35.csv')
-df235b = pd.read_csv('try_235b-35.csv')
+df173a = pd.read_csv('jan_173a-35.csv')
+df235b = pd.read_csv('jan_235b-35.csv')
 df325a = pd.read_csv('try2_325a-35.csv')
 df325ab = pd.read_csv('325ab-35.csv')
 
@@ -69,6 +69,7 @@ df325ab = ratiosum(df325ab, -1.005586592, 0.656424581, -0.652777778)
 
 def contour_plot(df, az, plP, plS):
     Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Sum').T.values
+    #Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio3').T.values
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
     X, Y = np.meshgrid(X_unique, Y_unique)
@@ -81,7 +82,7 @@ def contour_plot(df, az, plP, plS):
     plt.annotate('S', (az, plS+1))
     plt.show()
 
-#contour_plot(df173a, 258, 28, 27)
-#ontour_plot(df235b, 274, 27, 26)
+contour_plot(df173a, 258, 28, 27)
+#contour_plot(df235b, 274, 27, 26)
 #contour_plot(df325a, 300, 33, 31)
-contour_plot(df325ab, 290, 30, 28)
+#contour_plot(df325ab, 290, 30, 28)

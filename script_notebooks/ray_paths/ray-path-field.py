@@ -124,20 +124,23 @@ def getfault(st, dp, rk):
     df = pd.DataFrame(data, columns = ['Exit Angle', 'Plunge', 'Azimuth','Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH'])
     return df, exit_ang
 
-strike173a = [150]
-strike235b = [130]
+#first attempt at 173a - try5_173a-35
+
+#first attempt: strike173a = [150]
+strike173a = [45]
+strike235b = [270]
 strike325a = [45]
 strike325ab = [90]
 
-#original 173a 110,20,0
-#new 173a 110,45,90
-dip173a = [60]
-dip235b = [90]
+#fisrt attempt: dip173a = [60]
+dip173a = [90]
+dip235b = [70]
 dip325a = [90]
 dip325ab = [80]
 
 rake = [-90]
-rake173a = [80]
+#first attempt: rake173a = [80]
+rake173a = [-100]
 rake325ab = [90]
 
 Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
@@ -192,7 +195,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data173a, ex_ang = getfault(strike173a, dip173a, rake173a)
-            data173a.to_csv('try5_173a-' + str(depth) + '.csv', index=False)
+            data173a.to_csv('jan_173a-' + str(depth) + '.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -215,7 +218,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, ex_ang = getfault(strike235b, dip235b, rake)
-            data235b.to_csv('try_235b-' + str(depth) + '.csv', index=False)
+            data235b.to_csv('jan_235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -234,7 +237,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, ex_ang = getfault(strike325a, dip325a, rake)
-            data325a.to_csv('try2_325a-' + str(depth) + '.csv', index=False)
+            #data325a.to_csv('try2_325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -253,7 +256,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325ab, exit_ang = getfault(strike325ab, dip325ab, rake325ab)
-            data325ab.to_csv('325ab-' + str(depth) + '.csv', index=False)
+            #data325ab.to_csv('325ab-' + str(depth) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -364,7 +367,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data235b, Pe, Se = getfault(-102.22, strike235b, dip235b, rake)
-            data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
+            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
@@ -383,7 +386,7 @@ for mod in model_ls:
             print('Check: S surface velocity = ',Svel,' ?')
 
             data325a, Pe, Se = getfault(-60.46, strike325a, dip325a, rake)
-            data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
+            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)

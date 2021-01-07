@@ -77,85 +77,85 @@ depth = ia['Depth']
 
 # S0173a
 
-# print('SO173a')
-#
-# begin = UTCDateTime('2019-05-23T02:22:59')  # p-wave arrival
-# end = UTCDateTime('2019-05-23T02:25:53')    # s-wave arrival
-#
-# st_uvw = waveforms(begin, end, 600)
-# st_z12 = uvw2enz(st_uvw)
-#
-# stf = st_z12.copy()
-# stf.filter('bandpass', freqmin = 0.125, freqmax = 1.0, corners=4, zerophase=True)
-#
-#
-# # In[5]:
-#
-#
-# hhe = stf[0].data
-# hhn = stf[1].data
-# hhz = stf[2].data
-#
-# hhT,hhR = rotate(hhe,hhn,266)
-#
-# streamRT = stf.copy()
-# streamRT[0].data = hhT
-# streamRT[1].data = hhR
-# streamRT[2].data = hhz
-# streamRT[0].stats.component = 'T'
-# streamRT[1].stats.component = 'R'
-#
-#
-# # In[6]:
-#
-#
-# stP_og = streamRT.slice(starttime=begin-8,endtime=begin+8)
-# stS_og = streamRT.slice(starttime=end-5, endtime=end+15)
-#
-#
-# # In[7]:
-#
-#
-# headerP = stP_og[0].stats
-# headerS = stS_og[0].stats
-#
-#
-# # In[8]:
-#
-#
-# #P-wave
-# model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-# model_Pangles = [28,56.5,19,1.8,30,27.5,26.5]
-# model_Sangles = [24,58,19.5,2,26,24,23]
-#
-# n = 0
-# for a in model_Pangles:
-#     print('P:' + model_ls[n])
-#     stP = stP_og.copy()
-#     hhQ,hhL = rotate(stP[1].data, stP[2].data, a)
-#     t1, t2, t3 = Trace(stP[0].data, header=headerP), Trace(hhQ, header=headerP), Trace(hhL, header=headerP)
-#     stP_LQ = Stream(traces=[t1,t2,t3])
-#     stP_LQ[0].stats.component = 'T'
-#     stP_LQ[1].stats.component = 'Q'
-#     stP_LQ[2].stats.component = 'L'
-#
-#     stP_LQ.plot(equal_scale=True);
-#     n += 1
-#
-# #S-wave
-# n = 0
-# for a in model_Sangles:
-#     print('S:' + model_ls[n])
-#     stS = stS_og.copy()
-#     hhQ,hhL = rotate(stS[1].data, stS[2].data, a)
-#     t1, t2, t3 = Trace(stS[0].data, header=headerS), Trace(hhQ, header=headerS), Trace(hhL, header=headerS)
-#     stS_LQ = Stream(traces=[t1,t2,t3])
-#     stS_LQ[0].stats.component = 'T'
-#     stS_LQ[1].stats.component = 'Q'
-#     stS_LQ[2].stats.component = 'L'
-#
-#     stS_LQ.plot(equal_scale=True);
-#     n += 1
+print('SO173a')
+
+begin = UTCDateTime('2019-05-23T02:22:59')  # p-wave arrival
+end = UTCDateTime('2019-05-23T02:25:53')    # s-wave arrival
+
+st_uvw = waveforms(begin, end, 600)
+st_z12 = uvw2enz(st_uvw)
+
+stf = st_z12.copy()
+stf.filter('bandpass', freqmin = 0.125, freqmax = 1.0, corners=4, zerophase=True)
+
+
+# In[5]:
+
+
+hhe = stf[0].data
+hhn = stf[1].data
+hhz = stf[2].data
+
+hhT,hhR = rotate(hhe,hhn,266)
+
+streamRT = stf.copy()
+streamRT[0].data = hhT
+streamRT[1].data = hhR
+streamRT[2].data = hhz
+streamRT[0].stats.component = 'T'
+streamRT[1].stats.component = 'R'
+
+
+# In[6]:
+
+
+stP_og = streamRT.slice(starttime=begin-8,endtime=begin+8)
+stS_og = streamRT.slice(starttime=end-5, endtime=end+15)
+
+
+# In[7]:
+
+
+headerP = stP_og[0].stats
+headerS = stS_og[0].stats
+
+
+# In[8]:
+
+
+#P-wave
+model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
+model_Pangles = [28,56.5,19,1.8,30,27.5,26.5]
+model_Sangles = [24,58,19.5,2,26,24,23]
+
+n = 0
+for a in model_Pangles:
+    print('P:' + model_ls[n])
+    stP = stP_og.copy()
+    hhQ,hhL = rotate(stP[1].data, stP[2].data, a)
+    t1, t2, t3 = Trace(stP[0].data, header=headerP), Trace(hhQ, header=headerP), Trace(hhL, header=headerP)
+    stP_LQ = Stream(traces=[t1,t2,t3])
+    stP_LQ[0].stats.component = 'T'
+    stP_LQ[1].stats.component = 'Q'
+    stP_LQ[2].stats.component = 'L'
+
+    stP_LQ.plot(equal_scale=True);
+    n += 1
+
+#S-wave
+n = 0
+for a in model_Sangles:
+    print('S:' + model_ls[n])
+    stS = stS_og.copy()
+    hhQ,hhL = rotate(stS[1].data, stS[2].data, a)
+    t1, t2, t3 = Trace(stS[0].data, header=headerS), Trace(hhQ, header=headerS), Trace(hhL, header=headerS)
+    stS_LQ = Stream(traces=[t1,t2,t3])
+    stS_LQ[0].stats.component = 'T'
+    stS_LQ[1].stats.component = 'Q'
+    stS_LQ[2].stats.component = 'L'
+
+    stS_LQ.plot(equal_scale=True);
+    n += 1
 #
 #
 # # S0235b
@@ -236,155 +236,155 @@ depth = ia['Depth']
 #     n += 1
 
 
-# S0325a
-
-print('S0325aa')
-
-begin = UTCDateTime('2019-10-26T06:58:57')  # p-wave arrival
-end = UTCDateTime('2019-10-26T07:02:46')    # s-wave arrival
-
-st_uvw = waveforms(begin, end, 600)
-st_z12 = uvw2enz(st_uvw)
-
-stf = st_z12.copy()
-stf.filter('bandpass', freqmin = 0.125, freqmax = 1.0, corners=4, zerophase=True)
-hhe = stf[0].data
-hhn = stf[1].data
-hhz = stf[2].data
-
-hhT,hhR = rotate(hhe,hhn,303)
-
-streamRT = stf.copy()
-streamRT[0].data = hhT
-streamRT[1].data = hhR
-streamRT[0].stats.component = 'T'
-streamRT[1].stats.component = 'R'
-
-
-# In[14]:
-
-
-stP_og = stf.slice(starttime=begin-5,endtime=begin+15)
-stS_og = stf.slice(starttime=end-8, endtime=end+25)
-
-
-# In[15]:
-
-
-headerP = stP_og[0].stats
-headerS = stS_og[0].stats
-
-
-# In[16]:
-
-
-#P-wave
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [26.5,54,19,1.8,29,26,25]
-model_Sangles = [23,57,18.7,1.9,26,23.5,22]
-
-n = 0
-for a in model_Pangles:
-    print('P:' + model_ls[n])
-    stP = stP_og.copy()
-    hhQ,hhL = rotate(stP[1].data, stP[2].data, a)
-    t1, t2, t3 = Trace(stP[0].data, header=headerP), Trace(hhQ, header=headerP), Trace(hhL, header=headerP)
-    stP_LQ = Stream(traces=[t1,t2,t3])
-    stP_LQ[0].stats.component = 'T'
-    stP_LQ[1].stats.component = 'Q'
-    stP_LQ[2].stats.component = 'L'
-
-    stP_LQ.plot(equal_scale=True);
-    n += 1
-
-#S-wave
-n = 0
-for a in model_Sangles:
-    print('S:' + model_ls[n])
-    stS = stS_og.copy()
-    hhQ,hhL = rotate(stS[1].data, stS[2].data, a)
-    t1, t2, t3 = Trace(stS[0].data, header=headerS), Trace(hhQ, header=headerS), Trace(hhL, header=headerS)
-    stS_LQ = Stream(traces=[t1,t2,t3])
-    stS_LQ[0].stats.component = 'T'
-    stS_LQ[1].stats.component = 'Q'
-    stS_LQ[2].stats.component = 'L'
-
-    stS_LQ.plot(equal_scale=True);
-    n += 1
-
-
-# S0235ab
-
-print('S0325ab')
-
-begin = UTCDateTime('2019-10-26T06:59:08')  # p-wave arrival
-end = UTCDateTime('2019-10-26T07:03:00')    # s-wave arrival
-
-st_uvw = waveforms(begin, end, 600)
-st_z12 = uvw2enz(st_uvw)
-
-stf = st_z12.copy()
-stf.filter('bandpass', freqmin = 0.125, freqmax = 1.0, corners=4, zerophase=True)
-hhe = stf[0].data
-hhn = stf[1].data
-hhz = stf[2].data
-
-hhT,hhR = rotate(hhe,hhn,290)
-
-streamRT = stf.copy()
-streamRT[0].data = hhT
-streamRT[1].data = hhR
-streamRT[0].stats.component = 'T'
-streamRT[1].stats.component = 'R'
-
-
-# In[14]:
-
-
-stP_og = stf.slice(starttime=begin-5,endtime=begin+15)
-stS_og = stf.slice(starttime=end-8, endtime=end+25)
-
-
-# In[15]:
-
-
-headerP = stP_og[0].stats
-headerS = stS_og[0].stats
-
-
-# In[16]:
-
-
-#P-wave
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [27,55.6,19,1.8,29.8,27,26]
-model_Sangles = [24,57.6, 18.8,1.9,26,23.8,22.6]
-
-n = 0
-for a in model_Pangles:
-    print('P:' + model_ls[n])
-    stP = stP_og.copy()
-    hhQ,hhL = rotate(stP[1].data, stP[2].data, a)
-    t1, t2, t3 = Trace(stP[0].data, header=headerP), Trace(hhQ, header=headerP), Trace(hhL, header=headerP)
-    stP_LQ = Stream(traces=[t1,t2,t3])
-    stP_LQ[0].stats.component = 'T'
-    stP_LQ[1].stats.component = 'Q'
-    stP_LQ[2].stats.component = 'L'
-
-    stP_LQ.plot(equal_scale=True);
-    n += 1
-
-#S-wave
-n = 0
-for a in model_Sangles:
-    print('S:' + model_ls[n])
-    stS = stS_og.copy()
-    hhQ,hhL = rotate(stS[1].data, stS[2].data, a)
-    t1, t2, t3 = Trace(stS[0].data, header=headerS), Trace(hhQ, header=headerS), Trace(hhL, header=headerS)
-    stS_LQ = Stream(traces=[t1,t2,t3])
-    stS_LQ[0].stats.component = 'T'
-    stS_LQ[1].stats.component = 'Q'
-    stS_LQ[2].stats.component = 'L'
-
-    stS_LQ.plot(equal_scale=True);
-    n += 1
+# # S0325a
+#
+# print('S0325aa')
+#
+# begin = UTCDateTime('2019-10-26T06:58:57')  # p-wave arrival
+# end = UTCDateTime('2019-10-26T07:02:46')    # s-wave arrival
+#
+# st_uvw = waveforms(begin, end, 600)
+# st_z12 = uvw2enz(st_uvw)
+#
+# stf = st_z12.copy()
+# stf.filter('bandpass', freqmin = 0.125, freqmax = 1.0, corners=4, zerophase=True)
+# hhe = stf[0].data
+# hhn = stf[1].data
+# hhz = stf[2].data
+#
+# hhT,hhR = rotate(hhe,hhn,303)
+#
+# streamRT = stf.copy()
+# streamRT[0].data = hhT
+# streamRT[1].data = hhR
+# streamRT[0].stats.component = 'T'
+# streamRT[1].stats.component = 'R'
+#
+#
+# # In[14]:
+#
+#
+# stP_og = stf.slice(starttime=begin-5,endtime=begin+15)
+# stS_og = stf.slice(starttime=end-8, endtime=end+25)
+#
+#
+# # In[15]:
+#
+#
+# headerP = stP_og[0].stats
+# headerS = stS_og[0].stats
+#
+#
+# # In[16]:
+#
+#
+# #P-wave
+# model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
+# model_Pangles = [26.5,54,19,1.8,29,26,25]
+# model_Sangles = [23,57,18.7,1.9,26,23.5,22]
+#
+# n = 0
+# for a in model_Pangles:
+#     print('P:' + model_ls[n])
+#     stP = stP_og.copy()
+#     hhQ,hhL = rotate(stP[1].data, stP[2].data, a)
+#     t1, t2, t3 = Trace(stP[0].data, header=headerP), Trace(hhQ, header=headerP), Trace(hhL, header=headerP)
+#     stP_LQ = Stream(traces=[t1,t2,t3])
+#     stP_LQ[0].stats.component = 'T'
+#     stP_LQ[1].stats.component = 'Q'
+#     stP_LQ[2].stats.component = 'L'
+#
+#     stP_LQ.plot(equal_scale=True);
+#     n += 1
+#
+# #S-wave
+# n = 0
+# for a in model_Sangles:
+#     print('S:' + model_ls[n])
+#     stS = stS_og.copy()
+#     hhQ,hhL = rotate(stS[1].data, stS[2].data, a)
+#     t1, t2, t3 = Trace(stS[0].data, header=headerS), Trace(hhQ, header=headerS), Trace(hhL, header=headerS)
+#     stS_LQ = Stream(traces=[t1,t2,t3])
+#     stS_LQ[0].stats.component = 'T'
+#     stS_LQ[1].stats.component = 'Q'
+#     stS_LQ[2].stats.component = 'L'
+#
+#     stS_LQ.plot(equal_scale=True);
+#     n += 1
+#
+#
+# # S0235ab
+#
+# print('S0325ab')
+#
+# begin = UTCDateTime('2019-10-26T06:59:08')  # p-wave arrival
+# end = UTCDateTime('2019-10-26T07:03:00')    # s-wave arrival
+#
+# st_uvw = waveforms(begin, end, 600)
+# st_z12 = uvw2enz(st_uvw)
+#
+# stf = st_z12.copy()
+# stf.filter('bandpass', freqmin = 0.125, freqmax = 1.0, corners=4, zerophase=True)
+# hhe = stf[0].data
+# hhn = stf[1].data
+# hhz = stf[2].data
+#
+# hhT,hhR = rotate(hhe,hhn,290)
+#
+# streamRT = stf.copy()
+# streamRT[0].data = hhT
+# streamRT[1].data = hhR
+# streamRT[0].stats.component = 'T'
+# streamRT[1].stats.component = 'R'
+#
+#
+# # In[14]:
+#
+#
+# stP_og = stf.slice(starttime=begin-5,endtime=begin+15)
+# stS_og = stf.slice(starttime=end-8, endtime=end+25)
+#
+#
+# # In[15]:
+#
+#
+# headerP = stP_og[0].stats
+# headerS = stS_og[0].stats
+#
+#
+# # In[16]:
+#
+#
+# #P-wave
+# model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
+# model_Pangles = [27,55.6,19,1.8,29.8,27,26]
+# model_Sangles = [24,57.6, 18.8,1.9,26,23.8,22.6]
+#
+# n = 0
+# for a in model_Pangles:
+#     print('P:' + model_ls[n])
+#     stP = stP_og.copy()
+#     hhQ,hhL = rotate(stP[1].data, stP[2].data, a)
+#     t1, t2, t3 = Trace(stP[0].data, header=headerP), Trace(hhQ, header=headerP), Trace(hhL, header=headerP)
+#     stP_LQ = Stream(traces=[t1,t2,t3])
+#     stP_LQ[0].stats.component = 'T'
+#     stP_LQ[1].stats.component = 'Q'
+#     stP_LQ[2].stats.component = 'L'
+#
+#     stP_LQ.plot(equal_scale=True);
+#     n += 1
+#
+# #S-wave
+# n = 0
+# for a in model_Sangles:
+#     print('S:' + model_ls[n])
+#     stS = stS_og.copy()
+#     hhQ,hhL = rotate(stS[1].data, stS[2].data, a)
+#     t1, t2, t3 = Trace(stS[0].data, header=headerS), Trace(hhQ, header=headerS), Trace(hhL, header=headerS)
+#     stS_LQ = Stream(traces=[t1,t2,t3])
+#     stS_LQ[0].stats.component = 'T'
+#     stS_LQ[1].stats.component = 'Q'
+#     stS_LQ[2].stats.component = 'L'
+#
+#     stS_LQ.plot(equal_scale=True);
+#     n += 1

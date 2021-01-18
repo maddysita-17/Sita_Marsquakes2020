@@ -99,6 +99,13 @@ start173a = P173a - 1*60 # 1 minute early
 end173a = S173a + 3*(S173a-P173a)
 s0173a = waveforms(start173a, end173a, 600)
 
+e = 'Event S0183a'
+P183a = UTCDateTime('2019-06-03T02:27:49')
+S183a = UTCDateTime('2019-06-03T02:32:15')
+start183a = P183a - 1*60
+end183a = S183a + 3*(S183a-P183a)
+s0183a = waveforms(start183a, end183a, 600)
+
 
 # ....plot particle motion...
 def partmot(stream, event, Pwave, Swave, begin, end):
@@ -163,6 +170,7 @@ def partmot(stream, event, Pwave, Swave, begin, end):
 #partmot(s0235b,'235b',P235b, S235b, -4, 4)
 #partmot(s0325a,'325a',P325a, S325a, -1, 8)
 #partmot(s0173a,'173a',P173a, S173a, -4, 4)
-partmot(s0325a,'325ab', P325a, S325a, 7, 15 )
+#partmot(s0325a,'325ab', P325a, S325a, 7, 15)
+partmot(s0183a, '183a', P183a, S183a, -4, 4)
 
 plt.show()

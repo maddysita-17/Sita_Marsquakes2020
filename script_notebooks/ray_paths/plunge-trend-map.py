@@ -67,9 +67,8 @@ df325ab = ratiosum(df325ab, -1.005586592, 0.656424581, -0.652777778)
 # plt.show()
 
 
-def contour_plot(df, az, plP, plS):
+def contour_sum(df, az, plP, plS):
     Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Sum').T.values
-    #Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio3').T.values
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
     X, Y = np.meshgrid(X_unique, Y_unique)
@@ -82,7 +81,49 @@ def contour_plot(df, az, plP, plS):
     plt.annotate('S', (az, plS+1))
     plt.show()
 
-contour_plot(df173a, 258, 28, 27)
+def contour_1r(df, az, plP, plS):
+    Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio1').T.values
+    X_unique = np.sort(df.Azimuth.unique())
+    Y_unique = np.sort(df.Plunge.unique())
+    X, Y = np.meshgrid(X_unique, Y_unique)
+    levels = np.arange(0,8,0.25)
+    cp = plt.contourf(X, Y, Z, levels=levels, cmap='nipy_spectral')
+    plt.colorbar(cp)
+    plt.plot(az, plP, 'bo', label='P')
+    plt.annotate('P', (az, plP+1))
+    plt.plot(az, plS, 'ro', label='S')
+    plt.annotate('S', (az, plS+1))
+    plt.show()
+
+def contour_2r(df, az, plP, plS):
+    Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio2').T.values
+    X_unique = np.sort(df.Azimuth.unique())
+    Y_unique = np.sort(df.Plunge.unique())
+    X, Y = np.meshgrid(X_unique, Y_unique)
+    levels = np.arange(0,8,0.25)
+    cp = plt.contourf(X, Y, Z, levels=levels, cmap='nipy_spectral')
+    plt.colorbar(cp)
+    plt.plot(az, plP, 'bo', label='P')
+    plt.annotate('P', (az, plP+1))
+    plt.plot(az, plS, 'ro', label='S')
+    plt.annotate('S', (az, plS+1))
+    plt.show()
+
+def contour_3r(df, az, plP, plS):
+    Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio3').T.values
+    X_unique = np.sort(df.Azimuth.unique())
+    Y_unique = np.sort(df.Plunge.unique())
+    X, Y = np.meshgrid(X_unique, Y_unique)
+    levels = np.arange(0,8,0.25)
+    cp = plt.contourf(X, Y, Z, levels=levels, cmap='nipy_spectral')
+    plt.colorbar(cp)
+    plt.plot(az, plP, 'bo', label='P')
+    plt.annotate('P', (az, plP+1))
+    plt.plot(az, plS, 'ro', label='S')
+    plt.annotate('S', (az, plS+1))
+    plt.show()
+
+#contour_plot(df173a, 258, 28, 27)
 #contour_plot(df235b, 274, 27, 26)
 #contour_plot(df325a, 300, 33, 31)
 #contour_plot(df325ab, 290, 30, 28)

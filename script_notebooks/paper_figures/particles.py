@@ -108,7 +108,7 @@ s0183a = waveforms(start183a, end183a, 600)
 
 
 # ....plot particle motion...
-def partmot(stream, event, Pwave, Swave, begin, end):
+def partmot(stream, event, Pwave, Swave, begin, end, bAz):
     stmp = stream.copy()
     stmp.taper(0.01,max_length=1)
     stmp.filter('bandpass',freqmin=0.125, freqmax=1.0 ,corners=4, zerophase=True)
@@ -142,6 +142,10 @@ def partmot(stream, event, Pwave, Swave, begin, end):
     ays[0][2].set_ylim([-200,200]); ays[0][2].set_xlim([-200,200]); ays[0][2].set_xlabel('East'); ays[0][2].set_ylabel('North')
     ays[0][2].set_aspect('equal')
 
+    b = np.radians(bAz)
+    yval = 100*np.cos(b)
+    xval = 100*np.sin(b)
+    ays[0][2].plot((-1*xval,xval), (-1*yval,yval), 'k--')
 
     stm = stmp.slice(starttime = Swave+bt, endtime = Swave+et)
     sENZ = uvw2enz(stm)
@@ -165,12 +169,16 @@ def partmot(stream, event, Pwave, Swave, begin, end):
     ays[1][2].set_ylim([-500,500]); ays[1][2].set_xlim([-500,500]); ays[1][2].set_xlabel('East'); ays[1][2].set_ylabel('North')
     ays[1][2].set_aspect('equal')
 
-    fjg.savefig('ppm' + event + '.png', transparent=True)
+    yval = 100*np.cos(b)
+    xval = 100*np.sin(b)
+    ays[1][2].plot((-1*xval,xval), (-1*yval,yval), 'k--')
+
+    fjg.savefig('ppm' + event + '.png', transparent=False)
 
 #partmot(s0235b,'235b',P235b, S235b, -4, 4)
 #partmot(s0325a,'325a',P325a, S325a, -1, 8)
-#partmot(s0173a,'173a',P173a, S173a, -4, 4)
-#partmot(s0325a,'325ab', P325a, S325a, 7, 15)
-partmot(s0183a, '183a', P183a, S183a, -4, 4)
+partmot(s0173a,'173a',P173a, S173a, -4, 4, 91)
+partmot(s0325a,'325ab', P325a, S325a, 7, 15, 110)
+partmot(s0183a, '183a', P183a, S183a, -4, 4, 75)
 
 plt.show()

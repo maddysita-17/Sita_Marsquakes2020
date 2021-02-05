@@ -45,14 +45,14 @@ df173a = pd.read_csv('jan_173a-35.csv')
 df235b = pd.read_csv('jan_235b-35.csv')
 df325a = pd.read_csv('try2_325a-35.csv')
 df325ab = pd.read_csv('325ab-35.csv')
+df183a = pd.read_csv('S0183a_[255][80][-100].csv')
 
 #gudkova model observed amplitude ratios from seismograms
 df173a = ratiosum(df173a, -0.626168224, -0.831775701, 1.328358209)
-#df173a.to_csv('new_173a-sum.csv', index = False)
-#print(df173a)
 df235b = ratiosum(df235b, 1.035519126, 0.43715847, 0.422163588)
 df325a = ratiosum(df325a, -0.4, 0.584615385, -1.461538462)
 df325ab = ratiosum(df325ab, -1.005586592, 0.656424581, -0.652777778)
+df183a = ratiosum(df183a, 0.402906209, 0.911492734, 2.262295082)
 
 
 # Z = df173a.pivot_table(index='Azimuth', columns='Plunge', values='Sum').T.values
@@ -79,6 +79,7 @@ def contour_sum(df, az, plP, plS):
     plt.annotate('P', (az, plP+1))
     plt.plot(az, plS, 'ro', label='S')
     plt.annotate('S', (az, plS+1))
+    plt.title('Sum')
     plt.show()
 
 def contour_1r(df, az, plP, plS):
@@ -93,6 +94,7 @@ def contour_1r(df, az, plP, plS):
     plt.annotate('P', (az, plP+1))
     plt.plot(az, plS, 'ro', label='S')
     plt.annotate('S', (az, plS+1))
+    plt.title('Ratio1 - SH/SV')
     plt.show()
 
 def contour_2r(df, az, plP, plS):
@@ -107,6 +109,7 @@ def contour_2r(df, az, plP, plS):
     plt.annotate('P', (az, plP+1))
     plt.plot(az, plS, 'ro', label='S')
     plt.annotate('S', (az, plS+1))
+    plt.title('Ratio2 - P/SV')
     plt.show()
 
 def contour_3r(df, az, plP, plS):
@@ -121,9 +124,30 @@ def contour_3r(df, az, plP, plS):
     plt.annotate('P', (az, plP+1))
     plt.plot(az, plS, 'ro', label='S')
     plt.annotate('S', (az, plS+1))
+    plt.title('Ratio3 - P/SH')
     plt.show()
 
-#contour_plot(df173a, 258, 28, 27)
-#contour_plot(df235b, 274, 27, 26)
-#contour_plot(df325a, 300, 33, 31)
-#contour_plot(df325ab, 290, 30, 28)
+#contour_sum(df173a, 258, 28, 27)
+#contour_1r(df173a, 258, 28, 27)
+#contour_2r(df173a, 258, 28, 27)
+#contour_3r(df173a, 258, 28, 27)
+
+#contour_sum(df235b, 274, 27, 26)
+#contour_1r(df235b, 274, 27, 26)
+#contour_2r(df235b, 274, 27, 26)
+#contour_3r(df235b, 274, 27, 26)
+
+#contour_sum(df325a, 300, 33, 31)
+#contour_1r(df325a, 300, 33, 31)
+#contour_2r(df325a, 300, 33, 31)
+#contour_3r(df325a, 300, 33, 31)
+
+#contour_sum(df325ab, 290, 30, 28)
+#contour_1r(df325ab, 290, 30, 28)
+#contour_2r(df325ab, 290, 30, 28)
+#contour_3r(df325ab, 290, 30, 28)
+
+contour_sum(df183a, 247, 36, 33)
+contour_1r(df183a, 247, 36, 33)
+contour_2r(df183a, 247, 36, 33)
+contour_3r(df183a, 247, 36, 33)

@@ -161,8 +161,8 @@ iax = 0
 #Stmp = UTCDateTime('2019-06-09T05:43:19')
 
 #e2 = '325a'
-Ptmp = UTCDateTime('2019-10-26T06:58:58')
-Stmp = UTCDateTime('2019-10-26T07:02:56')
+# Ptmp = UTCDateTime('2019-10-26T06:58:58')
+# Stmp = UTCDateTime('2019-10-26T07:02:56')
 
 #e3 = '235c'
 #Ptmp = UTCDateTime('2019-07-26T12:53:44')
@@ -183,6 +183,10 @@ Stmp = UTCDateTime('2019-10-26T07:02:56')
 #e7 = '405c'
 #Ptmp = UTCDateTime('2020-01-07T01:41:43')
 #Stmp = UTCDateTime('2020-01-07T01:45:39')
+
+#e8 = '183a'
+Ptmp = UTCDateTime('2019-06-03T02:27:49')
+Stmp = UTCDateTime('2019-06-03T02:32:15')
 
 #user entered P/S wave estimates
 #P_start = input('Estimated arrival time of P-wave: ')
@@ -243,137 +247,4 @@ wfplot(stm,axs,iax,scale,shift,P173a)
 iax = 0
 
 fig.savefig('TwoQuakes' + e + '.png')
-plt.show()
-
-
-# ....plot particle motion...
-e = e_input
-stmp = s0173a.copy()
-stmp.taper(0.01,max_length=1)
-stmp.filter('bandpass',freqmin=0.125, freqmax=1.0 ,corners=4, zerophase=True)
-#bt = - 4; et = 12
-bt = - 4; et = 4
-#bt = 8; et = 12
-
-fjg, ays = plt.subplots(2,3,figsize=(10,7))
-for i in range(2):
-    for j in range(3):
-        ays[i][j].tick_params(labelsize=6)
-plt.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95, wspace = 0.3, hspace=0.2)
-
-stm = stmp.slice(starttime=P173a+bt,endtime=P173a+et)
-sENZ = uvw2enz(stm)
-tvec = sENZ[0].times(reftime=P173a)
-
-x = sENZ.select(component='N')[0].data
-y = sENZ.select(component='Z')[0].data
-ays[0][0].scatter(x,y,c=tvec)
-ays[0][0].set_ylim([-200,200]); ays[0][0].set_xlim([-200,200]); ays[0][0].set_xlabel('<- South - North ->'); ays[0][0].set_ylabel('<-Down - Up ->')
-ays[0][0].set_aspect('equal'); ays[0][0].set_title(e+' P-wave Particle Motion')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='Z')[0].data
-ays[0][1].scatter(x,y,c=tvec)
-ays[0][1].set_ylim([-200,200]); ays[0][1].set_xlim([-200,200]); ays[0][1].set_xlabel('East'); ays[0][1].set_ylabel('Up')
-ays[0][1].set_aspect('equal')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='N')[0].data
-ays[0][2].scatter(x,y,c=tvec)
-ays[0][2].set_ylim([-200,200]); ays[0][2].set_xlim([-200,200]); ays[0][2].set_xlabel('East'); ays[0][2].set_ylabel('North')
-ays[0][2].set_aspect('equal')
-
-
-#bt = 172; et = 188
-bt = 238; et = 246
-#bt = 178; et = 188
-
-stm = stmp.slice(starttime = P173a+bt, endtime = P173a+et)
-sENZ = uvw2enz(stm)
-tvec = sENZ[0].times(reftime=P173a)
-
-x = sENZ.select(component='N')[0].data
-y = sENZ.select(component='Z')[0].data
-ays[1][0].scatter(x,y,c=tvec)
-ays[1][0].set_ylim([-500,500]); ays[1][0].set_xlim([-500,500]); ays[1][0].set_xlabel('North'); ays[1][0].set_ylabel('Up')
-ays[1][0].set_aspect('equal'); ays[1][0].set_title(e+' S-wave Particle Motion')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='Z')[0].data
-ays[1][1].scatter(x,y,c=tvec)
-ays[1][1].set_ylim([-500,500]); ays[1][1].set_xlim([-500,500]); ays[1][1].set_xlabel('East'); ays[1][1].set_ylabel('Up')
-ays[1][1].set_aspect('equal')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='N')[0].data
-ays[1][2].scatter(x,y,c=tvec)
-ays[1][2].set_ylim([-500,500]); ays[1][2].set_xlim([-500,500]); ays[1][2].set_xlabel('East'); ays[1][2].set_ylabel('North')
-ays[1][2].set_aspect('equal')
-
-#fjg.savefig('ppm' + e + '.png')
-fjg.savefig('ppm' + e + '.png')
-plt.show()
-
-# --------particle motion plot of S0235b/reference event-------------------------
-
-e = 'Event S0235b'
-stmp = s0235b.copy()
-stmp.taper(0.01,max_length=1)
-stmp.filter('bandpass',freqmin=0.125, freqmax=1.0 ,corners=4, zerophase=True)
-#bt = - 4; et = 12
-bt = - 4; et = 8
-#bt = 8; et = 12
-
-fkg, azs = plt.subplots(2,3,figsize=(10,7))
-for i in range(2):
-    for j in range(3):
-        azs[i][j].tick_params(labelsize=6)
-plt.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95, wspace = 0.3, hspace=0.2)
-
-stm = stmp.slice(starttime=P235b+bt,endtime=P235b+et)
-sENZ = uvw2enz(stm)
-tvec = sENZ[0].times(reftime=P235b)
-
-x = sENZ.select(component='N')[0].data
-y = sENZ.select(component='Z')[0].data
-azs[0][0].scatter(x,y,c=tvec)
-azs[0][0].set_ylim([-500,500]); azs[0][0].set_xlim([-500,500]); azs[0][0].set_xlabel('North'); azs[0][0].set_ylabel('Up')
-azs[0][0].set_aspect('equal'); azs[0][0].set_title(e+' P-wave Particle Motion')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='Z')[0].data
-azs[0][1].scatter(x,y,c=tvec)
-azs[0][1].set_ylim([-500,500]); azs[0][1].set_xlim([-500,500]); azs[0][1].set_xlabel('East'); azs[0][1].set_ylabel('Up')
-azs[0][1].set_aspect('equal')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='N')[0].data
-azs[0][2].scatter(x,y,c=tvec)
-azs[0][2].set_ylim([-500,500]); azs[0][2].set_xlim([-500,500]); azs[0][2].set_xlabel('East'); azs[0][2].set_ylabel('North')
-azs[0][2].set_aspect('equal')
-
-bt = 164; et = 180
-stm = stmp.slice(starttime=P235b+bt,endtime=P235b+et)
-sENZ = uvw2enz(stm)
-tvec = np.linspace(bt,et,len(stm[0].data))
-
-x = sENZ.select(component='N')[0].data
-y = sENZ.select(component='Z')[0].data
-azs[1][0].scatter(x,y,c=tvec)
-azs[1][0].set_ylim([-500,500]); azs[1][0].set_xlim([-500,500]); azs[1][0].set_xlabel('North'); azs[1][0].set_ylabel('Up')
-azs[1][0].set_aspect('equal'); azs[1][0].set_title(e+' S-wave Particle Motion')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='Z')[0].data
-azs[1][1].scatter(x,y,c=tvec)
-azs[1][1].set_ylim([-500,500]); azs[1][1].set_xlim([-500,500]); azs[1][1].set_xlabel('East'); azs[1][1].set_ylabel('Up')
-azs[1][1].set_aspect('equal')
-
-x = sENZ.select(component='E')[0].data
-y = sENZ.select(component='N')[0].data
-azs[1][2].scatter(x,y,c=tvec)
-azs[1][2].set_ylim([-500,500]); azs[1][2].set_xlim([-500,500]); azs[1][2].set_xlabel('East'); azs[1][2].set_ylabel('North')
-azs[1][2].set_aspect('equal')
-
-fkg.savefig('ppm235b.png')
 plt.show()

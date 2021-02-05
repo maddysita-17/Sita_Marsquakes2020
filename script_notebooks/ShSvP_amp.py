@@ -534,7 +534,7 @@ headerS = stS_og[0].stats
 
 #P-wave
 model_ls = ['DWAK', 'EH45Tcold', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [25.7,52.5,1.73,27.85,25.2,24.7 ]
+model_Pangles = [25.7,52.5,1.73,27.85,25.2,24.7]
 model_Sangles = [22.85,56.4,1.8,25.55,22.5,21.8]
 
 n = 0
@@ -547,8 +547,8 @@ for a in model_Pangles:
     stP_LQ[0].stats.component = 'T'
     stP_LQ[1].stats.component = 'Q'
     stP_LQ[2].stats.component = 'L'
-
     stP_LQ.plot(equal_scale=True);
+
     n += 1
 
 #S-wave

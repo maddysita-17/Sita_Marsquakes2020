@@ -78,8 +78,8 @@ plt.rcParams.update(params)
 
 #---setting up subplots-----
 
-fig, axs = plt.subplots(3, 1, figsize=(12,10))
-for j in range(3):
+fig, axs = plt.subplots(4, 1, figsize=(10,5))
+for j in range(4):
     axs[j].tick_params(labelsize=6)
 iax = 0
 
@@ -87,7 +87,7 @@ iax = 0
 
 e = 'S0235b'
 ### 2019-07-26T12:16:15
-P235b = UTCDateTime('2019-07-26T12:19:19')
+P235b = UTCDateTime('2019-07-26T12:18:58')
 S235b = UTCDateTime('2019-07-26T12:22:05')
 start235b = P235b - 1*60 # 1 minute early
 end235b = P235b + 600
@@ -103,6 +103,11 @@ stm = stmp.slice(starttime=start235b,endtime=end235b)
 #axs[iax].set_prop_cycle(color=['#3BA7BF', '#6297A3', '#898686'])
 axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
 wfplot(e,stm,axs,iax,scale,shift,P235b)
+
+axs[iax].axvline(x=0, color='r', ls='--')
+axs[iax].axvline(x=20, color='b', ls='--')
+axs[iax].axvline(x=156,color='r', ls='--')
+axs[iax].axvline(x=187, color='b', ls='--')
 #axs[iax].axis('off')
 
 iax += 1
@@ -125,14 +130,19 @@ stm = stmp.slice(starttime=start173a,endtime=end173a)
 #axs[iax].set_prop_cycle(color=['#3BA7BF', '#6297A3', '#898686'])
 axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
 wfplot(e,stm,axs,iax,scale,shift,P173a)
+
+axs[iax].axvline(x=0, color='r', ls='--')
+axs[iax].axvline(x=4, color='b', ls='--')
+axs[iax].axvline(x=174,color='r', ls='--')
+axs[iax].axvline(x=178, color='b', ls='--')
 #axs[iax].axis('off')
 iax += 1
 
 
 #----- 325a -----
 e = 'S0325a'
-P325a = UTCDateTime('2019-10-26T06:58:58')
-S325a = UTCDateTime('2019-10-26T07:02:56')
+P325a = UTCDateTime('2019-10-26T06:58:57')
+S325a = UTCDateTime('2019-10-26T07:02:49')
 start325a = P325a - 1*60 # 1 minute early
 end325a = P325a + 600
 s0325a = waveforms(start325a, end325a, 600)
@@ -146,15 +156,47 @@ stm = stmp.slice(starttime=start325a,endtime=end325a)
 #axs[iax].set_prop_cycle(color=['#BF533B', '#D8802A', '#F0AC19'])
 axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
 wfplot(e,stm,axs,iax,scale,shift,P325a)
+
+axs[iax].axvline(x=0, color='r', ls='--')
+axs[iax].axvline(x=11, color='b', ls='--')
+axs[iax].axvline(x=232,color='r', ls='--')
+axs[iax].axvline(x=243, color='b', ls='--')
 #axs[iax].yaxis.set_visible(False)
 iax += 1
 
-for j in range(3):
+
+#----- 183a -----
+e = 'S0183a'
+P183a = UTCDateTime('2019-06-03T02:27:49')
+S183a = UTCDateTime('2019-06-03T02:32:15')
+start183a = P183a - 1*60 # 1 minute early
+end183a = P183a + 600
+s0183a = waveforms(start183a, end183a, 600)
+
+scale = 1/1000
+
+#-----bandpassed data----
+stmp = s0183a.copy()
+stmp.taper(0.01,max_length=1)
+stmp.filter('bandpass',freqmin=0.125, freqmax=1.0,corners=4, zerophase=True)
+stm = stmp.slice(starttime=start183a,endtime=end183a)
+#axs[iax].set_prop_cycle(color=['#BF533B', '#D8802A', '#F0AC19'])
+axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
+wfplot(e,stm,axs,iax,scale,shift,P183a)
+
+axs[iax].axvline(x=0, color='r', ls='--')
+axs[iax].axvline(x=2, color='b', ls='--')
+axs[iax].axvline(x=266,color='r', ls='--')
+axs[iax].axvline(x=268, color='b', ls='--')
+#axs[iax].yaxis.set_visible(False)
+iax += 1
+
+for j in range(4):
     for item in [fig, axs[j]]:
         item.patch.set_visible(False)
     # for a in ('left', 'right', 'top', 'bottom'):
     #     axs[j].spines[a].set_visible(False)
 fig.patch.set_visible(False)
 
-fig.savefig('indiv_plots.png', transparent=True)
+fig.savefig('indiv_plots.png', transparent=False)
 plt.show()

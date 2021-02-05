@@ -108,7 +108,7 @@ s0183a = waveforms(start183a, end183a, 600)
 
 
 # ....plot particle motion...
-def partmot(stream, event, Pwave, Swave, begin, end, bAz):
+def partmot(stream, event, Pwave, Swave, begin, end, bAz, bAz2):
     stmp = stream.copy()
     stmp.taper(0.01,max_length=1)
     stmp.filter('bandpass',freqmin=0.125, freqmax=1.0 ,corners=4, zerophase=True)
@@ -126,26 +126,35 @@ def partmot(stream, event, Pwave, Swave, begin, end, bAz):
 
     x = sENZ.select(component='N')[0].data
     y = sENZ.select(component='Z')[0].data
-    ays[0][0].scatter(x,y,c=tvec, cmap='summer')
+    ays[0][0].scatter(x,y,c=tvec, cmap='Set2')
     ays[0][0].set_ylim([-200,200]); ays[0][0].set_xlim([-200,200]); ays[0][0].set_xlabel('North'); ays[0][0].set_ylabel('Up')
     ays[0][0].set_aspect('equal'); ays[0][0].set_title(event +' P-wave Particle Motion')
 
     x = sENZ.select(component='E')[0].data
     y = sENZ.select(component='Z')[0].data
-    ays[0][1].scatter(x,y,c=tvec, cmap='summer')
+    ays[0][1].scatter(x,y,c=tvec, cmap='Set2')
     ays[0][1].set_ylim([-200,200]); ays[0][1].set_xlim([-200,200]); ays[0][1].set_xlabel('East'); ays[0][1].set_ylabel('Up')
     ays[0][1].set_aspect('equal')
 
     x = sENZ.select(component='E')[0].data
     y = sENZ.select(component='N')[0].data
-    ays[0][2].scatter(x,y,c=tvec, cmap='summer')
+
+    sc = ays[0][2].scatter(x,y,c=tvec, cmap='Set2', alpha=0.8)
+
     ays[0][2].set_ylim([-200,200]); ays[0][2].set_xlim([-200,200]); ays[0][2].set_xlabel('East'); ays[0][2].set_ylabel('North')
     ays[0][2].set_aspect('equal')
 
     b = np.radians(bAz)
-    yval = 100*np.cos(b)
-    xval = 100*np.sin(b)
-    ays[0][2].plot((-1*xval,xval), (-1*yval,yval), 'k--')
+    yval = 200*np.cos(b)
+    xval = 200*np.sin(b)
+    ays[0][2].plot((-1*xval,xval), (-1*yval,yval), 'r--')
+    ays[0][2].annotate(str(bAz), (xval-5, yval-5))
+
+    b2 = np.radians(bAz2)
+    yval = 200*np.cos(b2)
+    xval = 200*np.sin(b2)
+    ays[0][2].plot((-1*xval,xval), (-1*yval,yval), 'b--')
+    ays[0][2].annotate(str(bAz2), (xval-5, yval-5))
 
     stm = stmp.slice(starttime = Swave+bt, endtime = Swave+et)
     sENZ = uvw2enz(stm)
@@ -153,32 +162,47 @@ def partmot(stream, event, Pwave, Swave, begin, end, bAz):
 
     x = sENZ.select(component='N')[0].data
     y = sENZ.select(component='Z')[0].data
-    ays[1][0].scatter(x,y,c=tvec, cmap='summer')
+    ays[1][0].scatter(x,y,c=tvec, cmap='Set2')
     ays[1][0].set_ylim([-500,500]); ays[1][0].set_xlim([-500,500]); ays[1][0].set_xlabel('North'); ays[1][0].set_ylabel('Up')
     ays[1][0].set_aspect('equal'); ays[1][0].set_title(event+' S-wave Particle Motion')
 
     x = sENZ.select(component='E')[0].data
     y = sENZ.select(component='Z')[0].data
-    ays[1][1].scatter(x,y,c=tvec, cmap='summer')
+    ays[1][1].scatter(x,y,c=tvec, cmap='Set2')
     ays[1][1].set_ylim([-500,500]); ays[1][1].set_xlim([-500,500]); ays[1][1].set_xlabel('East'); ays[1][1].set_ylabel('Up')
     ays[1][1].set_aspect('equal')
 
     x = sENZ.select(component='E')[0].data
     y = sENZ.select(component='N')[0].data
-    ays[1][2].scatter(x,y,c=tvec, cmap='summer')
+
+    sc = ays[1][2].scatter(x,y,c=tvec, cmap='Set2', alpha=0.8)
+    fjg.colorbar(sc)
+
     ays[1][2].set_ylim([-500,500]); ays[1][2].set_xlim([-500,500]); ays[1][2].set_xlabel('East'); ays[1][2].set_ylabel('North')
     ays[1][2].set_aspect('equal')
 
-    yval = 100*np.cos(b)
-    xval = 100*np.sin(b)
-    ays[1][2].plot((-1*xval,xval), (-1*yval,yval), 'k--')
 
-    fjg.savefig('ppm' + event + '.png', transparent=False)
+    yval = 500*np.cos(b)
+    xval = 500*np.sin(b)
+    ays[1][2].plot((-1*xval,xval), (-1*yval,yval), 'r--')
+
+    yval = 500*np.cos(b2)
+    xval = 500*np.sin(b2)
+    ays[1][2].plot((-1*xval,xval), (-1*yval,yval), 'b--')
+
+    path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/paper_figures/ppm-plots/'
+    fjg.savefig(path + 'ppm' + event + '.png', transparent=False)
 
 #partmot(s0235b,'235b',P235b, S235b, -4, 4)
-#partmot(s0325a,'325a',P325a, S325a, -1, 8)
-partmot(s0173a,'173a',P173a, S173a, -4, 4, 91)
-partmot(s0325a,'325ab', P325a, S325a, 7, 15, 110)
-partmot(s0183a, '183a', P183a, S183a, -4, 4, 75)
+
+partmot(s0325a, 'ALL 325a', P325a, S325a, -1, 14, 123, 110)
+partmot(s0325a,'325a',P325a, S325a, -1, 3, 123, 110)
+partmot(s0325a,'325ab', P325a, S325a, 10, 14, 123, 110)
+
+# partmot(s0173a,'ALL 173a',P173a, S173a, -1, 8, 90, 81)
+# partmot(s0173a, '173a', P173a, S173a, -1, 3, 90, 81)
+# partmot(s0173a, '173ab', P173a, S173a, 4, 8, 90, 81)
+
+#partmot(s0183a, '183a', P183a, S183a, -5, 4, 89, 55)
 
 plt.show()

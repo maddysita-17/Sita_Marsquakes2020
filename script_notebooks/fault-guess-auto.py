@@ -69,6 +69,7 @@ def Rpattern(fault,azimuth,incidence_angles):
 
 model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
 
+
 #---get fault function--
 def getfault(az, st, dp, rk):
     """
@@ -134,17 +135,17 @@ def eventbuild(event, dist):
 def autofault(df, ratio1, ratio2, ratio3):
     n = 0
     for ratio in [ratio1, ratio2, ratio3]:
-        rmax = ratio - (0.1 * ratio)
-        rmin = ratio + (0.1 * ratio)
+        rmin = ratio - (0.1 * ratio)
+        rmax = ratio + (0.1 * ratio)
         if n == 0:
-            ratio1df = df[df['SH/SV']>rmin]
-            ratio1df = ratio1df[ratio1df['SH/SV']<rmax]
+            ratio1df = df[abs(df['SH/SV'])>rmin]
+            ratio1df = ratio1df[abs(ratio1df['SH/SV'])<rmax]
         elif n == 1:
-            ratio2df = df[df['P/SV']>rmin]
-            ratio2df = ratio2df[ratio2df['P/SV']<rmax]
+            ratio2df = df[abs(df['P/SV'])>rmin]
+            ratio2df = ratio2df[abs(ratio2df['P/SV'])<rmax]
         elif n == 2:
-            ratio3df = df[df['P/SH']>rmin]
-            ratio3df = ratio3df[ratio3df['P/SH']<rmax]
+            ratio3df = df[abs(df['P/SH'])>rmin]
+            ratio3df = ratio3df[abs(ratio3df['P/SH'])<rmax]
         n += 1
 
     frames = [ratio1df, ratio2df, ratio3df]
@@ -153,12 +154,12 @@ def autofault(df, ratio1, ratio2, ratio3):
     return faults
 
 strike173a = [40,45,50,110,112,115,125,130,140,150,155,160]
-strike235b = [90,110,112,113,115,125,150,175]
+strike235b = [90,110,112,113,115,125,130,150,175]
 strike325a = [0,1,2,3,40,45,50,90,140,150,160]
 strike325ab = [0,1,2,3,40,45,50,85,90,100,140,150,160]
 
 strike173ab = [40,45,50,110,112,115,125,130,140,150,155,160]
-strike183a = [230,240,250,255,260,270]
+strike183a = [10,50,100,150,200,230,240,250,255,260,270]
 
 
 dip = [0, 20, 45, 60, 70, 80, 90]
@@ -264,7 +265,7 @@ for mod in model_ls:
             #----S0183a----
             path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
 
-            data183a, Pe, Se = getfault(-97.89, strike183a, dip, rake)
+            data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
             data183a = autofault(data183a, 0.512396694, 1.190082645, 2.322580645)
             data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -306,7 +307,6 @@ for mod in model_ls:
 
         aDWAK = pd.DataFrame.from_dict(incid)
         eDWAK = pd.DataFrame.from_dict(exit)
-
 
 
     elif mod=='EH45Tcold':
@@ -385,7 +385,7 @@ for mod in model_ls:
             #----S0183a----
             path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
 
-            data183a, Pe, Se = getfault(-97.89, strike183a, dip, rake)
+            data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
             data183a = autofault(data183a, 0.616161616,1.212121212,1.967213115)
             data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -538,7 +538,7 @@ for mod in model_ls:
             #----S0183a----
             path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
 
-            data183a, Pe, Se = getfault(-97.89, strike183a, dip, rake)
+            data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
             data183a = autofault(data183a, 0.616161616,1.212121212,1.967213115)
             data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -675,7 +675,7 @@ for mod in model_ls:
             #----S0183a----
             path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
 
-            data183a, Pe, Se = getfault(-97.89, strike183a, dip, rake)
+            data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
             data183a = autofault(data183a, 0.402906209,0.911492734,2.262295082)
             data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -799,7 +799,7 @@ for mod in model_ls:
             #----S0183a----
             path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
 
-            data183a, Pe, Se = getfault(-97.89, strike183a, dip, rake)
+            data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
             data183a = autofault(data183a,0.50330033,1.179867987,2.344262295)
             data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -923,7 +923,7 @@ for mod in model_ls:
             #----S0183a----
             path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
 
-            data183a, Pe, Se = getfault(-97.89, strike183a, dip, rake)
+            data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
             data183a = autofault(data183a,0.504918033,1.180327869,2.337662338)
             data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -1047,7 +1047,7 @@ for mod in model_ls:
             #----S0183a----
             path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
 
-            data183a, Pe, Se = getfault(-97.89, strike183a, dip, rake)
+            data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
             data183a = autofault(data183a,0.501644737,1.184210526,2.360655738)
             data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -1091,13 +1091,13 @@ for mod in model_ls:
         eTAYAK = pd.DataFrame.from_dict(exit)
 
 
-dfs = [aDWAK, aEH45, acoldCrust, aGudkova, aLFAK, aMAAK, aTAYAK]
-incid_angles = pd.concat(dfs, ignore_index=True)
-incid_angles.to_csv('incident_angles.csv', index=False)
-
-edfs = [eDWAK, eEH45, ecoldCrust, eGudkova, eLFAK, eMAAK, eTAYAK]
-exit_angles = pd.concat(edfs, ignore_index=True)
-exit_angles.to_csv('exit_angles.csv', index=False)
+# dfs = [aDWAK, aEH45, acoldCrust, aGudkova, aLFAK, aMAAK, aTAYAK]
+# incid_angles = pd.concat(dfs, ignore_index=True)
+# incid_angles.to_csv('incident_angles.csv', index=False)
+#
+# edfs = [eDWAK, eEH45, ecoldCrust, eGudkova, eLFAK, eMAAK, eTAYAK]
+# exit_angles = pd.concat(edfs, ignore_index=True)
+# exit_angles.to_csv('exit_angles.csv', index=False)
 
 def fault_search(event):
     path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/faultdata/' + event + '/'
@@ -1105,12 +1105,16 @@ def fault_search(event):
 
     dataframes = []
     for file in source_files:
-        df = pd.read_csv(file) # additional arguments up to your need
+        df = pd.read_csv(file)
         df['source'] = file.name
         dataframes.append(df)
 
     faults = pd.concat(dataframes)
     faults.to_csv(path + "faults_" + event + '.csv', index=False)
+
+    unique_faults = faults.drop_duplicates(subset = ["Strike","Dip","Rake"])
+    path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/faultdata/'
+    unique_faults.to_csv(path + "uniquefaults_" + event + '.csv', index=False)
 
 fault_search('173a')
 fault_search('235b')

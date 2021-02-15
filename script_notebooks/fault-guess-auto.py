@@ -67,7 +67,8 @@ def Rpattern(fault,azimuth,incidence_angles):
     return AP,ASV,ASH
 
 
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
+#model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
+model_ls = ['Gudkova']
 
 
 #---get fault function--
@@ -204,7 +205,7 @@ for mod in model_ls:
 
             path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
 
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
+            data173a, Pe, Se = getfault(-86.99, strike173a, dip, rake)
             data173a = autofault(data173a, 0.720430108, 1.064516129, 1.47761194)
             data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -217,7 +218,7 @@ for mod in model_ls:
             #-----S0235b-----
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
 
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-101.62, strike235b, dip, rake)
             data235b = autofault(data235b, 1.169753086, 0.435185185, 0.372031662)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -229,7 +230,7 @@ for mod in model_ls:
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
 
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
+            data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
             data325a = autofault(data325a, 0.401544402, 0.517374517, 1.288461538)
             data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -241,7 +242,7 @@ for mod in model_ls:
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
 
-            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab, Pe, Se = getfault(-71.33, strike325ab, dip, rake)
             data325ab = autofault(data325ab, 0.994475138, 0.621546961, 0.625)
             data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -253,7 +254,7 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
 
-            data173ab, Pe, Se = getfault(-91.38, strike173ab, dip, rake)
+            data173ab, Pe, Se = getfault(-91.39, strike173ab, dip, rake)
             data173ab = autofault(data173ab, 1.365853659, 0.709756098, 0.519642857)
             data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -324,7 +325,7 @@ for mod in model_ls:
 
             path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
 
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
+            data173a, Pe, Se = getfault(-86.99, strike173a, dip, rake)
             data173a = autofault(data173a, 1.472527473,1.945054945,1.320895522)
             data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -337,7 +338,7 @@ for mod in model_ls:
             #-----S0235b-----
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
 
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-101.62, strike235b, dip, rake)
             data235b = autofault(data235b, 1.96373057,0.445595855,0.226912929)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -349,7 +350,7 @@ for mod in model_ls:
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
 
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
+            data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
             data325a = autofault(data325a,0.530612245,0.433673469,0.817307692)
             data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -361,7 +362,7 @@ for mod in model_ls:
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
 
-            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab, Pe, Se = getfault(-71.33, strike325ab, dip, rake)
             data325ab = autofault(data325ab, 1.263157895,0.596491228,0.472222222)
             data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -373,7 +374,7 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
 
-            data173ab, Pe, Se = getfault(-91.38, strike173ab, dip, rake)
+            data173ab, Pe, Se = getfault(-91.39, strike173ab, dip, rake)
             data173ab = autofault(data173ab, 1.302325581,0.634883721,0.4875)
             data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -477,7 +478,7 @@ for mod in model_ls:
 
             path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
 
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
+            data173a, Pe, Se = getfault(-86.99, strike173a, dip, rake)
             data173a = autofault(data173a, 0.701570681,1.015706806,1.447761194)
             data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -490,7 +491,7 @@ for mod in model_ls:
             #-----S0235b-----
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
 
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-101.62, strike235b, dip, rake)
             data235b = autofault(data235b, 1.134730539,0.45508982,0.401055409)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -502,7 +503,7 @@ for mod in model_ls:
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
 
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
+            data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
             data325a = autofault(data325a,0.395437262,0.539923954,1.365384615)
             data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -514,7 +515,7 @@ for mod in model_ls:
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
 
-            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab, Pe, Se = getfault(-71.33, strike325ab, dip, rake)
             data325ab = autofault(data325ab,0.983606557,0.636612022,0.647222222)
             data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -526,7 +527,7 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
 
-            data173ab, Pe, Se = getfault(-91.38, strike173ab, dip, rake)
+            data173ab, Pe, Se = getfault(-91.39, strike173ab, dip, rake)
             data173ab = autofault(data173ab,1.393034826,0.701492537,0.503571429)
             data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -614,7 +615,7 @@ for mod in model_ls:
 
             path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
 
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
+            data173a, Pe, Se = getfault(-86.99, strike173a, dip, rake)
             data173a = autofault(data173a,0.626168224,0.831775701,1.328358209)
             data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -627,7 +628,7 @@ for mod in model_ls:
             #-----S0235b-----
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
 
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-101.62, strike235b, dip, rake)
             data235b = autofault(data235b,1.035519126,0.43715847,0.422163588)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -639,7 +640,7 @@ for mod in model_ls:
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
 
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
+            data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
             data325a = autofault(data325a,1.035519126,0.43715847,0.422163588)
             data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -651,7 +652,7 @@ for mod in model_ls:
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
 
-            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab, Pe, Se = getfault(-71.33, strike325ab, dip, rake)
             data325ab = autofault(data325ab,1.005586592,0.656424581,0.652777778)
             data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -663,7 +664,7 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
 
-            data173ab, Pe, Se = getfault(-91.38, strike173ab, dip, rake)
+            data173ab, Pe, Se = getfault(-91.39, strike173ab, dip, rake)
             data173ab = autofault(data173ab,1.696969697,0.742424242,0.4375)
             data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -738,7 +739,7 @@ for mod in model_ls:
 
             path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
 
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
+            data173a, Pe, Se = getfault(-86.99, strike173a, dip, rake)
             data173a = autofault(data173a,0.72826087,1.081521739,1.485074627)
             data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -751,7 +752,7 @@ for mod in model_ls:
             #-----S0235b-----
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
 
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-101.62, strike235b, dip, rake)
             data235b = autofault(data235b,1.184375,0.434375,0.366754617)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -763,7 +764,7 @@ for mod in model_ls:
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
 
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
+            data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
             data325a = autofault(data325a,0.403100775,0.507751938,1.259615385)
             data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -775,7 +776,7 @@ for mod in model_ls:
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
 
-            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab, Pe, Se = getfault(-71.33, strike325ab, dip, rake)
             data325ab = autofault(data325ab,1.002785515,0.621169916,0.619444444)
             data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -787,7 +788,7 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
 
-            data173ab, Pe, Se = getfault(-91.38, strike173ab, dip, rake)
+            data173ab, Pe, Se = getfault(-91.39, strike173ab, dip, rake)
             data173ab = autofault(data173ab,1.330166271,0.688836105,0.517857143)
             data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -862,7 +863,7 @@ for mod in model_ls:
 
             path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
 
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
+            data173a, Pe, Se = getfault(-86.99, strike173a, dip, rake)
             data173a = autofault(data173a,0.732240437,1.081967213,1.47761194)
             data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -875,7 +876,7 @@ for mod in model_ls:
             #-----S0235b-----
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
 
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-101.62, strike235b, dip, rake)
             data235b = autofault(data235b,1.169753086,0.441358025,0.377308707)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -887,7 +888,7 @@ for mod in model_ls:
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
 
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
+            data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
             data325a = autofault(data325a,0.393939394,0.515151515,1.307692308)
             data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -899,7 +900,7 @@ for mod in model_ls:
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
 
-            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab, Pe, Se = getfault(-71.33, strike325ab, dip, rake)
             data325ab = autofault(data325ab,0.991735537,0.619834711,0.625)
             data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -911,7 +912,7 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
 
-            data173ab, Pe, Se = getfault(-91.38, strike173ab, dip, rake)
+            data173ab, Pe, Se = getfault(-91.39, strike173ab, dip, rake)
             data173ab = autofault(data173ab,1.355932203,0.702179177,0.517857143)
             data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -986,7 +987,7 @@ for mod in model_ls:
 
             path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
 
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip, rake)
+            data173a, Pe, Se = getfault(-86.99, strike173a, dip, rake)
             data173a = autofault(data173a,0.71657754,1.064171123,1.485074627)
             data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -999,7 +1000,7 @@ for mod in model_ls:
             #-----S0235b-----
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
 
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-101.62, strike235b, dip, rake)
             data235b = autofault(data235b,1.155487805,0.43597561,0.377308707)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -1011,7 +1012,7 @@ for mod in model_ls:
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
 
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip, rake)
+            data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
             data325a = autofault(data325a,0.398467433,0.521072797,1.307692308)
             data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -1023,7 +1024,7 @@ for mod in model_ls:
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
 
-            data325ab, Pe, Se = getfault(-70.73, strike325ab, dip, rake)
+            data325ab, Pe, Se = getfault(-71.33, strike325ab, dip, rake)
             data325ab = autofault(data325ab,0.989010989,0.618131868,0.625)
             data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -1035,7 +1036,7 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
 
-            data173ab, Pe, Se = getfault(-91.38, strike173ab, dip, rake)
+            data173ab, Pe, Se = getfault(-91.39, strike173ab, dip, rake)
             data173ab = autofault(data173ab,1.355932203,0.697336562,0.514285714)
             data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -1099,6 +1100,9 @@ for mod in model_ls:
 # exit_angles = pd.concat(edfs, ignore_index=True)
 # exit_angles.to_csv('exit_angles.csv', index=False)
 
+# aGudkova.to_csv('G_ia.csv', index=False)
+# eGudkova.to_csv('G_ea.csv', index=False)
+
 def fault_search(event):
     path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/faultdata/' + event + '/'
     source_files = sorted(Path(path).glob('*.csv'))
@@ -1121,4 +1125,4 @@ fault_search('235b')
 fault_search('325a')
 fault_search('325ab')
 fault_search('173ab')
-fault_search('183a')
+#fault_search('183a')

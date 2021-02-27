@@ -67,8 +67,8 @@ def Rpattern(fault,azimuth,incidence_angles):
     return AP,ASV,ASH
 
 
-#model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_ls = ['Gudkova']
+#model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
+model_ls = ['NewGudkova']
 
 
 #---get fault function--
@@ -582,7 +582,7 @@ for mod in model_ls:
         acoldCrust = pd.DataFrame.from_dict(incid)
         ecoldCrust = pd.DataFrame.from_dict(exit)
 
-    elif mod=='Gudkova':
+    elif mod=='NewGudkova':
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
@@ -686,7 +686,7 @@ for mod in model_ls:
             Se183a.append(Se)
 
 
-        incid = {'Model': 'Gudkova',
+        incid = {'Model': 'NewGudkova',
                 'Depth': Gudkova_depth,
                 '173a Pa': Pia173a,
                 '173a Sa': Sia173a,
@@ -701,7 +701,7 @@ for mod in model_ls:
                 '183a Pa': Pia183a,
                 '183a Sa': Sia183a}
 
-        exit = {'Model': 'Gudkova',
+        exit = {'Model': 'NewGudkova',
                 'Depth': Gudkova_depth,
                 '173a Pe': Pe173a,
                 '173a Se': Se173a,
@@ -716,8 +716,8 @@ for mod in model_ls:
                 '183a Pe': Pe183a,
                 '183a Se': Se183a}
 
-        aGudkova = pd.DataFrame.from_dict(incid)
-        eGudkova = pd.DataFrame.from_dict(exit)
+        aNewGudkova = pd.DataFrame.from_dict(incid)
+        eNewGudkova = pd.DataFrame.from_dict(exit)
 
     elif mod=='LFAK':
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
@@ -1092,16 +1092,16 @@ for mod in model_ls:
         eTAYAK = pd.DataFrame.from_dict(exit)
 
 
-# dfs = [aDWAK, aEH45, acoldCrust, aGudkova, aLFAK, aMAAK, aTAYAK]
+# dfs = [aDWAK, aEH45, acoldCrust, aNewGudkova, aLFAK, aMAAK, aTAYAK]
 # incid_angles = pd.concat(dfs, ignore_index=True)
 # incid_angles.to_csv('incident_angles.csv', index=False)
 #
-# edfs = [eDWAK, eEH45, ecoldCrust, eGudkova, eLFAK, eMAAK, eTAYAK]
+# edfs = [eDWAK, eEH45, ecoldCrust, eNewGudkova, eLFAK, eMAAK, eTAYAK]
 # exit_angles = pd.concat(edfs, ignore_index=True)
 # exit_angles.to_csv('exit_angles.csv', index=False)
 
-# aGudkova.to_csv('G_ia.csv', index=False)
-# eGudkova.to_csv('G_ea.csv', index=False)
+aNewGudkova.to_csv('NewG_ia.csv', index=False)
+eNewGudkova.to_csv('NewG_ea.csv', index=False)
 
 def fault_search(event):
     path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/faultdata/' + event + '/'

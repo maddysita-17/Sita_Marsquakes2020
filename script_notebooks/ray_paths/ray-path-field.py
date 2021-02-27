@@ -66,7 +66,7 @@ def Rpattern(fault,azimuth,incidence_angles):
     return AP,ASV,ASH
 
 
-model_ls = ['Gudkova']
+model_ls = ['NewGudkova']
 
 #---get fault function--
 def getfault(st, dp, rk):
@@ -142,25 +142,25 @@ def eventbuild(event, dist):
 
 
 
-strike173a = [150]
+strike173a = [160]
 strike235b = [130]
-strike325a = [45]
-strike325ab = [90]
-strike173ab = []
+strike325a = [35]
+strike325ab = [35]
+strike173ab = [160]
 strike183a = [255]
 
 dip173a = [60]
 dip235b = [90]
-dip325a = [90]
-dip325ab = [80]
-dip173ab = []
+dip325a = [60]
+dip325ab = [60]
+dip173ab = [60]
 dip183a = [80]
 
 rake173a = [80]
 rake235b = [-90]
 rake325a = [-90]
 rake325ab = [90]
-rake173ab = []
+rake173ab = [80]
 rake183a = [-100]
 
 # Mars:
@@ -171,7 +171,7 @@ for mod in model_ls:
     mars = TauPyModel(model=mod)
 
     #--model velocity input---
-    if mod=='Gudkova':
+    if mod=='NewGudkova':
         Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
         Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
         Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
@@ -200,32 +200,32 @@ for mod in model_ls:
             else:
                 print("There is no computed velcocity at this depth")
 
-            #----S0173a----
-
-            path, Pp, Sp, Pa, Sa= eventbuild('173a', 29)
-
-            data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
-            data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
-
-            Pia173a.append(Pa)
-            Sia173a.append(Sa)
-            Pe173a.append(exit_ang)
-            Se173a.append(exit_ang)
-
-
-            #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27.5)
-
-            data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
-            data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
-
-            Pia235b.append(Pa)
-            Sia235b.append(Sa)
-            Pe235b.append(exit_ang)
-            Se235b.append(exit_ang)
-
+            # #----S0173a----
+            #
+            # path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.23)
+            #
+            # data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
+            # data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
+            #
+            # Pia173a.append(Pa)
+            # Sia173a.append(Sa)
+            # Pe173a.append(exit_ang)
+            # Se173a.append(exit_ang)
+            #
+            #
+            # #-----S0235b-----
+            # path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.45)
+            #
+            # data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
+            # data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
+            #
+            # Pia235b.append(Pa)
+            # Sia235b.append(Sa)
+            # Pe235b.append(exit_ang)
+            # Se235b.append(exit_ang)
+            #
             #---S0325a---
-            path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.5)
+            path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.2)
 
             data325a, exit_ang = getfault(strike325a, dip325a, rake325a)
             data325a.to_csv(path + 'S0325a_' + str(strike325a) +  str(dip325a) + str(rake325a) + '.csv', index=False)
@@ -234,42 +234,42 @@ for mod in model_ls:
             Sia325a.append(Sa)
             Pe325a.append(exit_ang)
             Se325a.append(exit_ang)
-
-            #---S0325ab---
-            path, Pp, Sp, Pa, Sa = eventbuild('325ab', 33.6)
-
-            data325ab, exit_ang = getfault(strike325ab, dip325ab, rake325ab)
-            data325ab.to_csv(path + 'S0325ab_' + str(strike325ab) +  str(dip325ab) +  str(rake325ab) + '.csv', index=False)
-
-            Pia325ab.append(Pa)
-            Sia325ab.append(Sa)
-            Pe325ab.append(exit_ang)
-            Se325ab.append(exit_ang)
+            #
+            # #---S0325ab---
+            # path, Pp, Sp, Pa, Sa = eventbuild('325ab', 38.2)
+            #
+            # data325ab, exit_ang = getfault(strike325ab, dip325ab, rake325ab)
+            # data325ab.to_csv(path + 'S0325ab_' + str(strike325ab) +  str(dip325ab) +  str(rake325ab) + '.csv', index=False)
+            #
+            # Pia325ab.append(Pa)
+            # Sia325ab.append(Sa)
+            # Pe325ab.append(exit_ang)
+            # Se325ab.append(exit_ang)
 
             # #----S0173ab----
-            # path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.3)
+            # path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.23)
             #
-            # data173ab, Pe, Se = getfault(-91.38, strike173ab, dip173ab, rake173ab)
+            # data173ab, exit_ang = getfault(strike173ab, dip173ab, rake173ab)
             # data173ab.to_csv(path + 'S0173ab_' + str(strike173ab) + str(dip173ab) + str(rake173ab) + '.csv', index=False)
             #
             # Pia173ab.append(Pa)
             # Sia173ab.append(Sa)
-            # Pe173ab.append(Pe)
-            # Se173ab.append(Se)
+            # Pe173ab.append(exit_ang)
+            # Se173ab.append(exit_ang)
 
-            #----S0183a----
-            path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
+            # #----S0183a----
+            # path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
+            #
+            # data183a, exit_ang = getfault(strike183a, dip183a, rake183a)
+            # data183a.to_csv(path + 'S0183a_' + str(strike183a) + str(dip183a) + str(rake183a) + '.csv', index=False)
+            #
+            # Pia183a.append(Pa)
+            # Sia183a.append(Sa)
+            # Pe183a.append(exit_ang)
+            # Se183a.append(exit_ang)
 
-            data183a, exit_ang = getfault(strike183a, dip183a, rake183a)
-            data183a.to_csv(path + 'S0183a_' + str(strike183a) + str(dip183a) + str(rake183a) + '.csv', index=False)
 
-            Pia183a.append(Pa)
-            Sia183a.append(Sa)
-            Pe183a.append(exit_ang)
-            Se183a.append(exit_ang)
-
-
-        incid = {'Model': 'Gudkova',
+        incid = {'Model': 'NewGudkova',
                 'Depth': Gudkova_depth,
                 '173a Pa': Pia173a,
                 '173a Sa': Sia173a,
@@ -279,12 +279,12 @@ for mod in model_ls:
                 '325a Sa': Sia325a,
                 '325ab Pa': Pia325ab,
                 '325ab Sa': Sia325ab,
-                # '173ab Pa': Pia173ab,
-                # '173ab Sa': Sia173ab,
-                '183a Pa': Pia183a,
-                '183a Sa': Sia183a}
+                '173ab Pa': Pia173ab,
+                '173ab Sa': Sia173ab}
+                # '183a Pa': Pia183a,
+                # '183a Sa': Sia183a}
 
-        exit = {'Model': 'Gudkova',
+        exit = {'Model': 'NewGudkova',
                 'Depth': Gudkova_depth,
                 '173a Pe': Pe173a,
                 '173a Se': Se173a,
@@ -294,13 +294,13 @@ for mod in model_ls:
                 '325a Se': Se325a,
                 '325ab Pe': Pe325ab,
                 '325ab Se': Se325ab,
-                # '173ab Pe': Pe173ab,
-                # '173ab Se': Se173ab,
-                '183a Pe': Pe183a,
-                '183a Se': Se183a}
+                '173ab Pe': Pe173ab,
+                '173ab Se': Se173ab}
+                # '183a Pe': Pe183a,
+                # '183a Se': Se183a}
 
-        aGudkova = pd.DataFrame.from_dict(incid)
-        eGudkova = pd.DataFrame.from_dict(exit)
+        aNewGudkova = pd.DataFrame.from_dict(incid)
+        eNewGudkova = pd.DataFrame.from_dict(exit)
 
 
 
@@ -430,10 +430,10 @@ for mod in model_ls:
         acoldCrust = pd.DataFrame.from_dict(incid)
         ecoldCrust = pd.DataFrame.from_dict(exit)
 
-dfs = [aGudkova]
-incid_angles = pd.concat(dfs, ignore_index=True)
-incid_angles.to_csv('incident_angles.csv', index=False)
-
-dfe = [eGudkova]
-exit_ang = pd.concat(dfe, ignore_index = True)
-exit_ang.to_csv('exit_angles.csv', index=False)
+# dfs = [aNewGudkova]
+# incid_angles = pd.concat(dfs, ignore_index=True)
+# incid_angles.to_csv('incident_angles.csv', index=False)
+#
+# dfe = [eNewGudkova]
+# exit_ang = pd.concat(dfe, ignore_index = True)
+# exit_ang.to_csv('exit_angles.csv', index=False)

@@ -3,6 +3,8 @@ import numpy as np
 #from obspy.taup import TauPyModel
 import pandas as pd
 
+path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps'
+
 # df = pd.read_csv('173a-35.csv')
 # print(df.head())
 #
@@ -41,17 +43,31 @@ def ratiosum(df, obs_SHSV, obs_PSV, obs_PSH):
     return df
 
 
-df173a = pd.read_csv('jan_173a-35.csv')
-df235b = pd.read_csv('jan_235b-35.csv')
-df325a = pd.read_csv('try2_325a-35.csv')
-df325ab = pd.read_csv('325ab-35.csv')
+df173a = pd.read_csv('S0173a_[160][60][80].csv')
+df235b = pd.read_csv('S0235b_[130][90][-90].csv')
+df325a = pd.read_csv('S0325a_[35][60][-90].csv')
+
+df325ab = pd.read_csv('S0325ab_[35][60][90].csv')
+df173ab = pd.read_csv('S0173ab_[130][90][-100].csv')
+
+# df325ab = pd.read_csv('S0325ab_[45][90][-90].csv')
+# df173ab = pd.read_csv('S0173ab_[160][60][80].csv')
+
 df183a = pd.read_csv('S0183a_[255][80][-100].csv')
 
-#gudkova model observed amplitude ratios from seismograms
-df173a = ratiosum(df173a, -0.626168224, -0.831775701, 1.328358209)
+# #gudkova model observed amplitude ratios from seismograms
+# df173a = ratiosum(df173a, -0.626168224, -0.831775701, 1.328358209)
+# df235b = ratiosum(df235b, 1.035519126, 0.43715847, 0.422163588)
+# df325a = ratiosum(df325a, -0.4, 0.584615385, -1.461538462)
+# df325ab = ratiosum(df325ab, -1.005586592, 0.656424581, -0.652777778)
+# df183a = ratiosum(df183a, 0.402906209, 0.911492734, 2.262295082)
+
+#gudkova model observed amplitude ratios from seismograms ignoring the signs of the amplitude ratios
+df173a = ratiosum(df173a, 0.626168224, 0.831775701, 1.328358209)
 df235b = ratiosum(df235b, 1.035519126, 0.43715847, 0.422163588)
-df325a = ratiosum(df325a, -0.4, 0.584615385, -1.461538462)
-df325ab = ratiosum(df325ab, -1.005586592, 0.656424581, -0.652777778)
+df325a = ratiosum(df325a, 0.4, 0.584615385, 1.461538462)
+df325ab = ratiosum(df325ab, 1.005586592, 0.656424581, 0.652777778)
+df173ab = ratiosum(df173ab, 1.696969697, 0.742424242, 0.4375)
 df183a = ratiosum(df183a, 0.402906209, 0.911492734, 2.262295082)
 
 
@@ -137,17 +153,22 @@ def contour_3r(df, az, plP, plS):
 #contour_2r(df235b, 274, 27, 26)
 #contour_3r(df235b, 274, 27, 26)
 
-#contour_sum(df325a, 300, 33, 31)
-#contour_1r(df325a, 300, 33, 31)
-#contour_2r(df325a, 300, 33, 31)
-#contour_3r(df325a, 300, 33, 31)
+contour_sum(df325a, 300, 33, 31)
+# contour_1r(df325a, 300, 33, 31)
+# contour_2r(df325a, 300, 33, 31)
+# contour_3r(df325a, 300, 33, 31)
 
 #contour_sum(df325ab, 290, 30, 28)
 #contour_1r(df325ab, 290, 30, 28)
 #contour_2r(df325ab, 290, 30, 28)
 #contour_3r(df325ab, 290, 30, 28)
 
-contour_sum(df183a, 247, 36, 33)
-contour_1r(df183a, 247, 36, 33)
-contour_2r(df183a, 247, 36, 33)
-contour_3r(df183a, 247, 36, 33)
+# contour_sum(df173ab, 268, 27, 26)
+# contour_1r(df173ab, 268, 27, 26)
+# contour_2r(df173ab, 268, 27, 26)
+# contour_3r(df173ab, 268, 27, 26)
+
+# contour_sum(df183a, 247, 36, 33)
+# contour_1r(df183a, 247, 36, 33)
+# contour_2r(df183a, 247, 36, 33)
+# contour_3r(df183a, 247, 36, 33)

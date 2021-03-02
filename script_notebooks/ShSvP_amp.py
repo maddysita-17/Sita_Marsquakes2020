@@ -96,8 +96,8 @@ hhe = stf[0].data
 hhn = stf[1].data
 hhz = stf[2].data
 
-#
-hhT,hhR = rotate(hhe,hhn,266)
+# bAz = 90 -> az = 90+180 = 270
+hhT,hhR = rotate(hhe,hhn,270)
 
 streamRT = stf.copy()
 streamRT[0].data = hhT
@@ -128,9 +128,10 @@ headerS = stS_og[0].stats
 
 
 #P-wave
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [28,56.5,19,1.8,30,27.5,26.5]
-model_Sangles = [24,58,19.5,2,26,24,23]
+model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
+# Gudkova -> P = 1.8, S = 2
+model_Pangles = [27.9,56.6,19.4,25.9,30.5,27.5,26.7]
+model_Sangles = [24,58,19.6,23.4,26.3,24,22.9]
 
 n = 0
 for a in model_Pangles:
@@ -158,7 +159,7 @@ for a in model_Sangles:
     stS_LQ[1].stats.component = 'Q'
     stS_LQ[2].stats.component = 'L'
 
-    #stS_LQ.plot(equal_scale=True);
+    stS_LQ.plot(equal_scale=True);
     n += 1
 
 
@@ -179,7 +180,8 @@ hhe = stf[0].data
 hhn = stf[1].data
 hhz = stf[2].data
 
-hhT,hhR = rotate(hhe,hhn,252)
+# bAz = 74 -> 74+180 = 254
+hhT,hhR = rotate(hhe,hhn,254)
 
 streamRT = stf.copy()
 streamRT[0].data = hhT
@@ -206,9 +208,10 @@ headerS = stS_og[0].stats
 
 
 #P-wave
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [28,57,19.5,1.9,30.5,27.5,27]
-model_Sangles = [24,58,20,2,26,24,23]
+model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
+# Gudkova -> P, 1.9, S = 2
+model_Pangles = [27.7,56.3,19.3,25.5,30.3,27.4,26.4]
+model_Sangles = [23.9,57.8,18.9,23.2,26.2,23.9,22.8]
 
 n = 0
 for a in model_Pangles:
@@ -256,6 +259,7 @@ hhe = stf[0].data
 hhn = stf[1].data
 hhz = stf[2].data
 
+#bAz = 123 -> 123+180 = 303
 hhT,hhR = rotate(hhe,hhn,303)
 
 streamRT = stf.copy()
@@ -283,9 +287,10 @@ headerS = stS_og[0].stats
 
 
 #P-wave
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [26.5,54,19,1.8,29,26,25]
-model_Sangles = [23,57,18.7,1.9,26,23.5,22]
+model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
+#Gudkova -> P =1.8, S=1.9
+model_Pangles = [26.6,54.4,18.8,24.4,29.3,26.1,25.3]
+model_Sangles = [23.3,57.1,18.7,22.4,25.9,23.5,22.2]
 
 n = 0
 for a in model_Pangles:
@@ -333,7 +338,8 @@ hhe = stf[0].data
 hhn = stf[1].data
 hhz = stf[2].data
 
-hhT,hhR = rotate(hhe,hhn,290)
+#bAz = 139 -> 139+180 = 319
+hhT,hhR = rotate(hhe,hhn,319)
 
 streamRT = stf.copy()
 streamRT[0].data = hhT
@@ -360,9 +366,10 @@ headerS = stS_og[0].stats
 
 
 #P-wave
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [27,55.6,19,1.8,29.8,27,26]
-model_Sangles = [24,57.6, 18.8,1.9,26,23.8,22.6]
+model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
+# Gudkova -> P=1.8, S=1.9
+model_Pangles = [26.6,54.4,18.8,24.4,29.3,26.1,25.3]
+model_Sangles = [23.3,57.1,18.7,22.4,25.9,23.5,22.2]
 
 n = 0
 for a in model_Pangles:
@@ -414,7 +421,7 @@ hhe = stf[0].data
 hhn = stf[1].data
 hhz = stf[2].data
 
-
+#bAz = 86 -> 86+180 = 266
 hhT,hhR = rotate(hhe,hhn,266)
 
 streamRT = stf.copy()
@@ -431,8 +438,8 @@ streamRT[1].stats.component = 'R'
 stP_og = streamRT.slice(starttime=begin-8,endtime=begin+20)
 stS_og = streamRT.slice(starttime=end-5, endtime=end+15)
 
-#stP_og.plot(equal_scale=True)
-#stS_og.plot(equal_scale=True)
+# stP_og.plot(equal_scale=True)
+# stS_og.plot(equal_scale=True)
 
 
 # In[7]:
@@ -446,9 +453,11 @@ headerS = stS_og[0].stats
 
 
 #P-wave
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'Gudkova', 'LFAK', 'MAAK', 'TAYAK']
-model_Pangles = [28,56.7,19.35,1.89,30.5,27.55,26.7]
-model_Sangles = [24,57.9,18.9,1.92,26.3,24,22.9 ]
+#no modeled incidence angles - 'EH45Tcold', 'EH45TcoldCrust1b',
+model_ls = ['DWAK', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
+#Gudkova -> P = 1.89, S = 1.92
+model_Pangles = [27.9,25.9,30.5,27.5,26.7]
+model_Sangles = [24.0,23.4,26.3,24.0,22.9]
 
 n = 0
 for a in model_Pangles:
@@ -461,7 +470,7 @@ for a in model_Pangles:
     stP_LQ[1].stats.component = 'Q'
     stP_LQ[2].stats.component = 'L'
 
-    #stP_LQ.plot(equal_scale=True);
+    stP_LQ.plot(equal_scale=True);
     n += 1
 
 #S-wave
@@ -476,7 +485,7 @@ for a in model_Sangles:
     stS_LQ[1].stats.component = 'Q'
     stS_LQ[2].stats.component = 'L'
 
-    #stS_LQ.plot(equal_scale=True);
+    stS_LQ.plot(equal_scale=True);
     n += 1
 
 

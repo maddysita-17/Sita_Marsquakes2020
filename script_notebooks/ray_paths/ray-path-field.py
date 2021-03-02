@@ -200,32 +200,32 @@ for mod in model_ls:
             else:
                 print("There is no computed velcocity at this depth")
 
-            # #----S0173a----
-            #
-            # path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.23)
-            #
-            # data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
-            # data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
-            #
-            # Pia173a.append(Pa)
-            # Sia173a.append(Sa)
-            # Pe173a.append(exit_ang)
-            # Se173a.append(exit_ang)
-            #
-            #
-            # #-----S0235b-----
-            # path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.45)
-            #
-            # data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
-            # data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
-            #
-            # Pia235b.append(Pa)
-            # Sia235b.append(Sa)
-            # Pe235b.append(exit_ang)
-            # Se235b.append(exit_ang)
+            #----S0173a----
+
+            path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.4)
+
+            data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
+            data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
+
+            Pia173a.append(Pa)
+            Sia173a.append(Sa)
+            Pe173a.append(exit_ang)
+            Se173a.append(exit_ang)
+
+
+            #-----S0235b-----
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+
+            data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
+            data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
+
+            Pia235b.append(Pa)
+            Sia235b.append(Sa)
+            Pe235b.append(exit_ang)
+            Se235b.append(exit_ang)
             #
             #---S0325a---
-            path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.2)
+            path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
 
             data325a, exit_ang = getfault(strike325a, dip325a, rake325a)
             data325a.to_csv(path + 'S0325a_' + str(strike325a) +  str(dip325a) + str(rake325a) + '.csv', index=False)
@@ -234,28 +234,28 @@ for mod in model_ls:
             Sia325a.append(Sa)
             Pe325a.append(exit_ang)
             Se325a.append(exit_ang)
-            #
-            # #---S0325ab---
-            # path, Pp, Sp, Pa, Sa = eventbuild('325ab', 38.2)
-            #
-            # data325ab, exit_ang = getfault(strike325ab, dip325ab, rake325ab)
-            # data325ab.to_csv(path + 'S0325ab_' + str(strike325ab) +  str(dip325ab) +  str(rake325ab) + '.csv', index=False)
-            #
-            # Pia325ab.append(Pa)
-            # Sia325ab.append(Sa)
-            # Pe325ab.append(exit_ang)
-            # Se325ab.append(exit_ang)
 
-            # #----S0173ab----
-            # path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.23)
-            #
-            # data173ab, exit_ang = getfault(strike173ab, dip173ab, rake173ab)
-            # data173ab.to_csv(path + 'S0173ab_' + str(strike173ab) + str(dip173ab) + str(rake173ab) + '.csv', index=False)
-            #
-            # Pia173ab.append(Pa)
-            # Sia173ab.append(Sa)
-            # Pe173ab.append(exit_ang)
-            # Se173ab.append(exit_ang)
+            #---S0325ab---
+            path, Pp, Sp, Pa, Sa = eventbuild('325ab', 38.4)
+
+            data325ab, exit_ang = getfault(strike325ab, dip325ab, rake325ab)
+            data325ab.to_csv(path + 'S0325ab_' + str(strike325ab) +  str(dip325ab) +  str(rake325ab) + '.csv', index=False)
+
+            Pia325ab.append(Pa)
+            Sia325ab.append(Sa)
+            Pe325ab.append(exit_ang)
+            Se325ab.append(exit_ang)
+
+            #----S0173ab----
+            path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
+
+            data173ab, exit_ang = getfault(strike173ab, dip173ab, rake173ab)
+            data173ab.to_csv(path + 'S0173ab_' + str(strike173ab) + str(dip173ab) + str(rake173ab) + '.csv', index=False)
+
+            Pia173ab.append(Pa)
+            Sia173ab.append(Sa)
+            Pe173ab.append(exit_ang)
+            Se173ab.append(exit_ang)
 
             # #----S0183a----
             # path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
@@ -302,133 +302,6 @@ for mod in model_ls:
         aNewGudkova = pd.DataFrame.from_dict(incid)
         eNewGudkova = pd.DataFrame.from_dict(exit)
 
-
-
-    elif mod=='EH45TcoldCrust1b':
-        Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
-        Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
-        Pia325a = []; Sia325a = []; Pe325a = []; Se325a = []
-        coldCrust_depth = [85, 75, 65, 55, 45, 35, 25, 15, 10, 5]
-        for depth in coldCrust_depth:
-            if depth <= 85 and depth > 80:
-                Pvelz = 7.00139; Svelz = 4.04225
-            elif depth <= 80 and depth > 75:
-                Pvelz = 6.97778; Svelz = 4.02862
-            elif depth <= 75 and depth > 70:
-                Pvelz = 6.95417; Svelz = 4.01499
-            elif depth <= 70 and depth > 66:
-                Pvelz = 6.93056; Svelz = 4.00136
-            elif depth <= 66 and depth > 61:
-                Pvelz = 6.90694; Svelz = 3.98773
-            elif depth <= 61 and depth > 56:
-                Pvelz = 6.88333; Svelz = 3.97409
-            elif depth <= 56 and depth > 51:
-                Pvelz = 6.85972; Svelz = 3.96046
-            elif depth <= 51 and depth > 47:
-                Pvelz = 6.83611; Svelz = 3.94683
-            elif depth <= 47 and depth > 42:
-                Pvelz = 5.69750; Svelz = 3.28945
-            elif depth <= 42 and depth > 37:
-                Pvelz = 5.66444; Svelz = 3.27037
-            elif depth <= 37 and depth > 33:
-                Pvelz = 5.63139; Svelz = 3.25128
-            elif depth <= 33 and depth > 28:
-                Pvelz = 5.59833; Svelz = 3.23220
-            elif depth <= 28 and depth > 23:
-                Pvelz = 5.56528; Svelz = 3.21311
-            elif depth <= 23 and depth > 18:
-                Pvelz = 5.53222; Svelz = 3.19403
-            elif depth <= 18 and depth > 14:
-                Pvelz = 5.49917; Svelz = 3.17495
-            elif depth <= 14 and depth > 9:
-                Pvelz = 5.46611; Svelz = 3.15586
-            elif depth <= 9 and depth > 4:
-                Pvelz = 5.43306; Svelz = 3.13678
-            else:
-                print("There is no computed velocity at this depth")
-
-            #----S0173a----
-            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=29, phase_list=["P", "S"])
-
-            #incident angle at the station
-            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
-            Pvel = radius*np.sin(np.radians(Pa))/Pp
-            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
-            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
-            Svel = radius*np.sin(np.radians(Sa))/Sp
-            print('Check: S surface velocity = ',Svel,' ?')
-
-            data173a, Pe, Se = getfault(-89.94, strike173a, dip173a, rake)
-            data173a.to_csv('173a-' + str(depth) + '.csv', index=False)
-
-            Pia173a.append(Pa)
-            Sia173a.append(Sa)
-            Pe173a.append(Pe)
-            Se173a.append(Se)
-
-
-            #-----S0235b-----
-            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=27.5, phase_list=["P", "S"])
-
-            #incident angle at the station
-            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
-            Pvel = radius*np.sin(np.radians(Pa))/Pp
-            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
-            try:
-                Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
-            except:
-                print('Within S-wave shadow zone')
-            Svel = radius*np.sin(np.radians(Sa))/Sp
-            print('Check: S surface velocity = ',Svel,' ?')
-
-            data235b, Pe, Se = getfault(-102.22, strike235b, dip235b, rake)
-            #data235b.to_csv('235b-' + str(depth) + '.csv', index=False)
-
-            Pia235b.append(Pa)
-            Sia235b.append(Sa)
-            Pe235b.append(Pe)
-            Se235b.append(Se)
-
-            #---S0325a---
-            mtimes = mars.get_travel_times(source_depth_in_km=depth, distance_in_degree=38.5, phase_list=["P", "S"])
-
-            #incident angle at the station
-            Pp = mtimes[0].ray_param; Pa = mtimes[0].incident_angle
-            Pvel = radius*np.sin(np.radians(Pa))/Pp
-            print('Check: P surface velocity = ',Pvel,' ?') #check w/ the model file of what the vel is at the surface
-            Sp = mtimes[1].ray_param; Sa = mtimes[1].incident_angle
-            Svel = radius*np.sin(np.radians(Sa))/Sp
-            print('Check: S surface velocity = ',Svel,' ?')
-
-            data325a, Pe, Se = getfault(-60.46, strike325a, dip325a, rake)
-            #data325a.to_csv('325a-' + str(depth) + '.csv', index=False)
-
-            Pia325a.append(Pa)
-            Sia325a.append(Sa)
-            Pe325a.append(Pe)
-            Se325a.append(Se)
-
-
-        incid = {'Model': 'EH45TcoldCrust1b',
-                'Depth': coldCrust_depth,
-                '173a Pa': Pia173a,
-                '173a Sa': Sia173a,
-                '235b Pa': Pia235b,
-                '235b Sa': Sia235b,
-                '325a Pa': Pia325a,
-                '325a Sa': Sia325a}
-
-        exit = {'Model': 'EH45TcoldCrust1b',
-                'Depth': coldCrust_depth,
-                '173a Pe': Pe173a,
-                '173a Se': Se173a,
-                '235b Pe': Pe235b,
-                '235b Se': Se235b,
-                '325a Pe': Pe325a,
-                '325a Se': Se325a}
-
-        acoldCrust = pd.DataFrame.from_dict(incid)
-        ecoldCrust = pd.DataFrame.from_dict(exit)
 
 # dfs = [aNewGudkova]
 # incid_angles = pd.concat(dfs, ignore_index=True)

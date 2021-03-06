@@ -3,7 +3,7 @@ import numpy as np
 #from obspy.taup import TauPyModel
 import pandas as pd
 
-path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps'
+path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
 
 # df = pd.read_csv('173a-35.csv')
 # print(df.head())
@@ -43,12 +43,12 @@ def ratiosum(df, obs_SHSV, obs_PSV, obs_PSH):
     return df
 
 
-df173a = pd.read_csv('S0173a_[155][60][80].csv')
-df235b = pd.read_csv('S0235b_[130][90][-90].csv')
-df325a = pd.read_csv('S0325a_[35][60][-90].csv')
+df173a = pd.read_csv(path + 'S0173a_[165][75][80].csv')
+df235b = pd.read_csv(path + 'S0235b_[115][85][-90].csv')
+df325a = pd.read_csv(path+ 'S0325a_[70][5][-40].csv')
 
-df325ab = pd.read_csv('S0325ab_[35][60][90].csv')
-df173ab = pd.read_csv('S0173ab_[130][90][-100].csv')
+df325ab = pd.read_csv(path + 'S0325ab_[198][70][80].csv')
+df173ab = pd.read_csv(path + 'S0173ab_[165][75][80].csv')
 
 #df183a = pd.read_csv('S0183a_[255][80][-100].csv')
 
@@ -82,7 +82,7 @@ def contour_sum(df, az, plP, plS):
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
     X, Y = np.meshgrid(X_unique, Y_unique)
-    levels = np.arange(0,2.5,0.1)
+    levels = np.arange(0,3,0.1)
     cp = plt.contourf(X, Y, Z, levels=levels, cmap='nipy_spectral')
     plt.colorbar(cp)
     plt.plot(az, plP, 'bo', label='P')
@@ -137,17 +137,17 @@ def contour_3r(df, az, plP, plS):
     plt.title('Ratio3 - P/SH')
     plt.show()
 
-contour_sum(df173a, 273, 27.4, 26)
+#contour_sum(df173a, 273, 27.4, 26)
 # contour_1r(df173a, 273, 27.4, 26)
 # contour_2r(df173a, 273, 27.4, 26)
 # contour_3r(df173a, 273, 27.4, 26)
 
-contour_sum(df235b, 259, 28.6, 26.9)
+#contour_sum(df235b, 259, 28.6, 26.9)
 #contour_1r(df235b, 259, 28.6, 26.9)
 #contour_2r(df235b, 259, 28.6, 26.9)
 #contour_3r(df235b, 259, 28.6, 26.9)
 
-contour_sum(df325a, 300, 32.9, 30.4)
+#contour_sum(df325a, 300, 32.9, 30.4)
 # contour_1r(df325a, 300, 32.9, 30.4)
 # contour_2r(df325a, 300, 32.9, 30.4)
 # contour_3r(df325a, 300, 32.9, 30.4)
@@ -157,7 +157,7 @@ contour_sum(df325ab, 315, 32.9, 30.4)
 #contour_2r(df325ab, 315, 32.9, 30.4)
 #contour_3r(df325ab, 315, 32.9, 30.4)
 
-contour_sum(df173ab, 269, 27.4, 26)
+#contour_sum(df173ab, 269, 27.4, 26)
 # contour_1r(df173ab, 269, 27.4, 26)
 # contour_2r(df173ab, 269, 27.4, 26)
 # contour_3r(df173ab, 269, 27.4, 26)

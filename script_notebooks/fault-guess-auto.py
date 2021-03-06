@@ -80,7 +80,8 @@ def getfault(az, st, dp, rk):
     ip, ij = exit angles in degrees for each model computed in the Rpattern function
     """
     strike_ls = []; dip_ls = []; rake_ls = []
-    P_ls = []; SH_ls =[]; SV_ls=[];
+    P_ls = []; SH_ls =[]; SV_ls=[]
+    exit_angP = []; exit_angS = []
     for strike in st:
         for dip in dp:
             for rake in rk:
@@ -94,6 +95,7 @@ def getfault(az, st, dp, rk):
 
                 iP = np.degrees(np.arcsin(Pvelz*Pp/radius))
                 jS = np.degrees(np.arcsin(Svelz*Sp/radius))
+                exit_angP.append(iP); exit_angS.append(jS)
 
                 P,SV,SH = Rpattern(fault,azimuth,[iP,jS])
                 scalefactor = (Pvelz/Svelz)**3
@@ -112,9 +114,11 @@ def getfault(az, st, dp, rk):
             'SV': SV_ls,
             'SH/SV': ratio1,
             'P/SV': ratio2,
-            'P/SH': ratio3}
+            'P/SH': ratio3,
+            'Plunge P': exit_angP,
+            'Plunge S': exit_angS}
 
-    df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH'])
+    df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH', 'Plunge P', 'Plunge S'])
     return df, iP, jS
 
 def eventbuild(event, dist):
@@ -133,38 +137,55 @@ def eventbuild(event, dist):
 
     return path, Pp, Sp, Pa, Sa
 
-def autofault(df, ratio1, ratio2, ratio3):
-    n = 0
-    for ratio in [ratio1, ratio2, ratio3]:
-        rmin = ratio - (0.1 * ratio)
-        rmax = ratio + (0.1 * ratio)
-        if n == 0:
-            ratio1df = df[abs(df['SH/SV'])>rmin]
-            ratio1df = ratio1df[abs(ratio1df['SH/SV'])<rmax]
-        elif n == 1:
-            ratio2df = df[abs(df['P/SV'])>rmin]
-            ratio2df = ratio2df[abs(ratio2df['P/SV'])<rmax]
-        elif n == 2:
-            ratio3df = df[abs(df['P/SH'])>rmin]
-            ratio3df = ratio3df[abs(ratio3df['P/SH'])<rmax]
-        n += 1
+def autofault(df, obs_SHSV, obs_PSV, obs_PSH):
+    # n = 0
+    # for ratio in [ratio1, ratio2, ratio3]:
+    #     rmin = ratio - (0.1 * ratio)
+    #     rmax = ratio + (0.1 * ratio)
+    #     if n == 0:
+    #         ratio1df = df[abs(df['SH/SV'])>rmin]
+    #         ratio1df = ratio1df[abs(ratio1df['SH/SV'])<rmax]
+    #     elif n == 1:
+    #         ratio2df = df[abs(df['P/SV'])>rmin]
+    #         ratio2df = ratio2df[abs(ratio2df['P/SV'])<rmax]
+    #     elif n == 2:
+    #         ratio3df = df[abs(df['P/SH'])>rmin]
+    #         ratio3df = ratio3df[abs(ratio3df['P/SH'])<rmax]
+    #     n += 1
+    #
+    # frames = [ratio1df, ratio2df, ratio3df]
+    # faults = pd.concat(frames)
 
-    frames = [ratio1df, ratio2df, ratio3df]
-    faults = pd.concat(frames)
+    SHSV = df['SH/SV']
+    PSV = df['P/SV']
+    PSH = df['P/SH']
+
+    ratio1_ls = [(np.arctan(obs_SHSV)-np.arctan(i))**2 for i in SHSV]
+    ratio2_ls = [(np.arctan(obs_PSV)-np.arctan(i))**2 for i in PSV]
+    ratio3_ls = [(np.arctan(obs_PSH)-np.arctan(i))**2 for i in PSH]
+
+    df['Ratio1'] = ratio1_ls
+    df['Ratio2'] = ratio2_ls
+    df['Ratio3'] = ratio3_ls
+
+    sum = df['Ratio1'] + df['Ratio2'] + df['Ratio3']
+    df['Sum'] = sum
+
+    faults = df[df['Sum']<= 0.1]
 
     return faults
 
-strike173a = [40,45,50,110,112,115,125,130,140,150,155,160]
-strike235b = [90,110,112,113,115,125,130,150,175]
-strike325a = [0,1,2,3,40,45,50,90,140,150,160]
-strike325ab = [0,1,2,3,40,45,50,85,90,100,140,150,160]
+strike173a = [*range(50, 170, 5)]
+strike235b = [*range(50, 170, 5)]
+strike325a = [*range(0, 100, 5)]
+strike325ab = [*range(0, 100, 5)]
 
-strike173ab = [40,45,50,110,112,115,125,130,140,150,155,160]
+strike173ab = [*range(50, 170, 5)]
 strike183a = [10,50,100,150,200,230,240,250,255,260,270]
 
 
-dip = [0, 20, 45, 60, 70, 80, 90]
-rake = [-100, -90, 45, 0, 45, 90, 100]
+dip = [*range(0,90,5)]
+rake = [*range(-100,100,10)]
 
 Pia173a = []; Sia173a = []; Pe173a = []; Se173a = []
 Pia235b = []; Sia235b = []; Pe235b = []; Se235b = []
@@ -1100,9 +1121,6 @@ edfs = [eDWAK, eEH45, ecoldCrust, eNewGudkova, eLFAK, eMAAK, eTAYAK]
 exit_angles = pd.concat(edfs, ignore_index=True)
 exit_angles.to_csv('exit_angles.csv', index=False)
 
-# aNewGudkova.to_csv('NewG_ia.csv', index=False)
-# eNewGudkova.to_csv('NewG_ea.csv', index=False)
-
 def fault_search(event):
     path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/faultdata/' + event + '/'
     source_files = sorted(Path(path).glob('*.csv'))
@@ -1125,4 +1143,4 @@ fault_search('235b')
 fault_search('325a')
 fault_search('325ab')
 fault_search('173ab')
-#fault_search('183a')
+fault_search('183a')

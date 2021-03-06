@@ -142,24 +142,24 @@ def eventbuild(event, dist):
 
 
 
-strike173a = [160]
-strike235b = [130]
-strike325a = [35]
-strike325ab = [35]
-strike173ab = [160]
+strike173a = [165]
+strike235b = [115]
+strike325a = [70]
+strike325ab = [198]
+strike173ab = [165]
 strike183a = [255]
 
-dip173a = [60]
-dip235b = [90]
-dip325a = [60]
-dip325ab = [60]
-dip173ab = [60]
+dip173a = [75]
+dip235b = [85]
+dip325a = [5]
+dip325ab = [70]
+dip173ab = [75]
 dip183a = [80]
 
 rake173a = [80]
 rake235b = [-90]
-rake325a = [-90]
-rake325ab = [90]
+rake325a = [-40]
+rake325ab = [80]
 rake173ab = [80]
 rake183a = [-100]
 
@@ -200,40 +200,41 @@ for mod in model_ls:
             else:
                 print("There is no computed velcocity at this depth")
 
-            #----S0173a----
-
-            path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.4)
-
-            data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
-            data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
-
-            Pia173a.append(Pa)
-            Sia173a.append(Sa)
-            Pe173a.append(exit_ang)
-            Se173a.append(exit_ang)
-
-
-            #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
-
-            data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
-            data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
-
-            Pia235b.append(Pa)
-            Sia235b.append(Sa)
-            Pe235b.append(exit_ang)
-            Se235b.append(exit_ang)
+            # #----S0173a----
             #
-            #---S0325a---
-            path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
+            # path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.4)
+            #
+            # data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
+            # path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
+            # data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
+            #
+            # Pia173a.append(Pa)
+            # Sia173a.append(Sa)
+            # Pe173a.append(exit_ang)
+            # Se173a.append(exit_ang)
 
-            data325a, exit_ang = getfault(strike325a, dip325a, rake325a)
-            data325a.to_csv(path + 'S0325a_' + str(strike325a) +  str(dip325a) + str(rake325a) + '.csv', index=False)
 
-            Pia325a.append(Pa)
-            Sia325a.append(Sa)
-            Pe325a.append(exit_ang)
-            Se325a.append(exit_ang)
+            # #-----S0235b-----
+            # path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            #
+            # data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
+            # data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
+            #
+            # Pia235b.append(Pa)
+            # Sia235b.append(Sa)
+            # Pe235b.append(exit_ang)
+            # Se235b.append(exit_ang)
+            #
+            # #---S0325a---
+            # path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
+            #
+            # data325a, exit_ang = getfault(strike325a, dip325a, rake325a)
+            # data325a.to_csv(path + 'S0325a_' + str(strike325a) +  str(dip325a) + str(rake325a) + '.csv', index=False)
+            #
+            # Pia325a.append(Pa)
+            # Sia325a.append(Sa)
+            # Pe325a.append(exit_ang)
+            # Se325a.append(exit_ang)
 
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 38.4)
@@ -245,17 +246,17 @@ for mod in model_ls:
             Sia325ab.append(Sa)
             Pe325ab.append(exit_ang)
             Se325ab.append(exit_ang)
-
-            #----S0173ab----
-            path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
-
-            data173ab, exit_ang = getfault(strike173ab, dip173ab, rake173ab)
-            data173ab.to_csv(path + 'S0173ab_' + str(strike173ab) + str(dip173ab) + str(rake173ab) + '.csv', index=False)
-
-            Pia173ab.append(Pa)
-            Sia173ab.append(Sa)
-            Pe173ab.append(exit_ang)
-            Se173ab.append(exit_ang)
+            #
+            # #----S0173ab----
+            # path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
+            #
+            # data173ab, exit_ang = getfault(strike173ab, dip173ab, rake173ab)
+            # data173ab.to_csv(path + 'S0173ab_' + str(strike173ab) + str(dip173ab) + str(rake173ab) + '.csv', index=False)
+            #
+            # Pia173ab.append(Pa)
+            # Sia173ab.append(Sa)
+            # Pe173ab.append(exit_ang)
+            # Se173ab.append(exit_ang)
 
             # #----S0183a----
             # path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
@@ -269,38 +270,38 @@ for mod in model_ls:
             # Se183a.append(exit_ang)
 
 
-        incid = {'Model': 'NewGudkova',
-                'Depth': Gudkova_depth,
-                '173a Pa': Pia173a,
-                '173a Sa': Sia173a,
-                '235b Pa': Pia235b,
-                '235b Sa': Sia235b,
-                '325a Pa': Pia325a,
-                '325a Sa': Sia325a,
-                '325ab Pa': Pia325ab,
-                '325ab Sa': Sia325ab,
-                '173ab Pa': Pia173ab,
-                '173ab Sa': Sia173ab}
-                # '183a Pa': Pia183a,
-                # '183a Sa': Sia183a}
-
-        exit = {'Model': 'NewGudkova',
-                'Depth': Gudkova_depth,
-                '173a Pe': Pe173a,
-                '173a Se': Se173a,
-                '235b Pe': Pe235b,
-                '235b Se': Se235b,
-                '325a Pe': Pe325a,
-                '325a Se': Se325a,
-                '325ab Pe': Pe325ab,
-                '325ab Se': Se325ab,
-                '173ab Pe': Pe173ab,
-                '173ab Se': Se173ab}
-                # '183a Pe': Pe183a,
-                # '183a Se': Se183a}
-
-        aNewGudkova = pd.DataFrame.from_dict(incid)
-        eNewGudkova = pd.DataFrame.from_dict(exit)
+        # incid = {'Model': 'NewGudkova',
+        #         'Depth': Gudkova_depth,
+        #         '173a Pa': Pia173a,
+        #         '173a Sa': Sia173a,
+        #         '235b Pa': Pia235b,
+        #         '235b Sa': Sia235b,
+        #         '325a Pa': Pia325a,
+        #         '325a Sa': Sia325a,
+        #         '325ab Pa': Pia325ab,
+        #         '325ab Sa': Sia325ab,
+        #         '173ab Pa': Pia173ab,
+        #         '173ab Sa': Sia173ab}
+        #         # '183a Pa': Pia183a,
+        #         # '183a Sa': Sia183a}
+        #
+        # exit = {'Model': 'NewGudkova',
+        #         'Depth': Gudkova_depth,
+        #         '173a Pe': Pe173a,
+        #         '173a Se': Se173a,
+        #         '235b Pe': Pe235b,
+        #         '235b Se': Se235b,
+        #         '325a Pe': Pe325a,
+        #         '325a Se': Se325a,
+        #         '325ab Pe': Pe325ab,
+        #         '325ab Se': Se325ab,
+        #         '173ab Pe': Pe173ab,
+        #         '173ab Se': Se173ab}
+        #         # '183a Pe': Pe183a,
+        #         # '183a Se': Se183a}
+        #
+        # aNewGudkova = pd.DataFrame.from_dict(incid)
+        # eNewGudkova = pd.DataFrame.from_dict(exit)
 
 
 # dfs = [aNewGudkova]

@@ -215,7 +215,7 @@ for mod in model_ls:
 
 
             # #-----S0235b-----
-            # path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            # path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
             #
             # data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
             # data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)

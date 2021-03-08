@@ -237,9 +237,9 @@ for mod in model_ls:
 
 
             #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
-            data235b, Pe, Se = getfault(-101.59, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
             data235b = autofault(data235b, 1.153892944, 0.24756691, 0.214549288)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -357,9 +357,9 @@ for mod in model_ls:
 
 
             #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
-            data235b, Pe, Se = getfault(-101.59, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
             data235b = autofault(data235b, 1.984020619, 0.270103093, 0.136139257)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -510,9 +510,9 @@ for mod in model_ls:
 
 
             #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
-            data235b, Pe, Se = getfault(-101.59, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
             data235b = autofault(data235b, 1.117008798, 0.248387097, 0.222368076)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -647,9 +647,9 @@ for mod in model_ls:
 
 
             #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
-            data235b, Pe, Se = getfault(-101.59, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
             data235b = autofault(data235b,1.172223922, 0.249311716, 0.212682672)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -771,9 +771,9 @@ for mod in model_ls:
 
 
             #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
-            data235b, Pe, Se = getfault(-101.59, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
             data235b = autofault(data235b,1.197116891, 0.245691006, 0.205235602)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -895,9 +895,9 @@ for mod in model_ls:
 
 
             #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
-            data235b, Pe, Se = getfault(-101.59, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
             data235b = autofault(data235b,1.155453149, 0.247004608, 0.213772933)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 
@@ -1019,9 +1019,9 @@ for mod in model_ls:
 
 
             #-----S0235b-----
-            path, Pp, Sp, Pa, Sa = eventbuild('235b', 30.6)
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
-            data235b, Pe, Se = getfault(-101.59, strike235b, dip, rake)
+            data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
             data235b = autofault(data235b,1.155684952, 0.248237818, 0.214797136)
             data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
 

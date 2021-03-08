@@ -190,11 +190,11 @@ def partmot(stream, event, Pwave, Swave, begin, end, bAz, ia_guess):
 partmot(s0235b,'235b',P235b, S235b, -4, 4, 74, 20)
 
 partmot(s0325a, '325a', P325a, S325a, -1, 3, 123, 20)
-partmot(s0325a,'325ab', P325a, S325a, 10, 14, 110, 20)
+partmot(s0325a,'325ab', P325a, S325a, 10, 14, 139, 15)
 
 # partmot(s0173a,'ALL 173a',P173a, S173a, -1, 8, 90, 81)
 partmot(s0173a, '173a', P173a, S173a, -1, 3, 90, 30)
-partmot(s0173a, '173ab', P173a, S173a, 4, 8, 90, 45)
+partmot(s0173a, '173ab', P173a, S173a, 4, 8, 86, 30)
 
 #partmot(s0183a, '183a', P183a, S183a, -5, 4, 89, 55)
 

@@ -68,7 +68,7 @@ def deltaz(deta2,di2):
 #S0235b should be at lat=10, long=160
 #S0172a should be at lat=5, long=162
 
-lat235, long235 = azdelt(30.6, 74)
+lat235, long235 = azdelt(27, 74)
 print(lat235, long235)
 d235, az235, baz235 = deltaz(lat235, long235)
 print(d235, az235, baz235)
@@ -108,8 +108,8 @@ print(d173ab, az173ab, baz173ab)
 # dist, baz (matches baz_calc.ipynb), az (input for fault-guess.py)
 
 #235b
-# 11.972771292657121 165.6368503873507
-# 30.600000000000012 74.0 -101.5914253669649
+# 11.226927235770733 162.0414752032048
+# 27.000000000000025 74.00000000000001 -102.31460970717406
 
 #173a
 # 3.959605944799909 164.09755205854992

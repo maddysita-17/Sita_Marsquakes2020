@@ -78,8 +78,8 @@ plt.rcParams.update(params)
 
 #---setting up subplots-----
 
-fig, axs = plt.subplots(4, 1, figsize=(10,5))
-for j in range(4):
+fig, axs = plt.subplots(3, 1, figsize=(10,5))
+for j in range(3):
     axs[j].tick_params(labelsize=6)
 iax = 0
 
@@ -87,7 +87,7 @@ iax = 0
 
 e = 'S0235b'
 ### 2019-07-26T12:16:15
-P235b = UTCDateTime('2019-07-26T12:18:58')
+P235b = UTCDateTime('2019-07-26T12:19:19')
 S235b = UTCDateTime('2019-07-26T12:22:05')
 start235b = P235b - 1*60 # 1 minute early
 end235b = P235b + 600
@@ -105,9 +105,7 @@ axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
 wfplot(e,stm,axs,iax,scale,shift,P235b)
 
 axs[iax].axvline(x=0, color='r', ls='--')
-axs[iax].axvline(x=20, color='b', ls='--')
-axs[iax].axvline(x=156,color='r', ls='--')
-axs[iax].axvline(x=187, color='b', ls='--')
+axs[iax].axvline(x=167, color='r', ls='--')
 #axs[iax].axis('off')
 
 iax += 1
@@ -165,33 +163,33 @@ axs[iax].axvline(x=243, color='b', ls='--')
 iax += 1
 
 
-#----- 183a -----
-e = 'S0183a'
-P183a = UTCDateTime('2019-06-03T02:27:49')
-S183a = UTCDateTime('2019-06-03T02:32:15')
-start183a = P183a - 1*60 # 1 minute early
-end183a = P183a + 600
-s0183a = waveforms(start183a, end183a, 600)
-
-scale = 1/1000
-
-#-----bandpassed data----
-stmp = s0183a.copy()
-stmp.taper(0.01,max_length=1)
-stmp.filter('bandpass',freqmin=0.125, freqmax=1.0,corners=4, zerophase=True)
-stm = stmp.slice(starttime=start183a,endtime=end183a)
-#axs[iax].set_prop_cycle(color=['#BF533B', '#D8802A', '#F0AC19'])
-axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
-wfplot(e,stm,axs,iax,scale,shift,P183a)
-
-axs[iax].axvline(x=0, color='r', ls='--')
-axs[iax].axvline(x=2, color='b', ls='--')
-axs[iax].axvline(x=266,color='r', ls='--')
-axs[iax].axvline(x=268, color='b', ls='--')
-#axs[iax].yaxis.set_visible(False)
-iax += 1
-
-for j in range(4):
+# #----- 183a -----
+# e = 'S0183a'
+# P183a = UTCDateTime('2019-06-03T02:27:49')
+# S183a = UTCDateTime('2019-06-03T02:32:15')
+# start183a = P183a - 1*60 # 1 minute early
+# end183a = P183a + 600
+# s0183a = waveforms(start183a, end183a, 600)
+#
+# scale = 1/1000
+#
+# #-----bandpassed data----
+# stmp = s0183a.copy()
+# stmp.taper(0.01,max_length=1)
+# stmp.filter('bandpass',freqmin=0.125, freqmax=1.0,corners=4, zerophase=True)
+# stm = stmp.slice(starttime=start183a,endtime=end183a)
+# #axs[iax].set_prop_cycle(color=['#BF533B', '#D8802A', '#F0AC19'])
+# axs[iax].set_prop_cycle(color=['k', 'k', 'k'])
+# wfplot(e,stm,axs,iax,scale,shift,P183a)
+#
+# axs[iax].axvline(x=0, color='r', ls='--')
+# axs[iax].axvline(x=2, color='b', ls='--')
+# axs[iax].axvline(x=266,color='r', ls='--')
+# axs[iax].axvline(x=268, color='b', ls='--')
+# #axs[iax].yaxis.set_visible(False)
+# iax += 1
+#
+for j in range(3):
     for item in [fig, axs[j]]:
         item.patch.set_visible(False)
     # for a in ('left', 'right', 'top', 'bottom'):

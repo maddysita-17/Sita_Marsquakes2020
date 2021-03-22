@@ -195,9 +195,9 @@ def partmot(stream, event, Pwave, Swave, begin, end, bAz, bAz2):
 
 #partmot(s0235b,'235b',P235b, S235b, -4, 4)
 
-# partmot(s0325a, 'ALL 325a', P325a, S325a, -1, 14, 123, 110)
-# partmot(s0325a,'325a',P325a, S325a, -1, 3, 123, 110)
-partmot(s0325a,'325ab', P325a, S325a, 10, 14, 123, 139)
+partmot(s0325a, 'ALL 325a', P325a, S325a, -1, 14, 123, 139)
+# partmot(s0325a,'325a',P325a, S325a, -1, 3, 123, 139)
+#partmot(s0325a,'325ab', P325a, S325a, 10, 14, 123, 139)
 
 # partmot(s0173a,'ALL 173a',P173a, S173a, -1, 8, 90, 81)
 # partmot(s0173a, '173a', P173a, S173a, -1, 3, 90, 81)

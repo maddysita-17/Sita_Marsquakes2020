@@ -5,25 +5,6 @@ import pandas as pd
 
 path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
 
-# df = pd.read_csv('173a-35.csv')
-# print(df.head())
-#
-# SHSV = df['SH/SV']
-# PSV = df['P/SV']
-# PSH = df['P/SH']
-#
-# ratio1_ls = [(-0.626168224-i)**2 for i in SHSV]
-# ratio2_ls = [(-0.831775701-i)**2 for i in PSV]
-# ratio3_ls = [(1.328358209-i)**2 for i in PSH]
-#
-# df['Ratio1'] = ratio1_ls
-# df['Ratio2'] = ratio2_ls
-# df['Ratio3'] = ratio3_ls
-#
-# sum = df['Ratio1'] + df['Ratio2'] + df['Ratio3']
-# df['Sum'] = sum
-# print(df)
-
 def ratiosum(df, obs_SHSV, obs_PSV, obs_PSH):
     SHSV = df['SH/SV']
     PSV = df['P/SV']
@@ -47,8 +28,8 @@ df173a = pd.read_csv(path + 'S0173a_[165][75][80].csv')
 df235b = pd.read_csv(path + 'S0235b_[115][85][-90].csv')
 df325a = pd.read_csv(path+ 'S0325a_[70][5][-40].csv')
 
-df325ab = pd.read_csv(path + 'S0325ab_[198][70][80].csv')
-df173ab = pd.read_csv(path + 'S0173ab_[165][75][80].csv')
+df325ab = pd.read_csv(path + 'S0325ab_[70][5][-40].csv')
+df173ab = pd.read_csv(path + 'S0173ab_[130][85][30].csv')
 
 #df183a = pd.read_csv('S0183a_[255][80][-100].csv')
 
@@ -77,7 +58,7 @@ df173ab = ratiosum(df173ab, 1.354580708, 0.813378575, 0.600465199)
 # print(min)
 
 
-def contour_sum(df, az, plP, plS):
+def contour_sum(df, az, plP):
     Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Sum').T.values
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
@@ -87,12 +68,10 @@ def contour_sum(df, az, plP, plS):
     plt.colorbar(cp)
     plt.plot(az, plP, 'bo', label='P')
     plt.annotate('P', (az, plP+1))
-    plt.plot(az, plS, 'ro', label='S')
-    plt.annotate('S', (az, plS+1))
     plt.title('Sum')
     plt.show()
 
-def contour_1r(df, az, plP, plS):
+def contour_1r(df, az, plP):
     Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio1').T.values
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
@@ -102,12 +81,10 @@ def contour_1r(df, az, plP, plS):
     plt.colorbar(cp)
     plt.plot(az, plP, 'bo', label='P')
     plt.annotate('P', (az, plP+1))
-    plt.plot(az, plS, 'ro', label='S')
-    plt.annotate('S', (az, plS+1))
     plt.title('Ratio1 - SH/SV')
     plt.show()
 
-def contour_2r(df, az, plP, plS):
+def contour_2r(df, az, plP):
     Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio2').T.values
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
@@ -117,12 +94,10 @@ def contour_2r(df, az, plP, plS):
     plt.colorbar(cp)
     plt.plot(az, plP, 'bo', label='P')
     plt.annotate('P', (az, plP+1))
-    plt.plot(az, plS, 'ro', label='S')
-    plt.annotate('S', (az, plS+1))
     plt.title('Ratio2 - P/SV')
     plt.show()
 
-def contour_3r(df, az, plP, plS):
+def contour_3r(df, az, plP):
     Z = df.pivot_table(index='Azimuth', columns='Plunge', values='Ratio3').T.values
     X_unique = np.sort(df.Azimuth.unique())
     Y_unique = np.sort(df.Plunge.unique())
@@ -132,37 +107,30 @@ def contour_3r(df, az, plP, plS):
     plt.colorbar(cp)
     plt.plot(az, plP, 'bo', label='P')
     plt.annotate('P', (az, plP+1))
-    plt.plot(az, plS, 'ro', label='S')
-    plt.annotate('S', (az, plS+1))
     plt.title('Ratio3 - P/SH')
     plt.show()
 
-#contour_sum(df173a, 273, 27.4, 26)
+contour_sum(df173a, 273, 27.4)
 # contour_1r(df173a, 273, 27.4, 26)
 # contour_2r(df173a, 273, 27.4, 26)
 # contour_3r(df173a, 273, 27.4, 26)
 
-contour_sum(df235b, 258, 28.6, 26.9)
+contour_sum(df235b, 258, 28.6)
 #contour_1r(df235b, 258, 28.6, 26.9)
 #contour_2r(df235b, 258, 28.6, 26.9)
 #contour_3r(df235b, 258, 28.6, 26.9)
 
-#contour_sum(df325a, 300, 32.9, 30.4)
+contour_sum(df325a, 300, 32.9)
 # contour_1r(df325a, 300, 32.9, 30.4)
 # contour_2r(df325a, 300, 32.9, 30.4)
 # contour_3r(df325a, 300, 32.9, 30.4)
 
-#contour_sum(df325ab, 315, 32.9, 30.4)
+contour_sum(df325ab, 315, 32.9)
 #contour_1r(df325ab, 315, 32.9, 30.4)
 #contour_2r(df325ab, 315, 32.9, 30.4)
 #contour_3r(df325ab, 315, 32.9, 30.4)
 
-#contour_sum(df173ab, 269, 27.4, 26)
+contour_sum(df173ab, 269, 27.4)
 # contour_1r(df173ab, 269, 27.4, 26)
 # contour_2r(df173ab, 269, 27.4, 26)
 # contour_3r(df173ab, 269, 27.4, 26)
-
-# contour_sum(df183a, 247, 36, 33)
-# contour_1r(df183a, 247, 36, 33)
-# contour_2r(df183a, 247, 36, 33)
-# contour_3r(df183a, 247, 36, 33)

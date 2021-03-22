@@ -95,7 +95,7 @@ def getfault(st, dp, rk):
                         azimuth = a
 
                         iP = ex
-                        jS = ex
+                        jS = np.arcsin((Svelz * Sp)/radius)
 
                         P,SV,SH = Rpattern(fault,azimuth,[iP,jS])
                         scalefactor = (Pvelz/Svelz)**3
@@ -143,24 +143,27 @@ def eventbuild(event, dist):
 
 
 strike173a = [165]
-strike235b = [115]
-strike325a = [70]
-strike325ab = [198]
-strike173ab = [165]
-strike183a = [255]
-
 dip173a = [75]
-dip235b = [85]
-dip325a = [5]
-dip325ab = [70]
-dip173ab = [75]
-dip183a = [80]
-
 rake173a = [80]
+
+strike173ab = [130]
+dip173ab = [85]
+rake173ab = [30]
+
+strike235b = [115]
+dip235b = [85]
 rake235b = [-90]
+
+strike325a = [70]
+dip325a = [5]
 rake325a = [-40]
-rake325ab = [80]
-rake173ab = [80]
+
+strike325ab = [70]
+dip325ab = [5]
+rake325ab = [-40]
+
+strike183a = [255]
+dip183a = [80]
 rake183a = [-100]
 
 # Mars:
@@ -200,63 +203,67 @@ for mod in model_ls:
             else:
                 print("There is no computed velcocity at this depth")
 
-            # #----S0173a----
-            #
-            # path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.4)
-            #
-            # data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
-            # path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
-            # data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
-            #
-            # Pia173a.append(Pa)
-            # Sia173a.append(Sa)
-            # Pe173a.append(exit_ang)
-            # Se173a.append(exit_ang)
+            #----S0173a----
+
+            path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.4)
+
+            data173a, exit_ang = getfault(strike173a, dip173a, rake173a)
+            path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
+            data173a.to_csv(path + 'S0173a_' + str(strike173a) + str(dip173a) + str(rake173a) + '.csv', index=False)
+
+            Pia173a.append(Pa)
+            Sia173a.append(Sa)
+            Pe173a.append(exit_ang)
+            Se173a.append(exit_ang)
 
 
-            # #-----S0235b-----
-            # path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
-            #
-            # data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
-            # data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
-            #
-            # Pia235b.append(Pa)
-            # Sia235b.append(Sa)
-            # Pe235b.append(exit_ang)
-            # Se235b.append(exit_ang)
-            #
-            # #---S0325a---
-            # path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
-            #
-            # data325a, exit_ang = getfault(strike325a, dip325a, rake325a)
-            # data325a.to_csv(path + 'S0325a_' + str(strike325a) +  str(dip325a) + str(rake325a) + '.csv', index=False)
-            #
-            # Pia325a.append(Pa)
-            # Sia325a.append(Sa)
-            # Pe325a.append(exit_ang)
-            # Se325a.append(exit_ang)
+            #-----S0235b-----
+            path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
+
+            data235b, exit_ang = getfault(strike235b, dip235b, rake235b)
+            path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
+            data235b.to_csv(path + 'S0235b_' + str(strike235b) + str(dip235b) + str(rake235b) + '.csv', index=False)
+
+            Pia235b.append(Pa)
+            Sia235b.append(Sa)
+            Pe235b.append(exit_ang)
+            Se235b.append(exit_ang)
+
+            #---S0325a---
+            path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
+
+            data325a, exit_ang = getfault(strike325a, dip325a, rake325a)
+            path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
+            data325a.to_csv(path + 'S0325a_' + str(strike325a) +  str(dip325a) + str(rake325a) + '.csv', index=False)
+
+            Pia325a.append(Pa)
+            Sia325a.append(Sa)
+            Pe325a.append(exit_ang)
+            Se325a.append(exit_ang)
 
             #---S0325ab---
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 38.4)
 
             data325ab, exit_ang = getfault(strike325ab, dip325ab, rake325ab)
+            path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
             data325ab.to_csv(path + 'S0325ab_' + str(strike325ab) +  str(dip325ab) +  str(rake325ab) + '.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
             Pe325ab.append(exit_ang)
             Se325ab.append(exit_ang)
-            #
-            # #----S0173ab----
-            # path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
-            #
-            # data173ab, exit_ang = getfault(strike173ab, dip173ab, rake173ab)
-            # data173ab.to_csv(path + 'S0173ab_' + str(strike173ab) + str(dip173ab) + str(rake173ab) + '.csv', index=False)
-            #
-            # Pia173ab.append(Pa)
-            # Sia173ab.append(Sa)
-            # Pe173ab.append(exit_ang)
-            # Se173ab.append(exit_ang)
+
+            #----S0173ab----
+            path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
+
+            data173ab, exit_ang = getfault(strike173ab, dip173ab, rake173ab)
+            path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/ray_paths/plunge-trend-maps/csvs/'
+            data173ab.to_csv(path + 'S0173ab_' + str(strike173ab) + str(dip173ab) + str(rake173ab) + '.csv', index=False)
+
+            Pia173ab.append(Pa)
+            Sia173ab.append(Sa)
+            Pe173ab.append(exit_ang)
+            Se173ab.append(exit_ang)
 
             # #----S0183a----
             # path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)

@@ -74,6 +74,7 @@ d235, az235, baz235 = deltaz(lat235, long235)
 print(d235, az235, baz235)
 #code prints lat=11.33, long=162.5
 
+
 lat173, long173 = azdelt(28.4, 90)
 print(lat173, long173)
 d173, az173, baz173 = deltaz(lat173, long173)
@@ -98,6 +99,12 @@ d173ab, az173ab, baz173ab = deltaz(lat173ab, long173ab)
 print(d173ab, az173ab, baz173ab)
 #lat = 5.859355684400125, long = 164.0099159152684
 
+print('alt 235b')
+lat235, long235 = azdelt(15, 74)
+print(lat235, long235)
+d235, az235, baz235 = deltaz(lat235, long235)
+print(d235, az235, baz235)
+
 # lat183a, long183a = azdelt(43.4, 55)
 # print(lat183a, long183a)
 # d183a, az183a, baz183a = deltaz(lat183a, long183a)
@@ -110,6 +117,10 @@ print(d173ab, az173ab, baz173ab)
 #235b
 # 11.226927235770733 162.0414752032048
 # 27.000000000000025 74.00000000000001 -102.31460970717406
+
+#235b alt @ dist=15
+# 8.449986768393497 150.19106815416754
+# 15.000000000000018 73.99999999999999 -104.34713212886746
 
 #173a
 # 3.959605944799909 164.09755205854992

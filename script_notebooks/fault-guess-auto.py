@@ -60,6 +60,58 @@ def Rpattern(fault,azimuth,incidence_angles):
     iP = np.radians(incidence_angles[0])
     jS = np.radians(incidence_angles[1])
 
+    # AP = np.abs(sR*(3*np.cos(iP)**2 - 1) - qR*np.sin(2*iP) - pR*np.sin(iP)**2)
+    # ASV = np.abs(1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS))
+    # ASH = np.abs(-qL*np.cos(jS) - pL*np.sin(jS))
+
+    AP = sR*(3*np.cos(iP)**2 - 1) - qR*np.sin(2*iP) - pR*np.sin(iP)**2
+    ASV = 1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS)
+    ASH = -qL*np.cos(jS) - pL*np.sin(jS)
+
+    return AP,ASV,ASH
+
+def oldRpattern(fault,azimuth,incidence_angles):
+    """
+    Calculate predicted amplitudes of P, SV, and SH waves.
+    IN: fault = [strike, dip, rake]
+             = faulting mechanism, described by a list of strike, dip, and rake
+             (note, strike is measure clockwise from N, dip is measured positive downwards
+             (between 0 and 90) w.r.t. a horizontal that is 90 degrees clockwise from strike,
+             and rake is measured positive upwards (counterclockwise)
+        azimuth: azimuth with which ray path leaves source (clockwise from N)
+        incidence_angles = [i, j]
+              i = angle between P ray path & vertical in the source model layer
+              j = angle between S ray path & vertical in the source model layer
+    OUT: Amplitudes for P, SV, and SH waves
+    P as measured on L (~Z) component, SV measured on Q (~R) component, and SH measured on T component.
+    All input is in degrees.
+    """
+
+    strike,dip,rake = fault
+    a = azimuth; rela = strike - azimuth
+    sinlam = np.sin(np.radians(rake))
+    coslam = np.cos(np.radians(rake))
+    sind = np.sin(np.radians(dip))
+    cosd = np.cos(np.radians(dip))
+    cos2d = np.cos(np.radians(2*dip))
+    sinrela = np.sin(np.radians(rela))
+    cosrela = np.cos(np.radians(rela))
+    sin2rela = np.sin(np.radians(2*rela))
+    cos2rela = np.cos(np.radians(2*rela))
+
+    sR = sinlam*sind*cosd
+    qR = sinlam*cos2d*sinrela + coslam*cosd*cosrela
+    pR = coslam*sind*sin2rela - sinlam*sind*cosd*cos2rela
+    pL = sinlam*sind*cosd*sin2rela + coslam*sind*cos2rela
+    qL = -coslam*cosd*sinrela + sinlam*cos2d*cosrela
+
+    iP = np.radians(incidence_angles[0])
+    jS = np.radians(incidence_angles[1])
+
+    # AP = np.abs(sR*(3*np.cos(iP)**2 - 1) - qR*np.sin(2*iP) - pR*np.sin(iP)**2)
+    # ASV = np.abs(1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS))
+    # ASH = np.abs(-qL*np.cos(jS) - pL*np.sin(jS))
+
     AP = np.abs(sR*(3*np.cos(iP)**2 - 1) - qR*np.sin(2*iP) - pR*np.sin(iP)**2)
     ASV = np.abs(1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS))
     ASH = np.abs(-qL*np.cos(jS) - pL*np.sin(jS))
@@ -67,8 +119,8 @@ def Rpattern(fault,azimuth,incidence_angles):
     return AP,ASV,ASH
 
 
-model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
-# model_ls = ['NewGudkova']
+#model_ls = ['DWAK', 'EH45Tcold', 'EH45TcoldCrust1b', 'NewGudkova', 'LFAK', 'MAAK', 'TAYAK']
+model_ls = ['NewGudkova']
 
 
 #---get fault function--
@@ -121,6 +173,55 @@ def getfault(az, st, dp, rk):
     df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH', 'Plunge P', 'Plunge S'])
     return df, iP, jS
 
+def oldgetfault(az, st, dp, rk):
+    """
+    INPUT: az = azimuth in degrees from lat-long-az.py
+    st, dp, rk = strike, dip, rake from 3 separte lists
+    OUTPUT: df = data frame containing model outputs for P,SV,SH amplitudes at each depth input
+    ip, ij = exit angles in degrees for each model computed in the Rpattern function
+    """
+    strike_ls = []; dip_ls = []; rake_ls = []
+    P_ls = []; SH_ls =[]; SV_ls=[]
+    exit_angP = []; exit_angS = []
+    for strike in st:
+        for dip in dp:
+            for rake in rk:
+                strike_ls.append(strike)
+                dip_ls.append(dip)
+                rake_ls.append(rake)
+
+                fault = [strike, dip, rake]
+                mt = getmt(fault)
+                azimuth = az
+
+                iP = np.degrees(np.arcsin(Pvelz*Pp/radius))
+                jS = np.degrees(np.arcsin(Svelz*Sp/radius))
+                exit_angP.append(iP); exit_angS.append(jS)
+
+                P,SV,SH = oldRpattern(fault,azimuth,[iP,jS])
+                scalefactor = (Pvelz/Svelz)**3
+                SV,SH = SV*scalefactor, SH*scalefactor
+                P_ls.append(P); SH_ls.append(SH); SV_ls.append(SV)
+
+    ratio1 = [i / j for i, j in zip(SH_ls, SV_ls)]
+    ratio2 = [i / j for i, j in zip(P_ls, SV_ls)]
+    ratio3 = [i / j for i, j in zip(P_ls, SH_ls)]
+
+    data = {'Strike': strike_ls,
+            'Dip': dip_ls,
+            'Rake': rake_ls,
+            'P': P_ls,
+            'SH': SH_ls,
+            'SV': SV_ls,
+            'SH/SV': ratio1,
+            'P/SV': ratio2,
+            'P/SH': ratio3,
+            'Plunge P': exit_angP,
+            'Plunge S': exit_angS}
+
+    df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH', 'Plunge P', 'Plunge S'])
+    return df, iP, jS
+
 def eventbuild(event, dist):
     path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/faultdata/' + event + '/'
     mtimes = mars.get_travel_times(source_depth_in_km = depth, distance_in_degree = dist, phase_list=["P", "S"])
@@ -137,28 +238,14 @@ def eventbuild(event, dist):
 
     return path, Pp, Sp, Pa, Sa
 
-def autofault(df, obs_SHSV, obs_PSV, obs_PSH):
-    # n = 0
-    # for ratio in [ratio1, ratio2, ratio3]:
-    #     rmin = ratio - (0.1 * ratio)
-    #     rmax = ratio + (0.1 * ratio)
-    #     if n == 0:
-    #         ratio1df = df[abs(df['SH/SV'])>rmin]
-    #         ratio1df = ratio1df[abs(ratio1df['SH/SV'])<rmax]
-    #     elif n == 1:
-    #         ratio2df = df[abs(df['P/SV'])>rmin]
-    #         ratio2df = ratio2df[abs(ratio2df['P/SV'])<rmax]
-    #     elif n == 2:
-    #         ratio3df = df[abs(df['P/SH'])>rmin]
-    #         ratio3df = ratio3df[abs(ratio3df['P/SH'])<rmax]
-    #     n += 1
-    #
-    # frames = [ratio1df, ratio2df, ratio3df]
-    # faults = pd.concat(frames)
-
+def oldautofault(df, obs_SH, obs_SV, obs_P, chi):
     SHSV = df['SH/SV']
     PSV = df['P/SV']
     PSH = df['P/SH']
+
+    obs_SHSV = obs_SH/obs_SV
+    obs_PSV = obs_P/obs_SV
+    obs_PSH = obs_P/obs_SH
 
     ratio1_ls = [(np.arctan(obs_SHSV)-np.arctan(i))**2 for i in SHSV]
     ratio2_ls = [(np.arctan(obs_PSV)-np.arctan(i))**2 for i in PSV]
@@ -171,16 +258,30 @@ def autofault(df, obs_SHSV, obs_PSV, obs_PSH):
     sum = df['Ratio1'] + df['Ratio2'] + df['Ratio3']
     df['Sum'] = sum
 
-    faults = df[df['Sum']<= 0.1]
+    faults = df[df['Sum']<= chi]
 
     return faults
 
-strike173a = [*range(50, 170, 5)]
-strike235b = [*range(50, 170, 5)]
-strike325a = [*range(0, 100, 5)]
-strike325ab = [*range(0, 100, 5)]
+def autofault(df, obs_SH, obs_SV, obs_P, chi):
+    obs_SHSV = obs_SH/obs_SV
+    obs_PSV = obs_P/obs_SV
+    obs_PSH = obs_P/obs_SH
 
-strike173ab = [*range(50, 170, 5)]
+    df['Ratio1'] = (np.arctan2(obs_SH, obs_SV)-np.arctan2(df['SH'], df['SV']))**2
+    df['Ratio2'] = (np.arctan2(obs_P, obs_SV)-np.arctan2(df['P'], df['SV']))**2
+    df['Ratio3'] = (np.arctan2(obs_P, obs_SH)-np.arctan2(df['P'], df['SH']))**2
+
+    df['Sum'] = df['Ratio1'] + df['Ratio2'] + df['Ratio3']
+
+    faults = df[df['Sum']<chi]
+    return faults
+
+strike173a = [*range(0, 180, 5)]
+strike235b = [*range(0, 180, 5)]
+strike325a = [*range(0, 180, 5)]
+strike325ab = [*range(0, 180, 5)]
+
+strike173ab = [*range(0, 180, 5)]
 strike183a = [10,50,100,150,200,230,240,250,255,260,270]
 
 
@@ -194,10 +295,13 @@ Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
 
 Pia173ab = []; Sia173ab = []; Pe173ab = []; Se173ab = []
 Pia183a = []; Sia183a = []; Pe183a = []; Se183a = []
+Pia235bi = []; Sia235bi = []; Pe235bi = []; Se235bi = []
+
 
 # Mars:
 radius = 3389.5
 
+bbpath = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/beachballs/'
 
 for mod in model_ls:
     mars = TauPyModel(model=mod)
@@ -610,7 +714,8 @@ for mod in model_ls:
         Pia325ab = []; Sia325ab = []; Pe325ab = []; Se325ab = []
         Pia173ab = []; Sia173ab = []; Pe173ab = []; Se173ab = []
         Pia183a = []; Sia183a = []; Pe183a = []; Se183a = []
-        Gudkova_depth = [45, 35, 25, 15, 10, 5]
+        Pia235bi = []; Sia235bi = []; Pe235bi = []; Se235bi = []
+        Gudkova_depth = [35]
         for depth in Gudkova_depth:
             if depth <= 50 and depth > 42:
                 Pvelz = 7.12500; Svelz = 4.00300    #rounded
@@ -634,11 +739,11 @@ for mod in model_ls:
 
             #----S0173a----
 
-            path, Pp, Sp, Pa, Sa= eventbuild('173a', 28.4)
+            path, Pp, Sp, Pa, Sa = eventbuild('173a', 28.4)
 
             data173a, Pe, Se = getfault(-87.86, strike173a, dip, rake)
-            data173a = autofault(data173a,0.80657748, 1.110367893, 1.376641327)
-            data173a.to_csv(path + 'S0173a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
+            data173a = autofault(data173a, 144, -176, 195, 0.38)
+            data173a.to_csv(bbpath + 'S0173a.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)
@@ -650,20 +755,32 @@ for mod in model_ls:
             path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)
 
             data235b, Pe, Se = getfault(-102.31, strike235b, dip, rake)
-            data235b = autofault(data235b,1.172223922, 0.249311716, 0.212682672)
-            data235b.to_csv(path + 'S0235b_' + str(mod) + '_' + str(depth) + '.csv', index=False)
+            data235b = autofault(data235b,-318, -234, -80, 0.17)
+            data235b.to_csv(bbpath+ 'S0235b.csv', index=False)
 
             Pia235b.append(Pa)
             Sia235b.append(Sa)
             Pe235b.append(Pe)
             Se235b.append(Se)
 
+            #-----S0235b alt-----
+            path, Pp, Sp, Pa, Sa = eventbuild('235bi', 15)
+
+            data235bi, Pe, Se = getfault(-104.34, strike235b, dip, rake)
+            data235bi = autofault(data235bi,1, 1, -80, 2)
+            data235bi.to_csv(bbpath + 'S0235bi.csv', index=False)
+
+            Pia235bi.append(Pa)
+            Sia235bi.append(Sa)
+            Pe235bi.append(Pe)
+            Se235bi.append(Se)
+
             #---S0325a---
             path, Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
 
             data325a, Pe, Se = getfault(-60.38, strike325a, dip, rake)
-            data325a = autofault(data325a,0.399310873, 0.518759571, 1.299137105)
-            data325a.to_csv(path + 'S0325a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
+            data325a = autofault(data325a,1, 257, 132, 0.02)
+            data325a.to_csv(bbpath + 'S0325a.csv', index=False)
 
             Pia325a.append(Pa)
             Sia325a.append(Sa)
@@ -674,8 +791,8 @@ for mod in model_ls:
             path, Pp, Sp, Pa, Sa = eventbuild('325ab', 38.4)
 
             data325ab, Pe, Se = getfault(-45.69, strike325ab, dip, rake)
-            data325ab = autofault(data325ab,1.009103448, 0.631448276, 0.625751777)
-            data325ab.to_csv(path + 'S0325ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
+            data325ab = autofault(data325ab, 274, -315, 228, 0.02)
+            data325ab.to_csv(bbpath + 'S0325ab.csv', index=False)
 
             Pia325ab.append(Pa)
             Sia325ab.append(Sa)
@@ -685,28 +802,28 @@ for mod in model_ls:
             #----S0173ab----
             path, Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
 
-            data173ab, Pe, Se = getfault(-91.37, strike173ab, dip, rake)
-            data173ab = autofault(data173ab,1.354580708, 0.81337857, 0.600465199)
-            data173ab.to_csv(path + 'S0173ab_' + str(mod) + '_' + str(depth) + '.csv', index=False)
+            data173ab, Pe, Se = oldgetfault(-91.37, strike173ab, dip, rake)
+            data173ab = oldautofault(data173ab,534, 443, 337, 0.0024)
+            data173ab.to_csv(bbpath + 'S0173ab.csv', index=False)
 
             Pia173ab.append(Pa)
             Sia173ab.append(Sa)
             Pe173ab.append(Pe)
             Se173ab.append(Se)
-
-            # #----S0183a----
-            # path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
-            #
-            # data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
-            # data183a = autofault(data183a, 0.402906209,0.911492734,2.262295082)
-            # data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
-            #
-            # Pia183a.append(Pa)
-            # Sia183a.append(Sa)
-            # Pe183a.append(Pe)
-            # Se183a.append(Se)
-
-
+        #
+        #     # #----S0183a----
+        #     # path, Pp, Sp, Pa, Sa = eventbuild('183a', 43.4)
+        #     #
+        #     # data183a, Pe, Se = getfault(-113.9, strike183a, dip, rake)
+        #     # data183a = autofault(data183a, 0.402906209,0.911492734,2.262295082)
+        #     # data183a.to_csv(path + 'S0183a_' + str(mod) + '_' + str(depth) + '.csv', index=False)
+        #     #
+        #     # Pia183a.append(Pa)
+        #     # Sia183a.append(Sa)
+        #     # Pe183a.append(Pe)
+        #     # Se183a.append(Se)
+        #
+        #
         incid = {'Model': 'NewGudkova',
                 'Depth': Gudkova_depth,
                 '173a Pa': Pia173a,
@@ -1138,9 +1255,9 @@ def fault_search(event):
     path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/faultdata/'
     unique_faults.to_csv(path + "uniquefaults_" + event + '.csv', index=False)
 
-fault_search('173a')
-fault_search('235b')
-fault_search('325a')
-fault_search('325ab')
-fault_search('173ab')
-fault_search('183a')
+# fault_search('173a')
+# fault_search('235b')
+# fault_search('325a')
+# fault_search('325ab')
+# fault_search('173ab')
+# fault_search('183a')

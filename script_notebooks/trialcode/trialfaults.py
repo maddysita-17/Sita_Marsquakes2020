@@ -238,38 +238,18 @@ def eventbuild(event, dist):
 
     return path, Pp, Sp, Pa, Sa
 
-def oldautofault(df, obs_SH, obs_SV, obs_P, chi):
-    SHSV = df['SH/SV']
-    PSV = df['P/SV']
-    PSH = df['P/SH']
-
-    obs_SHSV = obs_SH/obs_SV
-    obs_PSV = obs_P/obs_SV
-    obs_PSH = obs_P/obs_SH
-
-    ratio1_ls = [(np.arctan(obs_SHSV)-np.arctan(i))**2 for i in SHSV]
-    ratio2_ls = [(np.arctan(obs_PSV)-np.arctan(i))**2 for i in PSV]
-    ratio3_ls = [(np.arctan(obs_PSH)-np.arctan(i))**2 for i in PSH]
-
-    df['Ratio1'] = ratio1_ls
-    df['Ratio2'] = ratio2_ls
-    df['Ratio3'] = ratio3_ls
-
-    sum = df['Ratio1'] + df['Ratio2'] + df['Ratio3']
-    df['Sum'] = sum
-
-    faults = df[df['Sum']<= chi]
-
-    return faults
-
 def autofault(df, obs_SH, obs_SV, obs_P, chi):
     obs_SHSV = obs_SH/obs_SV
     obs_PSV = obs_P/obs_SV
     obs_PSH = obs_P/obs_SH
 
-    df['Ratio1'] = (np.arctan2(obs_SH, obs_SV)-np.arctan2(df['SH'], df['SV']))**2
-    df['Ratio2'] = (np.arctan2(obs_P, obs_SV)-np.arctan2(df['P'], df['SV']))**2
-    df['Ratio3'] = (np.arctan2(obs_P, obs_SH)-np.arctan2(df['P'], df['SH']))**2
+    # df['Ratio1'] = (np.arctan2(obs_SH, obs_SV)-np.arctan2(df['SH'], df['SV']))**2
+    # df['Ratio2'] = (np.arctan2(obs_P, obs_SV)-np.arctan2(df['P'], df['SV']))**2
+    # df['Ratio3'] = (np.arctan2(obs_P, obs_SH)-np.arctan2(df['P'], df['SH']))**2
+
+    df['Ratio1'] = ((obs_SHSV/df['SH/SV'])-1)**2
+    df['Ratio2'] = ((obs_PSV/df['P/SV'])-1)**2
+    df['Ratio3'] = ((obs_PSH/df['P/SH'])-1)**2
 
     df['Sum'] = df['Ratio1'] + df['Ratio2'] + df['Ratio3']
 
@@ -743,7 +723,7 @@ for mod in model_ls:
 
             data173a, Pe, Se = getfault(-87.86, strike173a, dip, rake)
             data173a = autofault(data173a, 144, -176, 195, 0.08)
-            data173a.to_csv(bbpath + 'trail_S0173a.csv', index=False)
+            data173a.to_csv(bbpath + 'trial_S0173a.csv', index=False)
 
             Pia173a.append(Pa)
             Sia173a.append(Sa)

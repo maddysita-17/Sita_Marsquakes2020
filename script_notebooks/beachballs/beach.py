@@ -62,11 +62,11 @@ def bbb(event, data):
             n += 1
     plt.show()
 
-# S0173a = pd.read_csv('S0173a.csv')
-# bbb('S0173a', S0173a)
+S0173a = pd.read_csv('trial_S0173a.csv')
+bbb('S0173a', S0173a)
 
-S0173ab = pd.read_csv('S0173ab.csv')
-bbb('S0173ab', S0173ab)
+# S0173ab = pd.read_csv('S0173ab.csv')
+# bbb('S0173ab', S0173ab)
 
 # S0235b = pd.read_csv('S0235b.csv')
 # df1 = S0235b[S0235b['Sum']<= 0.16]
@@ -78,7 +78,7 @@ bbb('S0173ab', S0173ab)
 # S0235bi = pd.read_csv('S0235bi.csv')
 # bbb('S0235bi', S0235bi)
 #
-# S0325a = pd.read_csv('S0325a.csv')
+# S0325a = pd.read_csv('redo_S0325a.csv')
 # bbb('S0325a', S0325a)
 #
 # S0325ab = pd.read_csv('S0325ab.csv')

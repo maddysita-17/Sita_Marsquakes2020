@@ -68,7 +68,7 @@ def bbb(event, data):
             n += 1
     plt.show()
 
-# S0173a = pd.read_csv('S0173a_bb.csv')
+# S0173a = pd.read_csv('S0173a_possible_faults.csv')
 # bbb('S0173a', S0173a)
 
 # S0173ab = pd.read_csv('S0173ab_bb.csv')
@@ -81,11 +81,11 @@ def bbb(event, data):
 # alt_235b = pd.read_csv('altS0235b_bb.csv')
 # bbb('altS0235b', alt_235b)
 
-# S0325a = pd.read_csv('S0325a_bb.csv')
-# bbb('S0325a', S0325a)
+S0325a = pd.read_csv('newbeachballs_325a.csv')
+bbb('S0325a', S0325a)
 
-S0325ab = pd.read_csv('S0325ab_bb.csv')
-bbb('S0325ab', S0325ab)
+# S0325ab = pd.read_csv('S0325ab_bb.csv')
+# bbb('S0325ab', S0325ab)
 
 # data2 = pd.read_csv('newbeachballs_325ab.csv')
 # bbb('cut off = 0.3', data2)

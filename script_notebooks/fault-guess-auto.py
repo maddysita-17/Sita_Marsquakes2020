@@ -750,9 +750,6 @@ for mod in model_ls:
             Pe173a.append(Pe)
             Se173a.append(Se)
 
-            # trial173a = Rpattern(, -87.86, [Pa, Sa])
-            # print(trial173a)
-
 
         #     # #-----S0235b-----
         #     # path, Pp, Sp, Pa, Sa = eventbuild('235b', 27)

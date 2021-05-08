@@ -59,9 +59,13 @@ def Rpattern(fault,azimuth,incidence_angles):
     iP = np.radians(incidence_angles[0])
     jS = np.radians(incidence_angles[1])
 
-    AP = np.abs(sR*(3*np.cos(iP)**2 - 1) - qR*np.sin(2*iP) - pR*np.sin(iP)**2)
-    ASV = np.abs(1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS))
-    ASH = np.abs(-qL*np.cos(jS) - pL*np.sin(jS))
+    # AP = np.abs(sR*(3*np.cos(iP)**2 - 1) - qR*np.sin(2*iP) - pR*np.sin(iP)**2)
+    # ASV = np.abs(1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS))
+    # ASH = np.abs(-qL*np.cos(jS) - pL*np.sin(jS))
+
+    AP = sR*(3*np.cos(iP)**2 - 1) - qR*np.sin(2*iP) - pR*np.sin(iP)**2
+    ASV = 1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS)
+    ASH = -qL*np.cos(jS) - pL*np.sin(jS)
 
     return AP,ASV,ASH
 

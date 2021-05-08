@@ -13,15 +13,27 @@ def error(r_o, d, n, sig_d, sig_n):
     return t1*t2*t3
 
 def error2(n, d, sign, sigd):
-    a = (np.arctan2(n, d))**2
-    b = (d**2/(d**2 + n**2))**2
-    ab = a*b
+    if n==1 or d==1:
+        a = (np.arctan2(n, d))**2
+        b = (d**2/(d**2 + n**2))**2
+        ab = a*b
 
-    e_n = (sign**2)/(n**2)
-    e_d = (sigd**2)/(d**2)
-    c = e_n + e_d
+        t1 = ((n**2)/(d**2))*((sign**2)/(n**2))
+        t2 = ((sigd**2)/(d**2))*((n**2)/(d**2))
+        m = sqrt(t1+t2)
 
-    return ab*c
+        return ab*m
+
+    else:
+        a = (np.arctan2(n, d))**2
+        b = (d**2/(d**2 + n**2))**2
+        ab = a*b
+
+        e_n = (sign**2)/(n**2)
+        e_d = (sigd**2)/(d**2)
+        c = e_n + e_d
+
+        return ab*c
 
 def all_error(P, SH, SV, sigP, sigS):
     PSH = error2(P, SH, sigP, sigS)
@@ -49,11 +61,11 @@ P325a = 132; SH325a = 1; SV325a = 257
 all_error(P325a, SH325a, SV325a, 26, 93)
 
 print('325ab')
-P325ab = 228; SH325ab = 274; SV325ab = -315
+P325ab = 228; SH325ab = -360; SV325ab = 364
 all_error(P325ab, SH325ab, SV325ab, 26, 93)
 
 print('173ab')
-P173ab = 337; SH173ab = 534; SV173ab = 443
+P173ab = -286; SH173ab = 561; SV173ab = 407
 all_error(P173ab, SH173ab, SV173ab, 18, 47)
 
 # 173a
@@ -77,11 +89,11 @@ all_error(P173ab, SH173ab, SV173ab, 18, 47)
 # SHSV:  0.1309449311459457
 
 # 325ab
-# PSH:  0.02155961509790685
-# PSV:  0.2728481985242896
-# SHSV:  0.385884446106019
+# PSH:  0.2697542935333619
+# PSV:  0.012644457747317964
+# SHSV:  0.020518775419130133
 
 # 173ab
-# PSH:  0.0017181683728740044
-# PSV:  0.0023942139725638347
-# SHSV:  0.002435951317485678
+# PSH:  0.0015375149263553327
+# PSV:  0.0029083317634612115
+# SHSV:  0.0021530793596216697

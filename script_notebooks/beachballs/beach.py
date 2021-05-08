@@ -10,8 +10,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/beachballs/csvs/'
+oldp = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/beachballs/csvs/oldtrials/'
+
 def bbb(event, data):
-    print(len(data))
     faults = data.drop_duplicates(subset = ["Strike","Dip","Rake"])
     print(len(faults))
 
@@ -62,10 +64,10 @@ def bbb(event, data):
             n += 1
     plt.show()
 
-S0173a = pd.read_csv('trial_S0173a.csv')
+S0173a = pd.read_csv(path + 'new_S0173a.csv')
 bbb('S0173a', S0173a)
 
-# S0173ab = pd.read_csv('S0173ab.csv')
+# S0173ab = pd.read_csv(oldpath + 'S0173ab.csv')
 # bbb('S0173ab', S0173ab)
 
 # S0235b = pd.read_csv('S0235b.csv')

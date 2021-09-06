@@ -26,7 +26,7 @@ def azdp(v):
 
 def getplanes(xm):
     """
-    needs function azdp.
+    needs function azdp. - converts MT to DC
     IN: xm = list of moment tensor elements in Harvard order (GCMT)
     OUT: strike dip rake (twice). Also: P and T vectors
     """
@@ -91,6 +91,7 @@ def getplanes(xm):
     return 3*tr,clvd, m0,(azt,dpt),(azn,dpn),(azp, dpp), (st1,dip1,rake1), (st2,dip2,rake2)
 
 def getmt(fault):
+    #converts DC to MT
     rad = 180./np.pi; m0 = 1
     st,dp,rk = fault
 

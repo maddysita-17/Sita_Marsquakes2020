@@ -68,6 +68,9 @@ def Rpattern(fault,azimuth,incidence_angles):
     ASV = 1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS)
     ASH = -qL*np.cos(jS) - pL*np.sin(jS)
 
+    #emperical finding that the SH amplitude should be rotated by 180
+    ASH = ASH * -1
+
     return AP,ASV,ASH
 
 
@@ -111,14 +114,9 @@ def getfault(az, st, dp, rk):
             'Rake': rake_ls,
             'P': P_ls,
             'SH': SH_ls,
-            'SV': SV_ls,
-            'SH/SV': ratio1,
-            'P/SV': ratio2,
-            'P/SH': ratio3,
-            'Plunge P': exit_angP,
-            'Plunge S': exit_angS}
+            'SV': SV_ls}
 
-    df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH', 'SH/SV', 'P/SV', 'P/SH', 'Plunge P', 'Plunge S'])
+    df = pd.DataFrame(data, columns = ['Strike', 'Dip', 'Rake', 'P', 'SV', 'SH'])
     return df, iP, jS
 
 
@@ -137,19 +135,55 @@ def eventbuild(dept, dis):
 
     return Pp, Sp, Pa, Sa
 
-def autofault(df, obs_SH, obs_SV, obs_P, chi):
-    obs_SHSV = obs_SH/obs_SV
-    obs_PSV = obs_P/obs_SV
-    obs_PSH = obs_P/obs_SH
+def autofault(df, obs_P, obs_SV, obs_SH, errP, errS):
+    # hypothetically observed amplitudes P, SV, SH
+    vobserved = np.array([obs_P,obs_SV,obs_SH])
+    vobslength = np.linalg.norm(vobserved)
+    # and errors (always positive):
+    eobs = np.array([errP, errS, errS])
+    # normalized:
+    n = vobserved/vobslength
 
-    df['Ratio1'] = (np.arctan2(obs_SH, obs_SV)-np.arctan2(df['SH'], df['SV']))**2
-    df['Ratio2'] = (np.arctan2(obs_P, obs_SV)-np.arctan2(df['P'], df['SV']))**2
-    df['Ratio3'] = (np.arctan2(obs_P, obs_SH)-np.arctan2(df['P'], df['SH']))**2
+    eca = np.arctan(np.max([eobs[0]*(1-n[0]),eobs[1]*(1-n[1]),eobs[2]*(1-n[2])])/vobslength)
 
-    df['Sum'] = df['Ratio1'] + df['Ratio2'] + df['Ratio3']
+    print('cutoff value: ', eca)
 
-    faults = df[df['Sum']<chi]
-    return faults
+    #read in modeled csv file
+    xd = df['P']
+    yd = df['SV']
+    zd = df['SH']
+    ncalc = len(zd)
+
+    vcall = np.array([xd,yd,zd])
+    vca = vcall.T
+
+    # misfit:
+    mfd = np.zeros(ncalc)
+    mf3D = np.zeros(ncalc)
+    mf1 = np.zeros(ncalc)
+    mf2 = np.zeros(ncalc)
+    mf3 = np.zeros(ncalc)
+    select = []
+
+    for i in np.arange(ncalc):
+        # angle in 3 dimensions: (in radians)
+        mf3D[i] = np.arccos(np.dot(n,vca[i])/np.linalg.norm(vca[i]))   # should be valued between 0 and pi
+        if mf3D[i] < eca:
+            select.append(i)
+
+    st_ls = []; dp_ls =[]; rk_ls=[]; mf_ls = []
+    for i in select:
+        st = df.at[i,'Strike'] ; dp = df.at[i,'Dip'] ; rk = df.at[i,'Rake']
+        st_ls.append(st); dp_ls.append(dp); rk_ls.append(rk)
+        mf_ls.append(mf3D[i])
+
+    faults = {'Strike': st_ls,
+                'Dip': dp_ls,
+                'Rake': rk_ls,
+                'Misfit': mf_ls}
+    posfaults = pd.DataFrame.from_dict(faults)
+
+    return posfaults
 
 strike = [*range(0, 180, 5)]
 dip = [*range(0,90,5)]
@@ -172,5 +206,5 @@ dataf, iP, jS = getfault(azm, strike, dip, rake)
 print('incid P: ', iP)
 print('incid S: ', jS)
 
-ugandadf = autofault(dataf, -3721, -2415, 2108, 0.036)
-ugandadf.to_csv('uganda.csv', index=False)
+ugandadf = autofault(dataf, -0.89, -4.43, -7.01, 0.44, 1.12)
+ugandadf.to_csv('resp_uganda.csv', index=False)

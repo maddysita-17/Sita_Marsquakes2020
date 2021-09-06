@@ -1,6 +1,6 @@
 import numpy as np
 
-def azdelt(deld,az):
+def azdelt(lat1, long1, deld,az):
     """
     Ccompute destination lat,lon, given a starting lat,lon, bearing (azimuth), and a distance to travel
     Travel is along a great circle.
@@ -9,7 +9,7 @@ def azdelt(deld,az):
      OUT: lat2, lon2 : latitude and longitude of destination point (in degrees)
     """
 
-    teta1 = np.radians(66.9961); fi1 = np.radians(-50.62076)
+    teta1 = np.radians(lat1); fi1 = np.radians(long1)
     delta = np.radians(deld)
     azimuth = np.radians(az)
 
@@ -41,12 +41,12 @@ def azdelt(deld,az):
     return np.degrees(teta2), np.degrees(fi2)
 
 
-def deltaz(deta2,di2):
+def deltaz(deta1, di1, deta2,di2):
     '''
     IN: long1, lat1, long2, lat2
     OUT: distance in degrees, azimuth to go from point 1 to point 2 and azimuth to go from point 2 to point 1
     '''
-    teta1 = np.radians(66.9961); fi1 = np.radians(-50.62076)
+    teta1 = np.radians(deta1); fi1 = np.radians(di1)
     teta2 = np.radians(deta2); fi2 = np.radians(di2)
     c1 = np.cos(teta1); c2 = np.cos(teta2)
     s1 = np.sin(teta1); s2 = np.sin(teta2)
@@ -63,14 +63,26 @@ def deltaz(deta2,di2):
 
 
 
-#----location of the station - lat: 66.9961, long: -50.62076 -------
+#----location of the II JTS station - lat: 10.2908, long: -84.9525 -------
+#----location of the IU SFJD station - lat: 66.996, long: -50.621 -------
 #----location of earthquake  - lat: 44.465, long: -115.118-----------
 
-dist, bAz, az = deltaz(44.465, -115.118)
+dist, bAz, az = deltaz(10.2908, -84.9525, 44.465, -115.118)
 print('dist in deg: ', dist)
 print('az in deg: ', az)
 print('baz in deg: ', bAz)
 
-# dist in deg:  40.10610941680344
-# az in deg:  33.19718804031751
-# baz in deg:  -90.8095277466163
+#II JTS (Costa Rica Station)
+# dist in deg:  42.92547179578781
+# az in deg:  133.45079107030344
+# baz in deg:  -31.774430480348403
+
+dist, bAz, az = deltaz(66.996, -50.621, 44.465, -115.118)
+print('dist in deg: ', dist)
+print('az in deg: ', az)
+print('baz in deg: ', bAz)
+
+#IU SFJD (Greenland Station)
+# dist in deg:  40.10601422252901
+# az in deg:  33.197341197904514
+# baz in deg:  -90.80963151823761

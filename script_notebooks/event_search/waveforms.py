@@ -82,7 +82,8 @@ bpfilters = [
 [2,8],
 [1.0,4],
 [0.125,1.0],
-[0.03,0.125]
+# [0.03,0.125]
+[0.05, 0.125]
 ]
 
 # start figure
@@ -258,6 +259,210 @@ elif e_input == '183a':
     e = 'Event S0183a'
     P183a = UTCDateTime('2019-06-03T02:27:49')
     S183a = UTCDateTime('2019-06-03T02:32:15')
+    start183a = P183a - 1*60 # 1 minute early
+    end183a = S183a + 3*(S183a-P183a)
+    s0183a = waveforms(start183a, end183a, 600)
+
+    shift = 1; scale = 2
+
+    # plot raw data
+    stmp = s0183a.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stmp,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Raw Data')
+    iax += 1
+
+    # plot high-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('highpass',freq=bpfilters[0][1], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('High-Passed Data: 2-8Hz')
+    iax += 1
+
+    # plot band-passed data
+    for f in bpfilters:
+        stmp = s0183a.copy()
+        stmp.taper(0.01,max_length=1)
+        stmp.filter('bandpass',freqmin=f[0], freqmax=f[1],corners=4, zerophase=True)
+        stm = stmp.slice(starttime=start183a,endtime=end183a)
+        #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+        wfplot(stm,axs,iax,scale,shift,P183a)
+        for i in [0,1]:
+            axs[iax][i].set_title('Band-Passed Data: ' + str(f[0]) + '-' + str(f[1]) + 'Hz')
+        iax += 1
+
+    # plot low-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('lowpass',freq=bpfilters[-1][0], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Low-Passed Data: 0.03-0.125Hz')
+
+elif e_input == '185a':
+    e = 'Event S0185a'
+    P183a = UTCDateTime('2019-06-05T02:13:50')
+    S183a = UTCDateTime('2019-06-05T02:19:34')
+    start183a = P183a - 1*60 # 1 minute early
+    end183a = S183a + 3*(S183a-P183a)
+    s0183a = waveforms(start183a, end183a, 600)
+
+    shift = 1; scale = 2
+
+    # plot raw data
+    stmp = s0183a.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stmp,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Raw Data')
+    iax += 1
+
+    # plot high-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('highpass',freq=bpfilters[0][1], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('High-Passed Data: 2-8Hz')
+    iax += 1
+
+    # plot band-passed data
+    for f in bpfilters:
+        stmp = s0183a.copy()
+        stmp.taper(0.01,max_length=1)
+        stmp.filter('bandpass',freqmin=f[0], freqmax=f[1],corners=4, zerophase=True)
+        stm = stmp.slice(starttime=start183a,endtime=end183a)
+        #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+        wfplot(stm,axs,iax,scale,shift,P183a)
+        for i in [0,1]:
+            axs[iax][i].set_title('Band-Passed Data: ' + str(f[0]) + '-' + str(f[1]) + 'Hz')
+        iax += 1
+
+    # plot low-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('lowpass',freq=bpfilters[-1][0], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Low-Passed Data: 0.03-0.125Hz')
+
+elif e_input == '167b':
+    e = 'Event S0167b'
+    P183a = UTCDateTime('2019-05-17T19:30:04')
+    S183a = UTCDateTime('2019-05-17T19:38:33')
+    start183a = P183a - 1*60 # 1 minute early
+    end183a = S183a + 3*(S183a-P183a)
+    s0183a = waveforms(start183a, end183a, 600)
+
+    shift = 1; scale = 2
+
+    # plot raw data
+    stmp = s0183a.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stmp,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Raw Data')
+    iax += 1
+
+    # plot high-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('highpass',freq=bpfilters[0][1], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('High-Passed Data: 2-8Hz')
+    iax += 1
+
+    # plot band-passed data
+    for f in bpfilters:
+        stmp = s0183a.copy()
+        stmp.taper(0.01,max_length=1)
+        stmp.filter('bandpass',freqmin=f[0], freqmax=f[1],corners=4, zerophase=True)
+        stm = stmp.slice(starttime=start183a,endtime=end183a)
+        #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+        wfplot(stm,axs,iax,scale,shift,P183a)
+        for i in [0,1]:
+            axs[iax][i].set_title('Band-Passed Data: ' + str(f[0]) + '-' + str(f[1]) + 'Hz')
+        iax += 1
+
+    # plot low-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('lowpass',freq=bpfilters[-1][0], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Low-Passed Data: 0.03-0.125Hz')
+
+elif e_input == '407a':
+    e = 'Event S0407a'
+    P183a = UTCDateTime('2020-01-19T09:57:45')
+    S183a = UTCDateTime('2020-01-19T10:00:36')
+    start183a = P183a - 1*60 # 1 minute early
+    end183a = S183a + 3*(S183a-P183a)
+    s0183a = waveforms(start183a, end183a, 600)
+
+    shift = 1; scale = 2
+
+    # plot raw data
+    stmp = s0183a.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stmp,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Raw Data')
+    iax += 1
+
+    # plot high-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('highpass',freq=bpfilters[0][1], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('High-Passed Data: 2-8Hz')
+    iax += 1
+
+    # plot band-passed data
+    for f in bpfilters:
+        stmp = s0183a.copy()
+        stmp.taper(0.01,max_length=1)
+        stmp.filter('bandpass',freqmin=f[0], freqmax=f[1],corners=4, zerophase=True)
+        stm = stmp.slice(starttime=start183a,endtime=end183a)
+        #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+        wfplot(stm,axs,iax,scale,shift,P183a)
+        for i in [0,1]:
+            axs[iax][i].set_title('Band-Passed Data: ' + str(f[0]) + '-' + str(f[1]) + 'Hz')
+        iax += 1
+
+    # plot low-passed data
+    stmp = s0183a.copy()
+    stmp.taper(0.01,max_length=1)
+    stmp.filter('lowpass',freq=bpfilters[-1][0], corners=4, zerophase=True)
+    stm = stmp.slice(starttime=start183a,endtime=end183a)
+    #time_axis = np.arange(start183a-P183a,end183a-P183a+dt,dt)
+    wfplot(stm,axs,iax,scale,shift,P183a)
+    for i in [0,1]:
+        axs[iax][i].set_title('Low-Passed Data: 0.03-0.125Hz')
+
+elif e_input == '484b':
+    e = 'Event S0484b'
+    P183a = UTCDateTime('2020-04-07T08:52:24')
+    S183a = UTCDateTime('2020-04-07T08:55:29')
     start183a = P183a - 1*60 # 1 minute early
     end183a = S183a + 3*(S183a-P183a)
     s0183a = waveforms(start183a, end183a, 600)

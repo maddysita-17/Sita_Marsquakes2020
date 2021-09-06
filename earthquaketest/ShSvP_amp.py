@@ -10,9 +10,12 @@ from obspy.clients.fdsn import Client
 client = Client("IRIS")
 
 def waves_uganda(start, end, adjtime):
-    st = client.get_waveforms("II", "MBAR", "10", "B*", start-adjtime, end+adjtime)
-    st.detrend(type='simple')
-    return st
+    st_raw = client.get_waveforms("II", "MBAR", "10", "B*", start-adjtime, end+adjtime, attach_response=True)
+    st_disp = st_raw.copy()
+    st_disp.remove_response(output='DISP')
+    st_disp.plot()
+    return st_disp
+
 
 def rotate(c1,c2,a):
     """
@@ -92,31 +95,31 @@ stP_og = streamRT.slice(starttime=begin-20,endtime=begin+30)
 stS_og = streamRT.slice(starttime=end-20, endtime=end+30)
 
 
-st_Par = stf.slice(starttime=begin-2,endtime=begin)
-scale = 1/200
-hhe = scale * st_Par[0].data
-hhn = scale * st_Par[1].data
-
-tvall = []
-alpha = np.arange(0,360,1)
-
-# calculate Energy on channels oriented in the a direction, for all a in alpha:
-# angle a is relative to orientation of channels 1 and 2.
-# c1 is the x-axis, c2 is the y-axis
-for a in alpha:
-    hhT,hhR = rotate(hhe,hhn,a)
-    Tenergy = np.dot(hhT,hhT)
-    tvall.append(Tenergy)
-
-tval = np.array(tvall)
-mina = alpha[np.argmin(tval)]
-
-mina_guess = tval[np.where(alpha == mina)]
-mina_5 = tval[np.where(alpha == 6)]
-print(mina_5, mina_guess)
-
-#angle at which the energy is minimized
-print('optimal angle = ',mina,' or ',mina-180)
+# st_Par = stf.slice(starttime=begin-2,endtime=begin)
+# scale = 1/200
+# hhe = scale * st_Par[0].data
+# hhn = scale * st_Par[1].data
+#
+# tvall = []
+# alpha = np.arange(0,360,1)
+#
+# # calculate Energy on channels oriented in the a direction, for all a in alpha:
+# # angle a is relative to orientation of channels 1 and 2.
+# # c1 is the x-axis, c2 is the y-axis
+# for a in alpha:
+#     hhT,hhR = rotate(hhe,hhn,a)
+#     Tenergy = np.dot(hhT,hhT)
+#     tvall.append(Tenergy)
+#
+# tval = np.array(tvall)
+# mina = alpha[np.argmin(tval)]
+#
+# mina_guess = tval[np.where(alpha == mina)]
+# mina_5 = tval[np.where(alpha == 6)]
+# print(mina_5, mina_guess)
+#
+# #angle at which the energy is minimized
+# print('optimal angle = ',mina,' or ',mina-180)
 
 
 # In[7]:

@@ -68,6 +68,9 @@ def Rpattern(fault,azimuth,incidence_angles):
     ASV = 1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS)
     ASH = -qL*np.cos(jS) - pL*np.sin(jS)
 
+    #emperical finding that the SH amplitude should be rotated by 180
+    ASH = ASH * -1
+
     return AP,ASV,ASH
 
 
@@ -131,18 +134,18 @@ def eventbuild(dept, dis):
     Pvel = radius*np.sin(np.radians(Pa))/Pp
     print('Pvelz check: ', Pvel)
 
-    Sp = etimes[4].ray_param; Sa = etimes[4].incident_angle
+    Sp = etimes[1].ray_param; Sa = etimes[1].incident_angle
     Svel = radius*np.sin(np.radians(Sa))/Sp
     print('Svelz check: ', Svel)
 
     return Pp, Sp, Pa, Sa
 
-def autofault(df, obs_P, obs_SH, obs_SV, errP, errSV, errSH):
+def autofault(df, obs_P, obs_SV, obs_SH, errP, errS):
     # hypothetically observed amplitudes P, SV, SH
     vobserved = np.array([obs_P,obs_SV,obs_SH])
     vobslength = np.linalg.norm(vobserved)
     # and errors (always positive):
-    eobs = np.array([errP, errSV, errSH])
+    eobs = np.array([errP, errS, errS])
     # normalized:
     n = vobserved/vobslength
 
@@ -187,6 +190,10 @@ def autofault(df, obs_P, obs_SH, obs_SV, errP, errSV, errSH):
 
     return posfaults
 
+# strike = [172]
+# dip = [74]
+# rake = [-24]
+
 strike = [*range(0, 180, 5)]
 dip = [*range(0,90,5)]
 rake = [*range(-100,100,10)]
@@ -201,14 +208,19 @@ depth = 12
 Pvelz = 5.8000; Svelz = 3.3600
 
 #------event build at depth=10km-------
-dist = 1.17; azm = -154; bAzm = 26
+# dist = 42.92; azm = 133.45; bAzm = -31.77
+dist = 40.10; azm = 33.19; bAzm = -90.80
 
 Pp, Sp, Pa, Sa = eventbuild(depth, dist)
 dataf, iP, jS = getfault(azm, strike, dip, rake)
 print('incid P: ', iP)
 print('incid S: ', jS)
-#print(dataf)
+# print(dataf)
 
-#0.637633, -2.322515, -2.959668
-ugandadf = autofault(dataf, 0.637633, -2.322515, -2.959668, 0.2, 0.2, 0.2)
+mp = 0.06
+Perr = 0.024685 * mp
+ms = 0.015
+Serr = 1.434814 * mp
+
+ugandadf = autofault(dataf, obs_P = -0.024685, obs_SV = -1.434814, obs_SH = -2.327366, errP = Perr, errS = Serr)
 ugandadf.to_csv('backwards.csv', index=False)

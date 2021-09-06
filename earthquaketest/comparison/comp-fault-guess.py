@@ -68,6 +68,9 @@ def Rpattern(fault,azimuth,incidence_angles):
     ASV = 1.5*sR*np.sin(2*jS) + qR*np.cos(2*jS) + 0.5*pR*np.sin(2*jS)
     ASH = -qL*np.cos(jS) - pL*np.sin(jS)
 
+    #emperical finding that the SH amplitude should be rotated by 180
+    ASH = ASH * -1
+
     return AP,ASV,ASH
 
 
@@ -137,12 +140,12 @@ def eventbuild(dept, dis):
 
     return Pp, Sp, Pa, Sa
 
-def autofault(df, obs_P, obs_SH, obs_SV, errP, errSV, errSH):
-# hypothetically observed amplitudes P, SV, SH
+def autofault(df, obs_P, obs_SV, obs_SH, errP, errS):
+    # hypothetically observed amplitudes P, SV, SH
     vobserved = np.array([obs_P,obs_SV,obs_SH])
     vobslength = np.linalg.norm(vobserved)
     # and errors (always positive):
-    eobs = np.array([errP, errSV, errSH])
+    eobs = np.array([errP, errS, errS])
     # normalized:
     n = vobserved/vobslength
 
@@ -182,18 +185,117 @@ def autofault(df, obs_P, obs_SH, obs_SV, errP, errSV, errSH):
     faults = {'Strike': st_ls,
                 'Dip': dp_ls,
                 'Rake': rk_ls,
-                'Misfit Val': mf_ls}
+                'Misfit': mf_ls}
     posfaults = pd.DataFrame.from_dict(faults)
 
     return posfaults
 
-# strike = [*range(0, 180, 5)]
-# dip = [*range(0,90,5)]
-# rake = [*range(-100,100,10)]
+def misfittest(df, obs_P, obs_SV, obs_SH, errP, errS):
+    # hypothetically observed amplitudes P, SV, SH
+    vobserved = np.array([obs_P,obs_SV,obs_SH])
+    vobslength = np.linalg.norm(vobserved)
+    # and errors (always positive):
+    eobs = np.array([errP, errS, errS])
+    # normalized:
+    n = vobserved/vobslength
 
-strike = [172]
-dip = [74]
-rake = [-24]
+    eca = np.arctan(np.max([eobs[0]*(1-n[0]),eobs[1]*(1-n[1]),eobs[2]*(1-n[2])])/vobslength)
+
+    print('cutoff value: ', eca)
+
+    #read in modeled csv file
+    xd = df['P']
+    yd = df['SV']
+    zd = df['SH']
+    ncalc = len(zd)
+
+    vcall = np.array([xd,yd,zd])
+    vca = vcall.T
+
+    # misfit:
+    mfd = np.zeros(ncalc)
+    mf3D = np.zeros(ncalc)
+    mf1 = np.zeros(ncalc)
+    mf2 = np.zeros(ncalc)
+    mf3 = np.zeros(ncalc)
+    sum = np.zeros(ncalc)
+    select_sum = []
+    select_3D = []
+    select_d = []
+
+    for i in np.arange(ncalc):
+        # original arctan based misfits (3 different ones):
+        mf1[i] = np.sin(0.5*(np.arctan2(vca[i,0],vca[i,1]) - np.arctan2(n[0],n[1])))**2   # P/SV
+        mf2[i] = np.sin(0.5*(np.arctan2(vca[i,0],vca[i,2]) - np.arctan2(n[0],n[2])))**2   # P/SH
+        mf3[i] = np.sin(0.5*(np.arctan2(vca[i,1],vca[i,2]) - np.arctan2(n[1],n[2])))**2   # SV/SH
+        sum[i] = mf1[i] + mf2[i] + mf3[i]
+
+
+        # angle in 3 dimensions: (in radians)
+        mf3D[i] = np.arccos(np.dot(n,vca[i])/np.linalg.norm(vca[i]))   # should be valued between 0 and pi
+        if mf3D[i] < eca:
+            select_3D.append(i)
+
+        # shortest distance between calculated point (P,SV,SH) to observed ratio line:
+        mfd[i] = np.linalg.norm(vca[i] - np.dot(vca[i],n)*n)
+
+    sum_min = sum.min()
+    sum_eca = sum_min * 1.1
+    d_min = mfd.min()
+    d_eca = 1.1 * d_min
+
+    for i in np.arange(ncalc):
+        if sum[i] < sum_eca:
+            select_sum.append(i)
+        if mfd[i] < d_eca:
+            select_d.append(i)
+
+
+    st_ls = []; dp_ls =[]; rk_ls=[]; mf_ls = []
+    for i in select_3D:
+        st = df.at[i,'Strike'] ; dp = df.at[i,'Dip'] ; rk = df.at[i,'Rake']
+        st_ls.append(st); dp_ls.append(dp); rk_ls.append(rk)
+        mf_ls.append(mf3D[i])
+
+    faults = {'Strike': st_ls,
+                'Dip': dp_ls,
+                'Rake': rk_ls,
+                'Misfit Val': mf_ls}
+    posfaults_3D = pd.DataFrame.from_dict(faults)
+
+    st_ls = []; dp_ls =[]; rk_ls=[]; mf_ls = []
+    for i in select_sum:
+        st = df.at[i,'Strike'] ; dp = df.at[i,'Dip'] ; rk = df.at[i,'Rake']
+        st_ls.append(st); dp_ls.append(dp); rk_ls.append(rk)
+        mf_ls.append(sum[i])
+
+    faults = {'Strike': st_ls,
+                'Dip': dp_ls,
+                'Rake': rk_ls,
+                'Misfit Val': mf_ls}
+    posfaults_sum = pd.DataFrame.from_dict(faults)
+
+    st_ls = []; dp_ls =[]; rk_ls=[]; mf_ls = []
+    for i in select_d:
+        st = df.at[i,'Strike'] ; dp = df.at[i,'Dip'] ; rk = df.at[i,'Rake']
+        st_ls.append(st); dp_ls.append(dp); rk_ls.append(rk)
+        mf_ls.append(mfd[i])
+
+    faults = {'Strike': st_ls,
+                'Dip': dp_ls,
+                'Rake': rk_ls,
+                'Misfit Val': mf_ls}
+    posfaults_d = pd.DataFrame.from_dict(faults)
+
+    return posfaults_3D, posfaults_sum, posfaults_d
+
+strike = [*range(0, 181, 1)]
+dip = [*range(0,91,1)]
+rake = [*range(-100,100,2)]
+
+# strike = [172]
+# dip = [74]
+# rake = [-24]
 
 # Earth:
 radius = 6378.137
@@ -204,14 +306,32 @@ model = TauPyModel(model="iasp91")
 depth = 12
 Pvelz = 5.8000; Svelz = 3.3600
 
-#------event build at depth=10km-------
-dist = 40.1; azm = 33.2; bAzm = -90.81
+# #------event build at COSTA RICA ST-------
+# print('CostaRica')
+# dist = 42.92; azm = 133.45; bAzm = -31.77
+#
+# Pp, Sp, Pa, Sa = eventbuild(depth, dist)
+# dataf, iP, jS = getfault(azm, strike, dip, rake)
+# print('incid P: ', iP)
+# print('incid S: ', jS)
+# #print(dataf)
+# #
+# # # misfit3D, misfitsum, misfitd = misfittest(dataf, obs_P = -6, obs_SV = 14, obs_SH = 0, errP = 1, errS = 1)
+# # # misfit3D.to_csv('misfit3D.csv', index=False)
+# # # misfitsum.to_csv('misfitsum.csv', index=False)
+# # # misfitd.to_csv('misfitd.csv', index=False)
+# #
+# # misfit3D = autofault(dataf, obs_P = -6, obs_SV = 14, obs_SH = 0, errP = 1, errS = 1)
+# # misfit3D.to_csv('idaho_cr.csv', index=False)
+
+#-------event build at GREENLAND ST-------
+print('Greenland')
+dist = 40.10; azm = 33.19; bAzm = -90.80
 
 Pp, Sp, Pa, Sa = eventbuild(depth, dist)
 dataf, iP, jS = getfault(azm, strike, dip, rake)
 print('incid P: ', iP)
 print('incid S: ', jS)
-print(dataf)
 
-# ugandadf = autofault(dataf, 3705, -8715, 12829, 400, 800, 800)
-# ugandadf.to_csv('idaho.csv', index=False)
+misfit3D = autofault(dataf, obs_P = 8, obs_SV = -30, obs_SH = 15, errP = 1, errS = 1)
+misfit3D.to_csv('idaho_g.csv', index=False)

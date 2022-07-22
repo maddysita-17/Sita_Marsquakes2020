@@ -124,6 +124,7 @@ def getamp(azimuth, strike, dip, rake, rayp):
 def eventbuild(event, dist):
     # determine travel times using obspy
     mtimes = mars.get_travel_times(source_depth_in_km= depth, distance_in_degree=dist, phase_list=['P','S'])
+    # mtimes = mars.get_travel_times(source_depth_in_km= depth, distance_in_degree=dist, phase_list=['p','s'])
 
     # ray parameters & incidence angles at the station
     Pp = mtimes[0].ray_param ; Pa = mtimes[0].incident_angle
@@ -134,8 +135,8 @@ def eventbuild(event, dist):
         Sp = 0 ; Sa = 0
         print('Within S-wave shadow zone')
 
-    print('ray parameters: ', Pp, Sp)
-    print('incid angles: ', Pa, Sa)
+    # print('ray parameters: ', Pp, Sp)
+    # print('incid angles: ', Pa, Sa)
 
     return Pp, Sp, Pa, Sa
 
@@ -147,7 +148,7 @@ def autofault(df, obsP, obsSV, obsSH, errP, errS):
     eobs = np.array([errP, errS, errS])
     # normalized:
     norm = vobserved/vobslength
-    print('normalized array: ',norm)
+    # print('normalized array: ',norm)
 
     # defining cutoff value:
     eca_ls = [eobs[0]*(1-norm[0]),eobs[1]*(1-norm[1]),eobs[2]*(1-norm[2])]/vobslength
@@ -190,7 +191,7 @@ def autofault(df, obsP, obsSV, obsSH, errP, errS):
         st_ls.append(st); dp_ls.append(dp); rk_ls.append(rk)
 
         mf_ls.append(mf3d[i])
-        extra.append([depth,i,vca[i],norm])
+        extra.append([depth,mod,i,vca[i],norm])
 
     faults = {'Strike': st_ls,
                 'Dip': dp_ls,
@@ -203,10 +204,15 @@ def autofault(df, obsP, obsSV, obsSH, errP, errS):
     faults_sorted = posfaults.sort_values(by=['Misfit'])
     return faults_sorted
 
-def predictamp(data,az,rayp):
+def predictamp(data,az,rayp,print_state=False):
     for index, rows in data.iterrows():
         ampsdf, iP, jS = getamp(az, [rows.Strike], [rows.Dip], [rows.Rake], rayp)
-        ampsdf.to_csv('amps_'+ str(az)+'.csv', mode='a', header=False)
+        # ampsdf.to_csv('amps_'+ str(az)+'.csv', mode='a', header=False)
+
+        if print_state ==True:
+            print(ampsdf)
+        else:
+            pass
 
 
 # ---- FORWARD CALC (FROM MECH) -----
@@ -215,10 +221,12 @@ mechanism_dict = {
                     # 'S0173a': [[60,70,-90],],      #insight mech (march)
                     # 'S0235b': [[0,40,-80],],
 
-                    'S0173a':   [[162,71,56],],       #top mechs - NewGudkova @ 35km
-                    'S0173ab':  [[30,48,-12],],
-                    'S0235b':   [[34,69,-36],],
-                    'S0325ab':  [[16,1,76],],
+                    # 'S0173a':   [[162,71,56],],       #top mechs - NewGudkova @ 35km
+                    # 'S0173ab':  [[30,48,-12],],
+                    # 'S0235b':   [[34,69,-36],],
+                    # 'S0325ab':  [[16,1,76],],
+
+                    'S0235b': [[85,20,-90],[74,32,84]],      #insight mech (march)
                     }
 
 def forwardcalc(depth,mechdic,alt=False):
@@ -321,53 +329,68 @@ path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/'
 # depth = 35
 # Pvelz = 7.13900; Svelz = 4.01900
 
-# ------ FAULT PLANE LISTS -------
+# ------ FAULT PLANE LISTS -------      #-> 405,000 mechanisms
 strike_rang = [*range(0, 180, 2)]
-dip_rang = [*range(0,90,1)]
+dip_rang = [*range(0,90,2)]
 rake_rang = [*range(-100,100,2)]
 
-def eventoutput(depth,rank):
-    # ----------- S0173A ---------------
-    print('173a')
-    Pp, Sp, Pa, Sa = eventbuild('173a', 28.4)
-    data173a, Pe, Se = getamp(-87.86, strike_rang, dip_rang, rake_rang, [Pp, Sp])
-    # print('Exit Angles: ', Pe, Se)
-    data173a = autofault(data173a, -1.25, 0.955, -0.371, 0.024, 0.186)
-    data173a[:rank].to_csv('check173a.csv', mode='a', header=False)
-    predictamp(data173a[:rank],-87.86,[Pp,Sp])
+strike_325ab = [*range(0,40,4)]
+dip_325ab = [*range(0,15,4)]
+rake_325ab = [*range(50,100,4)]
 
-    #------------ S0173AB ---------------
-    print('173ab')
-    Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
-    data173ab, Pe, Se = getamp(-91.37, strike_rang, dip_rang, rake_rang, [Pp, Sp])
-    # print('Exit Angles: ', Pe, Se)
-    data173ab = autofault(data173ab, 1.09, -1.21, -3.26, 0.024, 0.186)
-    data173ab[:rank].to_csv('check173ab.csv', mode='a', header=False)
-    predictamp(data173ab[:rank],-91.37,[Pp,Sp])
+
+def eventoutput(depth,rank):
+    # # ----------- S0173A ---------------
+    # print('173a')
+    # Pp, Sp, Pa, Sa = eventbuild('173a', 28.4)
+    # data173a, Pe, Se = getamp(-87.86, strike_rang, dip_rang, rake_rang, [Pp, Sp])
+    # # print('Exit Angles: ', Pe, Se)
+    # data173a = autofault(data173a, -1.25, 0.955, -0.371, 0.024, 0.186)
+    # print(len(data173a))
+    # # data173a[:rank].to_csv('check173a.csv', mode='a', header=False)
+    # data173a.to_csv(path + 'csvs/ng173a.csv', mode='a', header=False)
+    # # predictamp(data173a[:rank],-87.86,[Pp,Sp])
+    #
+    # #------------ S0173AB ---------------
+    # print('173ab')
+    # Pp, Sp, Pa, Sa = eventbuild('173ab', 28.4)
+    # data173ab, Pe, Se = getamp(-91.37, strike_rang, dip_rang, rake_rang, [Pp, Sp])
+    # # print('Exit Angles: ', Pe, Se)
+    # data173ab = autofault(data173ab, 1.09, -1.21, -3.26, 0.024, 0.186)
+    # print(len(data173ab))
+    # data173ab.to_csv(path + 'csvs/ng173ab.csv', mode='a', header=False)
+    # # data173ab[:rank].to_csv('check173ab.csv', mode='a', header=False)
+    # # predictamp(data173ab[:rank],-91.37,[Pp,Sp])
 
     #----------- S0235B ------------------
     print('235b')
     Pp, Sp, Pa, Sa = eventbuild('235b', 27)
     data235b, Pe, Se = getamp(-102.31, strike_rang, dip_rang, rake_rang, [Pp, Sp])
     # print('Exit Angles: ', Pe, Se)
-    data235b = autofault(data235b, 0.360, -1.81, 0, 0.35, 0.105)
-    data235b[:rank].to_csv('check235b.csv', mode = 'a', header=False)
-    predictamp(data235b[:rank],-102.31,[Pp,Sp])
+    # data235b = autofault(data235b, 0.360, -1.81, 0, 0.35, 0.105)
+    data235b = autofault(data235b, 0.360, 3.46, -1.69, 0.35, 0.105)  #alt hypothesis
+    print(len(data235b))
+    data235b.to_csv(path + 'csvs/alt_ng235b.csv', mode='a', header=False)
+    # data235b[:rank].to_csv('check235b.csv', mode = 'a', header=False)
+    # predictamp(data235b[:rank],-102.31,[Pp,Sp])
 
-    #----------- S0325AB -------------------
-    print('325ab')
-    Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
-    data325ab, Pe, Se = getamp(-60.38, strike_rang, dip_rang, rake_rang, [Pp, Sp])
-    # print('Exit Angles: ', Pe, Se)
-    data325ab = autofault(data325ab,  -1.35, -4.08, 0, 1.0, 1.2)
-    data325ab[:rank].to_csv('check325ab.csv', mode = 'a', header=False)
-    predictamp(data325ab[:rank],-60.38,[Pp,Sp])
+    # #----------- S0325AB -------------------
+    # print('325ab')
+    # Pp, Sp, Pa, Sa = eventbuild('325a', 38.4)
+    # data325ab, Pe, Se = getamp(-60.38, strike_325ab, dip_325ab, rake_325ab, [Pp, Sp])
+    # # print('Exit Angles: ', Pe, Se)
+    # data325ab = autofault(data325ab,  -1.35, -4.08, 0, 1.0, 1.2)
+    # print(len(data325ab))
+    # data325ab.to_csv(path + 'csvs/ng325ab.csv', mode='a', header=False)
+    # # data325ab[:rank].to_csv('check325ab.csv', mode = 'a', header=False)
+    # # predictamp(data325ab[:rank],-60.38,[Pp,Sp])
     return
 
-#-------EVENT OUTPUT-----------
-# for mod in ['NewGudkova', 'TAYAK', 'MAAK', 'Combined']:
+# # -------EVENT OUTPUT-----------
+# # for mod in ['NewGudkova', 'TAYAK', 'Combined']:
+# for mod in ['NewGudkova']:
 #     mars = TauPyModel(model=mod)
-#     for depth in [25,35,45,55]:
+#     for depth in [35]:
 #         #Gudkova Model
 #         if mod == 'NewGudkova':
 #             if depth <= 50 and depth > 42:
@@ -401,7 +424,7 @@ def eventoutput(depth,rank):
 #             elif depth <= 8.6 and depth > 0:
 #                 Pvelz = 3.50400; Svelz = 1.77100
 #
-#         eventoutput(depth,3)
+#         eventoutput(depth,300)
 
 #-------FORWARD CALC--------
 for mod in ['NewGudkova', 'Combined']:
@@ -440,4 +463,73 @@ for mod in ['NewGudkova', 'Combined']:
             elif depth <= 8.6 and depth > 0:
                 Pvelz = 3.50400; Svelz = 1.77100
 
-        forwardcalc(depth,mechanism_dict)
+        forwardcalc(depth,mechanism_dict,alt=True)
+
+# #------EARTHQUAKE TEST-----------
+# # Earth:
+# radius = 6378.137
+# mod = 'iasp91'
+# mars = TauPyModel('iasp91')
+#
+# # Velocity Model:
+# depth = 535
+# Pvelz = 9.6960; Svelz = 5.2820
+#
+# # ----------- VANUATU ---------------
+# # Parameters:
+# # dist = 9.22; azm = 306.33; bAzm = 128.91
+# dist = 10.11; azm = -142.94; bAzm = 40.02
+#
+# # Event Output:
+# print('Vanuatu')
+# Pp, Sp, Pa, Sa = eventbuild('Vanuatu', dist)
+# data_van, Pe, Se = getamp(azm, strike_rang, dip_rang, rake_rang, [Pp, Sp])
+# print('exit angles: ', Pe, Se)
+# data_van = autofault(data_van, obsP = 0, obsSV = -0.000383, obsSH = -0.000448, errP = 1e-5, errS = 1e-5)
+# # data_van = autofault(data_van, obsP = 0.82, obsSV = -1.56, obsSH = 2.47, errP = 8e-2, errS = 8e-2)
+# print(len(data_van))
+# print(data_van)
+# data_van.to_csv('vanuatu_faults_au.csv')
+# data_van.to_csv('vanuatu_faults.csv')
+# van_amps = predictamp(data_van,azm,[Pp,Sp],print_state=True)
+# print(van_amps)
+
+# # Forward Calc:
+# mechdic = {
+#                     'Vanuatu': [[78,46,-68],],
+#                     'Vanuatu2': [[78,48,-68],],
+#                     'Vanuatu3': [[80,46,-66],],
+#                     }
+# # ----------- UGANDA ---------------
+# if 'Vanuatu' in mechdic:
+#     vanu = mechdic['Vanuatu'][0]
+#
+#     print('Vanuatu')
+#     Pp, Sp, Pa, Sa = eventbuild('Vanuatu', dist)
+#     van_data, Pe, Se = getamp(azm, [vanu[0]], [vanu[1]], [vanu[2]], [Pp, Sp])
+#     print(van_data)
+#
+# else:
+#     pass
+#
+# if 'Vanuatu2' in mechdic:
+#     vanu2 = mechdic['Vanuatu2'][0]
+#
+#     print('Vanuatu')
+#     Pp, Sp, Pa, Sa = eventbuild('Vanuatu', dist)
+#     van_data, Pe, Se = getamp(azm, [vanu2[0]], [vanu2[1]], [vanu2[2]], [Pp, Sp])
+#     print(van_data)
+#
+# else:
+#     pass
+#
+# if 'Vanuatu' in mechdic:
+#     vanu3 = mechdic['Vanuatu3'][0]
+#
+#     print('Vanuatu')
+#     Pp, Sp, Pa, Sa = eventbuild('Vanuatu', dist)
+#     van_data, Pe, Se = getamp(azm, [vanu3[0]], [vanu3[1]], [vanu3[2]], [Pp, Sp])
+#     print(van_data)
+#
+# else:
+#     pass

@@ -41,12 +41,12 @@ def azdelt(deld,az):
     return np.degrees(teta2), np.degrees(fi2)
 
 
-def deltaz(deta2,di2):
+def deltaz(deta1,di1,deta2,di2):
     '''
     IN: long1, lat1, long2, lat2
     OUT: distance in degrees, azimuth to go from point 1 to point 2 and azimuth to go from point 2 to point 1
     '''
-    teta1 = np.radians(-0.6019); fi1 = np.radians(30.7382)
+    teta1 = np.radians(deta1); fi1 = np.radians(di1)
     teta2 = np.radians(deta2); fi2 = np.radians(di2)
     c1 = np.cos(teta1); c2 = np.cos(teta2)
     s1 = np.sin(teta1); s2 = np.sin(teta2)
@@ -66,7 +66,7 @@ def deltaz(deta2,di2):
 #----location of the station - lat: -0.6019, long: 30.7382 -------
 #----location of earthquake (march) - lat: 2.605, long: 31.074 -----------
 
-dist, bAz, az = deltaz(2.499, 31.187)
+dist, bAz, az = deltaz(-29.04,167.93,-21.104, 174.895)
 print('dist in deg: ', dist)
 print('az in deg: ', az)
 print('baz in deg: ', bAz)
@@ -80,3 +80,13 @@ print('baz in deg: ', bAz)
 # dist in deg:  3.1331929170081385
 # az in deg:  -171.76100668517643
 # baz in deg:  8.231560867241633
+
+# -- Vanuatu Earthquake --
+# dist in deg:  9.234710930645091
+# az in deg:  -53.50397811409166
+# baz in deg:  128.91428225834656
+
+# AU Station --
+# dist in deg:  10.132414687404298
+# az in deg:  -142.94107469309904
+# baz in deg:  40.020472861169274

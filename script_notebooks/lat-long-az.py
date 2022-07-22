@@ -62,48 +62,58 @@ def deltaz(deta2,di2):
     baz = np.arctan2(numerator,denominator)
     return np.degrees(delta), np.degrees(azimuth), np.degrees(baz)
 
+lat, long = azdelt(38.4, 57)
+dist, bAz, az = deltaz(lat, long)
+print('dist in deg: ', dist)
+print('az in deg: ', az)
+print('baz in deg: ', bAz)
+
+#IU TEIG
+# dist in deg:  67.25018767660207
+# az in deg:  178.6120724692286
+# baz in deg:  0.045865040487818594
 
 
 #----location of the lander: lat=4.5024, long=135.6234-------
 #S0235b should be at lat=10, long=160
 #S0172a should be at lat=5, long=162
 
-lat235, long235 = azdelt(27, 74)
-print(lat235, long235)
-d235, az235, baz235 = deltaz(lat235, long235)
-print(d235, az235, baz235)
+# lat235, long235 = azdelt(27.1, 72)
+# print(lat235, long235)
+# d235, az235, baz235 = deltaz(lat235, long235)
+# print(d235, az235, baz235)
 #code prints lat=11.33, long=162.5
 
-
-lat173, long173 = azdelt(28.4, 90)
-print(lat173, long173)
-d173, az173, baz173 = deltaz(lat173, long173)
-print(d173, az173, baz173)
-#code prints lat=3.45, long=164.7
-
-lat325aa, long325aa = azdelt(38.4, 123)
-print(lat325aa, long325aa)
-d325aa, az325aa, baz325aa = deltaz(lat325aa, long325aa)
-print(d325aa, az325aa, baz325aa)
-#lat = -16.055244971011064, long = 168.53025369688243
-
-lat325ab, long325ab = azdelt(38.4, 139)
-print(lat325ab, long325ab)
-d325ab, az325ab, baz325ab = deltaz(lat325ab, long325ab)
-print(d325ab, az325ab, baz325ab)
-#lat = -7.082705874675253, long = 167.22546622753717
-
-lat173ab, long173ab = azdelt(28.4, 86)
-print(lat173ab, long173ab)
-d173ab, az173ab, baz173ab = deltaz(lat173ab, long173ab)
-print(d173ab, az173ab, baz173ab)
-#lat = 5.859355684400125, long = 164.0099159152684
-
-print('alt 235b')
-lat235, long235 = azdelt(15, 74)
-print(lat235, long235)
-d235, az235, baz235 = deltaz(lat235, long235)
-print(d235, az235, baz235)
+#
+# lat173, long173 = azdelt(28.4, 90)
+# print(lat173, long173)
+# d173, az173, baz173 = deltaz(lat173, long173)
+# print(d173, az173, baz173)
+# #code prints lat=3.45, long=164.7
+#
+# lat325aa, long325aa = azdelt(38.4, 123)
+# print(lat325aa, long325aa)
+# d325aa, az325aa, baz325aa = deltaz(lat325aa, long325aa)
+# print(d325aa, az325aa, baz325aa)
+# #lat = -16.055244971011064, long = 168.53025369688243
+#
+# lat325ab, long325ab = azdelt(38.4, 139)
+# print(lat325ab, long325ab)
+# d325ab, az325ab, baz325ab = deltaz(lat325ab, long325ab)
+# print(d325ab, az325ab, baz325ab)
+# #lat = -7.082705874675253, long = 167.22546622753717
+#
+# lat173ab, long173ab = azdelt(28.4, 86)
+# print(lat173ab, long173ab)
+# d173ab, az173ab, baz173ab = deltaz(lat173ab, long173ab)
+# print(d173ab, az173ab, baz173ab)
+# #lat = 5.859355684400125, long = 164.0099159152684
+#
+# print('alt 235b')
+# lat235, long235 = azdelt(15, 74)
+# print(lat235, long235)
+# d235, az235, baz235 = deltaz(lat235, long235)
+# print(d235, az235, baz235)
 
 # lat183a, long183a = azdelt(43.4, 55)
 # print(lat183a, long183a)
@@ -115,8 +125,8 @@ print(d235, az235, baz235)
 # dist, baz (matches baz_calc.ipynb), az (input for fault-guess.py)
 
 #235b
-# 11.226927235770733 162.0414752032048
-# 27.000000000000025 74.00000000000001 -102.31460970717406
+# 12.135196511781126 161.92853212353742
+# 27.100000000000005 71.99999999999999 -104.11873538665255
 
 #235b alt @ dist=15
 # 8.449986768393497 150.19106815416754

@@ -16,4 +16,9 @@ fault.append(float(dp))
 rk = input('Rake: ')
 fault.append(float(rk))
 
-fig = beachball(fault)
+# #hawaii eq
+# mt = [62800000000000000,-51410000000000000,-11400000000000000,435400000000000000,27840000000000000,-277700000000000000]
+# scalarmoment = 520000000000000000
+# fault = [m/scalarmoment for m in mt]
+
+fig = beachball(fault, facecolor='b')

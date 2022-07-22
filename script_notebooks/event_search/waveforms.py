@@ -88,7 +88,8 @@ bpfilters = [
 
 # start figure
 nrows = len(bpfilters)+3
-fig, axs = plt.subplots(nrows, 2, figsize=(14,7))
+fig, axs = plt.subplots(nrows, 2, figsize=(14,14))
+# plt.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97, hspace=0.3)
 plt.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97, hspace=0.3)
 iax = 0
 
@@ -510,5 +511,5 @@ elif e_input == '484b':
     for i in [0,1]:
         axs[iax][i].set_title('Low-Passed Data: 0.03-0.125Hz')
 
-fig.savefig(e_input + '.png')
+fig.savefig(e_input + '.pdf')
 plt.show()

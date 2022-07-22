@@ -114,26 +114,24 @@ def sumtensor(scale1, mt1, scale2, mt2):
     # print(sum_mt)
     return sum_mt
 
-# # #--thrust soln--
-# mt173a = getmt([178,66,80])
-# #--strike-slip--
-# # mt173a = getmt([152,78,40])
-# print('mt 173a:', mt173a)
+
+# #--173a THRUST - AUG
+# mt173a = getmt([2,24,86])
+# #strikeslip ish
+# mt173a_alt = getmt([170,68,68])
 #
-# #--normal soln--
-# # mt173ab = getmt([148,66,-95])
-# # #--strike-slip--
-# mt173ab = getmt([8,28,-45])
-# # mt173ab = getmt([26,40,-20])
-# print('mt 173ab', mt173ab)
+# #---173ab STRIKESLIP - OCT
+# mt173ab = getmt([30,48,-12])
+#
+#
+# summed = sumtensor(0.4,mt173a,0.6,mt173ab)
+# print(getplanes(summed))
 
-#major dc mechanism
-L1 = [-0.2369, -4.375, 4.612, -14.437, -14.885, 4.612]
-w1 = 0.2122
+#325aa
+#---Insight---
+mt_in = getmt([166,80,-40])
+#----Ours----
+mt_our = getmt([348,34,-122])
 
-#minor dc mechanism
-L2 = [-3.514, 1.112, 2.402, -4.518, -1.084, -5.745]
-w2 = 0.08018
-
-summed = sumtensor(w1, mt173a, 0.45, mt173ab)
+summed = sumtensor(0.5, mt_in, 0.5, mt_our)
 print(getplanes(summed))

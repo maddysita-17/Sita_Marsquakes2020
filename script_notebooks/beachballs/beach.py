@@ -28,7 +28,7 @@ def truncate(number, decimals=0):
 path = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/beachballs/csvs/'
 oldp = '/Users/maddysita/Desktop/CIERA_REU/script_notebooks/beachballs/csvs/oldtrials/'
 
-def bbb(event, data):
+def bbb(event, data, savefig=False):
     # faults = data.drop_duplicates(subset = ["Strike","Dip","Rake"])
     # print(len(faults))
 
@@ -36,7 +36,7 @@ def bbb(event, data):
 
     print('Event:', event)
 
-    fig, ax = plt.subplots(figsize=(7,7))
+    fig, ax = plt.subplots(figsize=(10,7))
     ax.set(xlim=(-1, 6), ylim=(0, y_val+1))
     ax.set_title(event)
 
@@ -84,36 +84,149 @@ def bbb(event, data):
             fa = [rows.Strike, rows.Dip, rows.Rake, truncate(rows['Misfit'], 4)]
             plt.annotate(fa, (4.5, n-(y_val*5)+0.5), size=4)
             n += 1
+
+    if savefig == True:
+        plt.savefig('S0' + str(event) +'_modelbeach.pdf')
+    else:
+        pass
+
     plt.show()
 
-# S0173a = pd.read_csv(path + 'resp_S0173a.csv')
-# top173a = S0173a[:20]
-# bbb('S0173a', top173a)
-#
-# S0173ab = pd.read_csv(path + 'resp_S0173ab.csv')
-# top173ab = S0173ab[:20]
-# bbb('S0173ab', top173ab)
-#
-# S0235b = pd.read_csv(path + 'resp_S0235b.csv')
-# top235b = S0235b[:40]
-# bbb('S0235b', top235b)
-#
-# # S0235bi = pd.read_csv('S0235bi.csv')
-# # bbb('S0235bi', S0235bi)
-#
-# # S0325a = pd.read_csv(path + 'sort_325a.csv')
-# # bbb('S0325a', S0325a)
-#
-# S0325ab = pd.read_csv(path + 'resp_S0325ab.csv')
-# top325ab = S0325ab[:20]
-# bbb('S0325ab', top325ab)
+def bbb2(event,data):
+    print('Event:', event)
 
-S0173a = pd.read_csv(path + 'check173a.csv')
-S0173ab = pd.read_csv(path + 'check173ab.csv')
-S0235b = pd.read_csv(path + 'check235b.csv')
-S0325ab = pd.read_csv(path + 'check325ab.csv')
+    fig = plt.figure(figsize=(10,20))
+    fig.suptitle(event)
 
-bbb('S0173a', S0173a)
-bbb('S0173ab', S0173ab)
-bbb('S0235b', S0235b)
-bbb('S0325ab', S0325ab)
+    misfit = data['Misfit']
+    print(misfit)
+
+    max_mis = misfit.max()
+    min_mis = misfit.min()
+
+    norm_ls = []
+    for value in misfit:
+        newval = (max_mis-value)/(max_mis-min_mis)
+        norm_ls.append(newval)
+
+    misfit_norm = data.assign(Normalized = norm_ls)
+
+    n = 0
+    for index,rows in misfit_norm.iterrows():
+        f = [rows.Strike, rows.Dip, rows.Rake]
+
+        if rows.Extra[1:3] == '25':
+            c = 'r'
+        elif rows.Extra[1:3] == '35':
+            c = 'g'
+        elif rows.Extra[1:3] == '45':
+            c = 'b'
+        elif rows.Extra[1:3] == '55':
+            c = 'orange'
+
+        if n <= 20:
+            fault = beachball(f, xy=(0,210*n), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 40:
+            fault = beachball(f, xy=(210,210*(n-21)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 60:
+            fault = beachball(f, xy=(420,210*(n-41)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 80:
+            fault = beachball(f, xy=(630,210*(n-61)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 100:
+            fault = beachball(f, xy=(840,210*(n-81)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 120:
+            fault = beachball(f, xy=(1050,210*(n-101)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 140:
+            fault = beachball(f, xy=(1260,210*(n-121)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 160:
+            fault = beachball(f, xy=(1470,210*(n-141)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 180:
+            fault = beachball(f, xy=(1680,210*(n-161)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 200:
+            fault = beachball(f, xy=(1890,210*(n-181)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 220:
+            fault = beachball(f, xy=(2100,210*(n-201)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 240:
+            fault = beachball(f, xy=(2310,210*(n-221)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 260:
+            fault = beachball(f, xy=(2520,210*(n-241)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 280:
+            fault = beachball(f, xy=(2730,210*(n-261)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 300:
+            fault = beachball(f, xy=(2940,210*(n-281)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 320:
+            fault = beachball(f, xy=(3150,210*(n-301)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 340:
+            fault = beachball(f, xy=(3360,210*(n-321)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 360:
+            fault = beachball(f, xy=(3570,210*(n-341)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 380:
+            fault = beachball(f, xy=(3780,210*(n-361)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        elif n <= 400:
+            fault = beachball(f, xy=(3990,210*(n-381)), fig=fig, facecolor=c, alpha = rows.Normalized)
+
+        n+=1
+
+    # if savefig == True:
+    #     plt.savefig('S0' + str(event) +'_allbeach.pdf')
+    # else:
+    #     pass
+
+S0173a = pd.read_csv('/Users/maddysita/Desktop/CIERA_REU/script_notebooks/top50_all173a.csv')
+# g173a = S0173a.iloc[:200, :]
+# print(g173a)
+# t173a = S0173a.iloc[201:400, :]
+# m173a = S0173a.iloc[401:600, :]
+# c173a = S0173a.iloc[601:, :]
+#
+# bbb2('S0173a', g173a)
+# bbb2('S0173a', t173a)
+
+
+# S0173ab = pd.read_csv('/Users/maddysita/Desktop/CIERA_REU/script_notebooks/check173ab.csv')
+# S0235b = pd.read_csv('/Users/maddysita/Desktop/CIERA_REU/script_notebooks/check235b.csv')
+# S0325ab = pd.read_csv('/Users/maddysita/Desktop/CIERA_REU/script_notebooks/check325ab.csv')
+
+#-----sorted------
+# for event in ['173a','173ab','235b','325ab']:
+#     event_df = pd.read_csv('/Users/maddysita/Desktop/CIERA_REU/script_notebooks/check'+ event + '.csv')
+#     top_df = event_df.sort_values(by = ['Misfit'])
+#     bbb(event, top_df, savefig=True)
+
+# #-----sorted------
+# for event in ['173a','173ab','235b','325ab']:
+#     event_df = pd.read_csv('/Users/maddysita/Desktop/CIERA_REU/script_notebooks/top50_all'+ event + '.csv')
+#     g = event_df.iloc[:200, :]
+#     print(g)
+#     t = event_df.iloc[201:400, :]
+#     m = event_df.iloc[401:600, :]
+#     c = event_df.iloc[601:, :]
+#
+#     for modelz in [g,t,m,c]:
+#         bbb2(event, modelz)
+
+# #-----by model-----
+# for event in ['173a','173ab','235b','325ab']:
+#     event_df = pd.read_csv('/Users/maddysita/Desktop/CIERA_REU/script_notebooks/check'+ event + '.csv')
+#     bbb(event, event_df, savefig=True)
+
+bbb2('S0173a',S0173a)
